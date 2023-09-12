@@ -1,0 +1,129 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\graphicspath{ {./images/} }
+\title{
+  \begin{figure}[th]
+    \centering
+    \includegraphics[width=0.2\textwidth]{Univalle}
+  \end{figure}
+  \textbf{Universidad del Valle
+    \\{\Large Facultad de ingeniería}
+  \\{\large Ingeniería en sistemas}}}
+\author{Cristian David Pacheco Torres
+  \\ 2227437}
+\date{Agosto 2022}
+\begin{document}
+\maketitle
+Trabajo de fisica
+\begin{abstract}
+Your abstract goes here klfsg fgms lnf gs
+\end{abstract}
+\newpage{}
+\tableofcontents
+\newpage{}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.2\textwidth]{Univalle}
+\caption{Here is my image}
+\label{image-myimage}
+\end{figure}
+\newpage{}
+\section{Introduction}
+This is where you tell people why they should bother reading your article.
+hoal lan
+\section{mi primera seccion linda}
+\subsection{hermosa}
+\subsection{What Is the Question?}
+Ask Shakespeare.
+\section{Conclusion}
+Not much of a paper, but it's a start.
+
+\newpage
+\section{Preeliminares}
+La segunda ley de Newton establece la relación entre la fuerza y la acelación en el fenomeno de caida libre de la siguiente manera
+\begin{displaymath}
+ a = \sum F \dot m = \frac{dv}{dt}
+\end{displaymath}
+Por deduccion se llega al all siguiente descripcion de la velocidad, 
+junto y sus condiciones 
+
+\begin{displaymath}
+ \frac{dv}{dt}= - g - \frac{\gamma}{m}v \qquad v_0 = 5\ m/s    \qquad \frac{\gamma}{m} = \frac{1}{10}
+\end{displaymath}
+\\
+Integrando se llega a la expresiön
+
+\begin{displaymath}
+v(t) = \left( v_0 + \frac{m\, g}{\gamma} \right)e^{ -\frac{\gamma}{m} (t-t_0)}  - \frac{m\, g}{\gamma}, \qquad t \in (t_0, \infty)
+\end{displaymath}
+
+Utilizando $v_0$ como condicion inicial de la velocidad y $$\frac{\gamma}{m}$$ se tiene que la altura maxima sucede \(v = 0 m/s\) en un tiempo $$t$$
+
+\begin{align*}
+v(t) & = \left( 5 +  10g \right)e^{ -\frac{1}{10} (t)}  - 10g \\ 
+     & = \left( 103 \right)e^{ -\frac{1}{10} (t)}  - 98 \\
+  \Rightarrow \frac{98}{103} = e^{ -\frac{1}{10} (t)} \\ 
+  \Rightarrow ln(\frac{98}{103}) = -\frac{1}{10}(t) \\
+  \Rightarrow -10\, ln (\frac{98}{103}) = t \\
+  \therefore t = 49,7 \times 10^{-3}
+\end{align*}
+
+$$(R_1)$$ Esto es, el tiempo que alcanza la altura máxima es $$49,7 ms$$
+
+
+Integrando para determinar la ecuacion de la posicion con respecto al tiempo $$t$$ se tiene la
+
+ \begin{align*}
+\int v(t) dt &=  \int \bigr[ \left( v_0 + \frac{m\, g}{\gamma} \right)e^{ -\frac{\gamma}{m} (t-t_0)}  - \frac{m\, g}{\gamma} \bigl] dt, \qquad t \in (t_0, \infty)
+\end{align*}
+
+\begin{align*} \label{eq1}
+x(t) & = \left( v_0 + \frac{m\, g}{\gamma} \right) \int e^{ -\frac{\gamma}{m} (t-t_0)} dt - \int  \frac{m\, g}{\gamma} dt, \qquad t \in (t_0, \infty) \\
+      & = \left( v_0 + \frac{m\, g}{\gamma} \right) \int e^{ -\frac{\gamma}{m} (t-t_0)} dt - \int  \frac{m\, g}{\gamma} dt \\
+     & = -\left( v_0 + \frac{m\, g}{\gamma} \right)\frac{m}{\gamma}\, e^{ -\frac{\gamma}{m} (t-t_0)} -  \frac{m\, g}{\gamma}(t -t_0) + (C_1 + C_2)
+\end{align*}
+
+
+Si se toma como punto de referencia (el origen) siendo entonces $C = (C_1 + C_2) = 1030 $ entonces
+para determinar la distancia recorrida hasta alcanzar su maxima altura
+
+\begin{align*}
+x(t) = -\left( v_0 + \frac{m\, g}{\gamma} \right)\frac{m}{\gamma}\, e^{ -\frac{\gamma}{m} (t-t_0)} -  \frac{m\, g}{\gamma}(t -t_0) + 1030\\ \\
+ &= -\left( 5 + 10g \right)10\, e^{ -\frac{1}{10} (49,7 \times 10^{-3}-0)} -  10g( 49,7 \times 10^{-3})  + 1030\\ \\
+ &= -1030\, e^{ -\frac{1}{10} (49,7 \times 10^{-3})} -  (98)( 49,7 \times 10^{-3}) +1030 \\ \\
+ &= -1030\, e^{ - (49,7 \times 10^{-4})} -  4.8 + 1030 \\ \\
+ &= -1020\,  -  4.8 + 1030 \\ \\
+ \approx -5,2 m\\ \\
+\end{align*} 
+
+La distancia recorrida es 1025 m?
+
+$$(R_2)$$ Al solucionar las formula de distancia por metodos númericos da 1.004s, lo cual implica que $$0.52s $$ bajando.
+
+Por tanto, $$\frac{1.04}{0.9915}  = 1.1$$ veces el tiempo de subida.
+
+$$(R_3)$$ Por lo anterior, el tiempo de bajada es mayor
+
+Esta ecuación describe la velocidad $$v=v(t)$$ en función del tiempo t de un cuerpo de masa m que cae en un medio resistivo con constante de resistencia viscosa $$\gamma$$. Si la velocidad en el tiempo $$t_0es v0$$, se muestra que
+
+\begin{displaymath}
+v(t)=(v_0 + mg \gamma )e -\gamma m(t - t0) - mg\gamma t \in (t_0,\infty)
+\end{displaymath}
+  
+\section{Comparacion de Galileo y Newton}
+
+\begin{align*}
+  x(t) &= \frac{gt^2}{2} \\
+  vs \\
+  x(t) &= -\left(v_0 + \frac{m\, g}{\gamma} \right)\frac{m}{\gamma}\, e^{-\frac{\gamma}{m}(t-t_0)} - \frac{m\, g}{\gamma}(t -t_0) + C
+\end{align*}
+
+
+\begin{displaymath}
+x(t) =  \lim_{x\to\infty}  -\left( v_0 + \frac{m\, g}{\gamma} \right)\frac{m}{\gamma}\, e^{ -\frac{\gamma}{m} (t-t_0)} -  \frac{m\, g}{\gamma}(t -t_0) + C \\
+x(t) = -\frac{m\, g}{\gamma}(t )
+\end{displaymath}
+
+\end{document}
