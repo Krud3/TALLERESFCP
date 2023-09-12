@@ -13,6 +13,14 @@ package object mypackage {
     //Llamada a la función auxiliar con el acumulador inicializado a 0
     tam(l, 0)
   } 
+  
+  def tamR(l: List[Int]): Int = {
+    //Caso base: lista vacía, retorna 0
+    if (l.isEmpty) 0
+    //Caso recursivo: se llama recursivamente con la cola de la lista
+    //y se suma 1
+    else 1+ tamR(l.tail)
+  }
 
   //1.2
   //Crea una lista con los elementos de la lista l que son menores
