@@ -110,10 +110,13 @@ Y sea $P_f$ (ver Listing 2) la propiedad que se desea demostrar, $P_f(L):f(L)=n$
   \item El estado inicial $s_0=(L,0)=(List(x_1,x_2,x_3,...,x_n),0)$.
   \item $s = (l,acc)$ es final si $l$ es vacia.
   \item $Inv(l,acc)\equiv l = List(a_i,a_{i+1},...,a_n) \wedge acc = f(List(a_1,a_2,...,a_{i-1}))$.
-  \item $transformar(l,acc) = (l',acc')$ donde $l'=l.tail$ y $acc'=acc+1$.
+  \item $transformar(l,acc) = (l',acc')$ donde $l'=l.tail$ y $acc'=acc+1$. 
 \end{itemize}
 \textbf{Demostracion.}\\
-
+\begin{enumerate}
+  \item $Inv(s_0)$: el estado inicial cumple la condición invariante. Como $s_0=(L,0)$, entonces $l=L$ y $acc=0$, por lo tanto $l=List(a_1,a_2,...,a_n)$ y $acc=f(List())=0$, por lo tanto $Inv(s_0)$ se cumple.% revisar esta
+  \item ()
+\end{enumerate}
 %Para demostrar la correccion de la funcion $tamI(l:List[Int]):Int$ se utilizo el principio de induccion sobre el tamaño de la lista $l$.\\
 %Caso base.\\
 %Si $l$ es una lista vacia, entonces $tamI(l) == tamR(l) == 0$\\
