@@ -28,7 +28,7 @@ package object mypackage {
   def menoresQue(l : List[Int], value : Int): List[Int] = {
 
     //Caso base: lista vacía retorna lista vacía
-    if (l.isEmpty) Nil
+    if (l.isEmpty) l
 
     //Caso recursivo: si la cabeza de la lista es menor que value
     //se agrega a la lista resultante, para luego agregar el resultado
@@ -46,7 +46,7 @@ package object mypackage {
   def noMenoresQue(l: List[Int], value : Int): List[Int] = {
 
     //Caso base: lista vacía retorna lista vacía
-    if (l.isEmpty) Nil
+    if (l.isEmpty) l
 
     //Caso recursivo: si la cabeza de la lista es mayor que value
     //se agrega a la lista resultante, para luego agregar el resultado
@@ -61,11 +61,9 @@ package object mypackage {
 
   //1.3
   //Calcula el k-ésimo elemento de una lista de enteros
-  def k_elem(l : List[Int], k : Int) : Int = {
-    //Caso base: lista vacía, k <= 0 o k > tamaño de la lista
-    //retorna excepción
-    if(l.isEmpty || k <= 0 || k > tamI(l)) 
-        throw new IllegalArgumentException("Entrada inválida")
+  //se sobre entiende que k es un entero positivo y esta en el rango del tamaño de la lista
+  //se sobre entiende que la lista no esta vacía
+  def k_elem(l : List[Int], k : Int) : Int = {       
     //Caso base: si el tamaño de la lista de elementos menores que
     //la cabeza de la lista es igual a k - 1, retorna la cabeza de la lista
     if(tamI(menoresQue(l, l.head)) == k - 1) l.head
@@ -75,11 +73,11 @@ package object mypackage {
     //De lo contrario, se llama recursivamente con la lista de los elementos
     //mayores que la cabeza de la lista y k - el tamaño de la lista de los
     //elementos menores que la cabeza de la lista - 1
-    else k_elem(noMenoresQue(l, l.head), k - tamI(menoresQue(l, l.head)) - 1)
+    else k_elem(noMenoresQue(l.tail, l.head), k - tamI(menoresQue(l, l.head)) - 1)
   }
 
   //1.4
-  //Ordena una lista de enteros de manera iterativa
+  //Ordena una lista de enteros de manera recursiva
   def ordenar(l: List[Int]): List[Int]={
     //Caso base: lista vacía o de un elemento, retorna la lista
     if(l.isEmpty || tamI(l)==1) l
