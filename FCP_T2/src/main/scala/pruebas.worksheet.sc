@@ -1,0 +1,2 @@
+import mypackage._
+hello
