@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{}%
+\contentsline {section}{\numberline {2}Taller 1 : Recursión}{4}{}%
+\contentsline {subsection}{\numberline {2.1}Calcular el tamaño de una lista con un proceso iterativo}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Informe de procesos}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.2}Informe de corrección}{6}{}%
+\contentsline {subsection}{\numberline {2.2}Dividiendo una lista en dos sublistas a partir de un pivote}{7}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Informe de procesos}{7}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Informe de corrección}{7}{}%
+\contentsline {subsection}{\numberline {2.3}Calculando el k-ésimo elemento de una lista}{7}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}Informe de procesos}{7}{}%
+\contentsline {subsubsection}{\numberline {2.3.2}Informe de corrección}{7}{}%
+\contentsline {subsection}{\numberline {2.4}Ordenando una lista}{7}{}%
+\contentsline {subsubsection}{\numberline {2.4.1}Informe de procesos}{7}{}%
+\contentsline {subsubsection}{\numberline {2.4.2}Informe de corrección}{7}{}%
+\contentsline {section}{\numberline {3}Conclusion}{7}{}%
