@@ -58,8 +58,7 @@ Sea $$k: List[Int] \rightarrow Int$$, un numero entero k | 0 <= k <= tamI(l), un
 s = ()
 
 \subsubsection{Casos de pruebas}
-\subsection{Calculando el k-ésimo elemento de una lista}
-\subsubsection{Proceso}
+\subsection{Calculando el k-ésimo elemento de una lista}\subsubsection{Proceso}
 \subsubsection{Corrección}
 \subsubsection{Casos de pruebas}
 \section{Conclusion}
