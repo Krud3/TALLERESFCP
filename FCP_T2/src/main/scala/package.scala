@@ -97,10 +97,12 @@ def fulladder : Chip = (operands: List[Int]) => {
   def adder ( n : Int ) : Chip = (operands: List[Int]) => {
     @tailrec
     def splitList(n: Int, counter: Int, lowerList: List[Int], upperList: List[Int]): (List[Int], List[Int]) =
-      if( (n + 1) == counter ) (lowerList, upperList)
+      if( ((n + 1)/2) == counter ) (lowerList, upperList)
       else splitList(n , counter + 1, upperList.head::lowerList, upperList.tail)
 
-   val (l1, l2) = splitList(n, 0, List(), operands)
+    val (l1, l2) = splitList(n, 0, List(), operands)
+
+    @tailrec
     def adderHelper( accumulatedList: List[Int],  firstList:List[Int],  secondList: List[Int] ): List[Int] = {
       if(l1.isEmpty || l2.isEmpty) accumulatedList.tail
       else {
