@@ -91,7 +91,7 @@ def fulladder : Chip = (operands: List[Int]) => {
   val halfAdder_1 = halfadder(operands.head::operands.tail.tail.head::Nil) // Pass in the B and the C values
   val halfAdder_2 = halfadder(operands.tail.head::halfAdder_1.head::Nil)  // Pass in the A ant the previous halfadder result to a new halfadder
   val or_op = chip_or(halfAdder_1 ++ halfAdder_2)
-  halfAdder_2 ++ or_op  // Return the list of the result of the sum and its carry value
+  or_op ++ halfAdder_2 // Return the list of the result of the sum and its carry value
 }
 
   def adder ( n : Int ) : Chip = (operands: List[Int]) => {
@@ -101,11 +101,15 @@ def fulladder : Chip = (operands: List[Int]) => {
       else splitList(n , counter + 1, upperList.head::lowerList, upperList.tail)
 
    val (l1, l2) = splitList(n, 0, List(), operands)
-   // def fullAdderHelper( firstList: List[Int], secondList: List[Int], result: List[Int] ) = {
-   //   if(l1.isEmpty || l2.isEmpty result) result
-   //   else fullAdder()fullAdderHelper(firstList, secondList, result)
-   // }
-    l1 ++ l2
+    def adderHelper( accumulatedList: List[Int],  firstList:List[Int],  secondList: List[Int] ): List[Int] = {
+      if(l1.isEmpty || l2.isEmpty) accumulatedList.tail
+      else {
+        val fullAddResult = fulladder(firstList.head::secondList.head::accumulatedList.head::Nil)
+        return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail )
+      }
+    }
+    
+    adderHelper( halfadder(l1.head::l2.head::Nil), l1.tail,  l2.tail) // Halfadder to the first values
   }
 
 }
