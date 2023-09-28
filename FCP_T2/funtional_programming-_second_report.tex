@@ -219,51 +219,67 @@ $\rightarrow [0,~1]$\\ \\
 
 \subsection{Informe de corrección}
 
-Caso 0 + 0:\\
+Caso 0 + 0, Carriage:=0:\\
 $full\_adder(List(0,~0,~0))$\\
 $\rightarrow~val~halfAdder\_1 = half\_adder(0::0::Nil)$ \\
 $~~~~~val~halfAdder\_2 = half\_adder(0::0::Nil)$ \\
 $~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
 $~~~~~List(0)~~++~~List(0)$ \\
 $\rightarrow [0,~0]$\\ \\
-Caso 0 + 1:\\
+Caso 0 + 0, Carriage:=0:\\
 $full\_adder(List(0,~0,~1))$\\
-$\rightarrow~val~halfAdder\_1 = half\_adder(operands.head::operands.tail.tail.head::Nil)$ \\
-$~~~~~val~halfAdder\_2 = half\_adder(operands.tail.head::halfAdder\_1.head::Nil)$ \\
-$~~~~~val~or\_op = chip\_or(halfAdder\_1~~++~~halfAdder\_2)$ \\
-$~~~~~or\_op~~++~~halfAdder\_2$ \\ 
-$\rightarrow [0,~0]$\\ \\
+$\rightarrow~val~halfAdder\_1 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(1)$ \\ 
+$\rightarrow [0,~1]$\\ \\
 Caso 1 + 0:\\
 $full\_adder(List(0,~1,~1))$\\
-$\rightarrow~val~halfAdder\_1 = half\_adder(operands.head::operands.tail.tail.head::Nil)$ \\
-$~~~~~val~halfAdder\_2 = half\_adder(operands.tail.head::halfAdder\_1.head::Nil)$ \\
-$~~~~~val~or\_op = chip\_or(halfAdder\_1~~++~~halfAdder\_2)$ \\
-$~~~~~or\_op~~++~~halfAdder\_2$ \\ 
-$\rightarrow [0,~0]$\\ \\
-Caso 1 + 1:\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::1::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(1)$ \\ 
+$\rightarrow [0,~1]$\\ \\
+Caso 0 + 1, Carriage:=0:\\
 $full\_adder(List(0,~1,~0))$\\
-$\rightarrow~val~halfAdder\_1 = half\_adder(operands.head::operands.tail.tail.head::Nil)$ \\
-$~~~~~val~halfAdder\_2 = half\_adder(operands.tail.head::halfAdder\_1.head::Nil)$ \\
-$~~~~~val~or\_op = chip\_or(halfAdder\_1~~++~~halfAdder\_2)$ \\
-$~~~~~or\_op~~++~~halfAdder\_2$ \\
-$\rightarrow [0,~0]$\\ \\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::0::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(1)$ \\
+$\rightarrow [0,~1]$\\ \\
 
-Caso 1 + 1:\\
+Caso 1 + 1, Carriage:=0:\\
 $full\_adder(List(1,~1,~0))$\\
-$\rightarrow~val~halfAdder\_1 = half\_adder(operands.head::operands.tail.tail.head::Nil)$ \\
-$~~~~~val~halfAdder\_2 = half\_adder(operands.tail.head::halfAdder\_1.head::Nil)$ \\
-$~~~~~val~or\_op = chip\_or(halfAdder\_1~~++~~halfAdder\_2)$ \\
-$~~~~~or\_op~~++~~halfAdder\_2$ \\
-$\rightarrow [0,~0]$\\ \\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::0::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(1::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(1))$ \\
+$~~~~~List(1)~~++~~List(0)$ \\
+$\rightarrow [1,~0]$\\ \\
 
-Caso 1 + 1:\\
+Caso 1 + 1, Carriage:=1:\\
 $full\_adder(List(1,~1,~1))$\\
-$\rightarrow~val~halfAdder\_1 = half\_adder(operands.head::operands.tail.tail.head::Nil)$ \\
-$~~~~~val~halfAdder\_2 = half\_adder(operands.tail.head::halfAdder\_1.head::Nil)$ \\
-$~~~~~val~or\_op = chip\_or(halfAdder\_1~~++~~halfAdder\_2)$ \\
-$~~~~~or\_op~~++~~halfAdder\_2$ \\
-$\rightarrow [0,~0]$\\ \\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::1::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(1::0::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(1)~~++~~List(0))$ \\
+$~~~~~List(1)~~++~~List(0)$ \\
+$\rightarrow [1,~0]$\\ \\
 
+\subsection{Informe de corrección}
+
+$val ~add\_4 = adder(4)$ \\
+$add\_4(List(0,0,1,1)~~++~~List(1, 1, 1, 1))$ \\
+$\rightarrow splitList(4, 0, List(), List(0,0,1,1,1,1,1,1))$ \\
+$\rightarrow~if(4 == 0) ~(List(), List(0,0,1,1,1,1,1,1))$\\
+$~~~~~else~spplitList(4, 1, 0::List(), List(0,1,1,1,1,1,1))$ \\
+$\twoheadrightarrow~if(4 == 4) ~(List(0,0,1,1), ~List(1,1,1,1))$\\
+$\rightarrow~val~(l1,~l2)=(List(0,0,1,1), ~List(1,1,1,1))$ \\
+$\rightarrow~adderHelper( half\_adder(0::1::Nil), List(0,1,1), List(1,1,1) )$ \\
+$\rightarrow~adderHelper( List(1,0), List(0,1,1), List(1,1,1) )$ \\
+$\rightarrow~if( List(0,1,1).isEmpty || List(1,1,1).isEmpty ) List(1,~0)$ \\
+$~~~~~val~fullAddResult = full\_adder(0::1::1::Nil)$ \\
+$~~~~~adderHelper( List(1, 0) ++ List(0), List(1,1), List(1,1))$ \\
+$\twoheadrightarrow~if(List().isEmpty~||~List().isEmpty) ~List(1,0,0,1,0)$\\
+$\rightarrow~[1,0,0,1,0]$
 \section{Conclusion}
 La conclusion
 \newpage{}

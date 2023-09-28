@@ -90,28 +90,48 @@ def half_adder : Chip = ( operands: List[Int]) => {
 def full_adder : Chip = (operands: List[Int]) => {
   val halfAdder_1 = half_adder(operands.tail.head::operands.tail.tail.head::Nil) // Pass in the B and the C values
   val halfAdder_2 = half_adder(operands.head::halfAdder_1.head::Nil)  // Pass in the A ant the previous halfadder result to a new halfadder
-  val or_op = chip_or(halfAdder_1.tail.head::halfAdder_2.tail.head::Nil)
+  val or_op = chip_or(halfAdder_1.tail.head::halfAdder_2.tail.head::Nil) // Select the carriage of every previous half_adder
   or_op.head::halfAdder_2.head::Nil // Return the list of the result of the sum and its carry value
 }
 
+
+  /**
+    * Do boolean addition on operands of n digits
+    * @param n The digit number of the every operand
+    * @return Tuple(List[Int], List[Int])  Two list of the length n
+  */
   def adder ( n : Int ) : Chip = (operands: List[Int]) => {
+    /**
+    * Return a tuple of two list splited in n elements 
+        * @param n Number to split the original list
+        * @param lowerList A list that accumlates the first n elements
+        * @param upperList A list that ends with last n elements
+        * @return Tuple(List[Int], List[Int])  Two list of the length n
+    */
     @tailrec
     def splitList(n: Int, counter: Int, lowerList: List[Int], upperList: List[Int]): (List[Int], List[Int]) =
-      if( ((n + 1)/2) == counter ) (lowerList, upperList)
+      if( n == counter ) (lowerList, upperList)
       else splitList(n , counter + 1, upperList.head::lowerList, upperList.tail)
 
-    val (l1, l2) = splitList(n, 0, List(), operands)
+    val (l1, l2) = splitList(n, 0, List(), operands)  // Call the splitList function and save its result in a tuple of Int List
 
+     /**
+    * Calculate recursively the sum of the two number of n digits 
+        * @param accumulatedList The parcial accumulated result list; The tail of this list is the caariage of the operation in every step
+        * @param firstList A list that represents the first number
+        * @param lastList A list that represents the second number
+        * @return List[Int] The number resulted of the sum operation
+    */
     @tailrec
     def adderHelper( accumulatedList: List[Int],  firstList:List[Int],  secondList: List[Int] ): List[Int] = {
-      if(l1.isEmpty || l2.isEmpty) accumulatedList.tail
+      if(l1.isEmpty || l2.isEmpty) accumulatedList.tail     // Check if the some list is empty to end the recursion proccess
       else {
-        val fullAddResult = full_adder(firstList.head::secondList.head::accumulatedList.head::Nil)
-        return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail )
+        val fullAddResult = full_adder(firstList.head::secondList.head::accumulatedList.head::Nil) // Pass in to the fulladder: the head of the first list, the head of second list and the head of the accumulated list which has the carriage of previous full_adder operation
+        return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail ) // Const he partial result list with previous adder result, and pass in the rest(tail) of both list.
       }
     }
-    
-    adderHelper( half_adder(l1.head::l2.head::Nil), l1.tail,  l2.tail) // Halfadder to the first values
+    val initial_sum = half_adder(l1.head::l2.head::Nil) // Determine the first digiit sum without carriage input
+    adderHelper( initial_sum.head::initial_sum.tail.head::Nil, l1.tail, l2.tail) // Arrange the accumulated list so the carriage is in the head
   }
 
 }
