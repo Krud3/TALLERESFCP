@@ -107,16 +107,18 @@ package object high_order_function_lab {
         * @param lowerList A list that accumlates the first n elements
         * @param upperList A list that ends with last n elements
         * @return Tuple(List[Int], List[Int])  Two list of the length n
-    */
+      */
     @tailrec
     def splitList(n: Int, counter: Int, lowerList: List[Int], upperList: List[Int]): (List[Int], List[Int]) =
       if( (n + 1)  == counter ) (lowerList, upperList)
-      else splitList(n , counter + 1, upperList.head::lowerList, upperList.tail)
+      else splitList(n , counter + 1,   upperList.head::lowerList, upperList.tail)
+
+    // Reverse a list
+    def reverse(l: List[Int]): List[Int] =  if(l.isEmpty) l else reverse(l.tail) ++ List(l.head)
 
     val (l1, l2) = splitList(n, 1, List(), operands)  // Call the splitList function and save its result in a tuple of Int List
-    println("Las lsitas")
-    println(l1)
-    println(l2)
+    val l2rv = reverse(l2) // Reverse the list for set the lower significant digits to front of the list for later bcause the other list is so connfigured
+   
      /**
     * Calculate recursively the sum of the two number of n digits 
         * @param accumulatedList The parcial accumulated result list; The tail of this list is the caariage of the operation in every step
@@ -132,8 +134,8 @@ package object high_order_function_lab {
         return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail ) // Const he partial result list with previous adder result, and pass in the rest(tail) of both list.
       }
     }
-    val initial_sum = half_adder(l1.head::l2.head::Nil) // Determine the first digiit sum without carriage input
-    adderHelper( initial_sum.tail.head::initial_sum.head::Nil, l1.tail, l2.tail) // Arrange the accumulated list so the carriage is in the head
+    val initial_sum = half_adder(l1.head::l2rv.head::Nil) // Determine the first digiit sum without carriage input
+    adderHelper( initial_sum.tail.head::initial_sum.head::Nil, l1.tail, l2rv.tail) // Arrange the accumulated list so the carriage is in the head
   }
 
 }

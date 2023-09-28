@@ -1,0 +1,350 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configuración de estilo para el código Scala
+\lstdefinestyle{scalaStyle}{
+    language=Scala,                 % Lenguaje del código
+    basicstyle=\ttfamily\small,     % Estilo básico de fuente y tamaño
+    keywordstyle=\color{blue},      % Estilo para palabras clave
+    commentstyle=\color{green},     % Estilo para comentarios
+    numbers=left,                   % Mostrar números de línea a la izquierda
+    numberstyle=\tiny,              % Estilo de los números de línea
+    frame=single,                   % Un marco alrededor del código
+    breaklines=true,                % Permitir saltos de línea automáticos
+    captionpos=b,                   % Posición de la leyenda
+}
+
+\graphicspath{ {./images/} }
+\title{
+  \begin{figure}[th]
+    \centering
+    \includegraphics[width=0.2\textwidth]{Univalle}
+  \end{figure}
+  \textbf{Universidad del Valle
+    \\{\Large Facultad de ingeniería}
+  \\{\large Ingeniería en sistemas}}}
+\author{Cristian David Pacheco Torres
+  \\ 2227437
+  \\ Juan Sebastian Molina Cuellar
+  \\ 2224491}
+\date{Septiembre 2023}
+\begin{document}
+\maketitle
+Taller 2
+\newpage{}
+\begin{abstract}
+Your abstract goes here functional programming
+\end{abstract}
+\newpage{}
+\tableofcontents
+\newpage{}
+\section{Introduction}
+A introduction a ver asdf 
+\section{Taller 1 : Funciones de alto orden:}
+Para el desarrollo de este taller, se utilizaron las siguientes funciones en scala: \\
+
+\section{Funciones de alto orden implementadas}
+
+A continuación, se presenta la funciones implementadas de alto orden, las cuales fueron utilizadas para instanciar otras funciones (funciones generadoras), a través de su paso como parámetro, ya sea referenciada (nominada) o como funcion anónima(inline), o como valor retorno de la misma. \\[16pt]
+
+\begin{table}
+ \scriptsize
+\begin{tabular}{ |p{4cm}||p{3cm}|p{5.5cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{Funciones de alto orden} \\
+ \hline
+ Función& Forma de alto orden  & Expresión donde aparece\\
+ \hline
+  $Chip$ & Retorno & Retorno de funciones crearChipunario, crearChipBinario, half\_adder, full\_adder, adder\\
+  \hline
+  $(x:Int) \Rightarrow (x - 1)$  & Lambda como argumento &  $crearChipUnario((x:Int) \Rightarrow (x - 1)):Chip$\\
+  \hline
+  $ (x: Int, y: Int ) => (x * y)$  & Lambda como argumento &  $crearChipBinario((x: Int, y: Int ) => (x * y)): Chip$\\
+  \hline
+  $(x: Int, y: Int ) => (x + y) - (x * y )$  & Lambda como argumento &  $crearChipBinario((x: Int, y: Int ) => (x + y) - (x * y )): Chip$\\
+\hline
+  $half\_adder$ & Variable la cual se asigna una función de retorno & val $half\_adder$ = $( operands: List[Int]) => \{~...~ \}$\\
+\hline
+  $full\_adder$& Variable la cual se asigna una función de retorno  & val $full\_adder$ = $( operands: List[Int]) => \{~...~ \}$\\
+\hline
+  $adder$& Variable la cual se asigna una función de retorno & val $adder$ = $( operands: List[Int]) => \{~...~ \}$ \\
+ \hline
+\end{tabular}
+\centering
+\caption{Funciones de alto orden realizadas en la implementación del circuito lógico.}
+\label{tabla:1}
+\end{table}
+
+\section{Crear chip unario}
+\subsection{Informe de procesos}
+Realiza una operación logica sobre un solo valor de entrada. A continuación, se presenta su implementación en $Scala$ \\[16pt]
+\begin{lstlisting}[style=scalaStyle, caption=Aplica una operación binaria sobre una valor de entrada.]
+  def crearChipUnario( f: Int => Int ) : Chip = (arg: List[Int]) => { // Apply the f function on the head of current list and call recursively the crearChipUnarioHelper with function f, a accumulated list with new transformed value as its head, and the current list tail, until the empty list condition is reached.
+    @tailrec
+    def crearChipUnarioHelper(f: Int => Int, transformedList: List[Int],  currentList: List[Int]): List[Int] =
+      if (currentList.isEmpty) transformedList
+      else crearChipUnarioHelper(f, f(currentList.head)::transformedList, currentList.tail)
+
+    // The initial state of the iteration
+    crearChipUnarioHelper(f, List(), arg)
+  }
+\end{lstlisting}
+\subsection{Informe de corrección}
+$val~chip\_not = crearchipUnario(x => 1- x)$ \\ \\
+Caso 1: \\ 
+$chip\_not((List(0)))$ \\
+$\rightarrow crearChipUnarioHelper(x => 1 - x, [~], ~List(0))$ \\
+$\rightarrow if (List(0).isEmpty)~[~] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 0)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 1)::[1], [~])$ \\
+$\rightarrow [1]$ \\ \\
+Caso 2: \\ 
+$chip\_not((List(1)))$ \\
+$\rightarrow crearChipUnarioHelper(x => 1- x, [~], List(1))$ \\
+$\rightarrow if (List(1).isEmpty)~[~] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 1)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[0] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 0)::[0], [~])$ \\
+$\rightarrow [0]$ \\ \\
+
+
+\section{Crear chip binario}
+\subsection{Informe de procesos}
+Realiza una operación logica sobre un solo valor de entrada. A continuación, se presenta su implementación en $Scala$ \\[16pt]
+\begin{lstlisting}[style=scalaStyle, caption=Aplica una operación binaria sobre una valor de entrada.]
+  def crearChipUnario( f: Int => Int ) : Chip = (arg: List[Int]) => { // Apply the f function on the head of current list and call recursively the crearChipUnarioHelper with function f, a accumulated list with new transformed value as its head, and the current list tail, until the empty list condition is reached.
+    @tailrec
+    def crearChipUnarioHelper(f: Int => Int, transformedList: List[Int],  currentList: List[Int]): List[Int] =
+      if (currentList.isEmpty) transformedList
+      else crearChipUnarioHelper(f, f(currentList.head)::transformedList, currentList.tail)
+
+    // The initial state of the iteration
+    crearChipUnarioHelper(f, List(), arg)
+  }
+\end{lstlisting}
+\subsection{Informe de corrección}
+$val~chip\_and = crearChipBinario((x: Int, y: Int) => x*y~)$ \\ \\
+Caso 1: \\ 
+$chip\_and((List(0, 0)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(0,~0))$ \\
+$\rightarrow if ( List(0,~0).isEmpty | List(0, ~0).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => x*y,  (0*0)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[0] $ \\
+$\rightarrow [0]$ \\ \\
+Caso 2: \\ 
+$chip\_and((List(0, 1)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(0,~1))$ \\
+$\rightarrow if ( List(0,~1).isEmpty | List(0, ~1).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => x*y,  (0*1)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[0] $ \\
+$\rightarrow [0]$ \\ \\
+Caso 2: \\ 
+$chip\_not((List(0)))$ \\
+$\rightarrow crearChipUnarioHelper(x => 1 - x, [~], ~List(0))$ \\
+$\rightarrow if (List(0).isEmpty)~[~] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 0)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 1)::[1], [~])$ \\
+$\rightarrow [1]$ \\ \\
+Caso 3: \\ 
+$chip\_and((List(1,~1)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(1,~1))$ \\
+$\rightarrow if ( List(1,~1).isEmpty | List(1, ~1).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => x*y,  (1*1)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$\rightarrow [1]$ \\ \\
+
+\subsection{Informe de corrección}
+$val~chip\_or = crearChipBinario((x: Int, y: Int) => x*y~)$ \\ \\
+Caso 1: \\ 
+$chip\_or((List(0, 0)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => (x+y) - (x*y), [~], ~List(0,~0))$ \\
+$\rightarrow if ( List(0,~0).isEmpty | List(0, ~0).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => (x+y) - (x*y),  ((0+0)-(0*0))::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[0] $ \\
+$\rightarrow [0]$ \\ \\
+Caso 2: \\ 
+$chip\_or((List(0, 1)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(0,~1))$ \\
+$\rightarrow if ( List(0,~1).isEmpty | List(0, ~1).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => (x+y)-(x*y),  ((0+1)-(0*1))::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$\rightarrow [1]$ \\ \\
+Caso 3: \\ 
+$chip\_or((List(1, 0)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(1,~0))$ \\
+$\rightarrow if ( List(0,~1).isEmpty | List(1, ~0).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => (x+y)-(x*y),  ((1+0)-(1*0))::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$\rightarrow [1]$ \\ \\
+Caso 4: \\ 
+$chip\_or((List(1,~1)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(1,~1))$ \\
+$\rightarrow if ( List(1,~1).isEmpty | List(1, ~1).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => x*y,  ((1+1)-(1*1))::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$\rightarrow [1]$ \\ \\
+
+\subsection{Informe de corrección}
+
+$half\_adder(List(0,~0))$\\
+$\rightarrow val~and\_op\_in = chip\_add(List(0,~0))$\\
+$~~~~~val~or\_op = chip\_or(List(0,~0))$\\
+$~~~~~val~and\_op\_out = chip\_add(List(0)~~++~~chip\_not(List(0)))$\\
+$~~~~~List(0)~~++~~List(0)$\\
+$\rightarrow [0,~0]$\\ \\
+$half\_adder(List(0,~1))$\\
+$\rightarrow val~and\_op\_in = chip\_add(List(0,~1))$\\
+$~~~~~val~or\_op = chip\_or(List(0,~1))$\\
+$~~~~~val~and\_op\_out = chip\_add(List(1)~~++~~chip\_not(List(0)))$\\
+$~~~~~List(1)~~++~~List(0)$\\
+$\rightarrow [1,~0]$\\ \\
+$half\_adder(List(1,~0))$\\
+$\rightarrow val~and\_op\_in = chip\_add(List(1,~0))$\\
+$~~~~~val~or\_op = chip\_or(List(1,~0))$\\
+$~~~~~val~and\_op\_out = chip\_add(List(1)~~++~~chip\_not(List(0)))$\\
+$~~~~~List(1)~~++~~List(0)$\\
+$\rightarrow [1,~0]$\\ \\
+$half\_adder(List(1,~1))$\\
+$\rightarrow val~and\_op\_in = chip\_add(List(1,~1))$\\
+$~~~~~val~or\_op = chip\_or(List(1,~1))$\\
+$~~~~~val~and\_op\_out = chip\_add(List(1)~~++~~chip\_not(List(1)))$\\
+$~~~~~List(0)~~++~~List(1)$\\
+$\rightarrow [0,~1]$\\ \\
+
+\subsection{Informe de corrección}
+
+Caso 0 + 0, Carriage:=0:\\
+$full\_adder(List(0,~0,~0))$\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(0::0::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::0::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(0)$ \\
+$\rightarrow [0,~0]$\\ \\
+Caso 0 + 0, Carriage:=0:\\
+$full\_adder(List(0,~0,~1))$\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(1)$ \\ 
+$\rightarrow [0,~1]$\\ \\
+Caso 1 + 0:\\
+$full\_adder(List(0,~1,~1))$\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::1::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(1)$ \\ 
+$\rightarrow [0,~1]$\\ \\
+Caso 0 + 1, Carriage:=0:\\
+$full\_adder(List(0,~1,~0))$\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::0::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(0::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(0))$ \\
+$~~~~~List(0)~~++~~List(1)$ \\
+$\rightarrow [0,~1]$\\ \\
+
+Caso 1 + 1, Carriage:=0:\\
+$full\_adder(List(1,~1,~0))$\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::0::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(1::1::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(0)~~++~~List(1))$ \\
+$~~~~~List(1)~~++~~List(0)$ \\
+$\rightarrow [1,~0]$\\ \\
+
+Caso 1 + 1, Carriage:=1:\\
+$full\_adder(List(1,~1,~1))$\\
+$\rightarrow~val~halfAdder\_1 = half\_adder(1::1::Nil)$ \\
+$~~~~~val~halfAdder\_2 = half\_adder(1::0::Nil)$ \\
+$~~~~~val~or\_op = chip\_or(List(1)~~++~~List(0))$ \\
+$~~~~~List(1)~~++~~List(0)$ \\
+$\rightarrow [1,~0]$\\ \\
+
+\section{Implementnación de adder}
+\subsection{Informe de corrección}
+En la siguiente figura se muestra la implementación algorítmica de un sumador de n dígitos, construido a partir de las funciones previamente desarrolladas y utilizadas de forma declarativa: \\[16pt]
+
+\begin{lstlisting}[style=scalaStyle, caption=Aplica una operación binaria sobre una valor de entrada.]
+   def adder ( n : Int ) : Chip = (operands: List[Int]) => {
+    /**
+    * Return a tuple of two list splited in n elements 
+        * @param n Number to split the original list
+        * @param lowerList A list that accumlates the first n elements
+        * @param upperList A list that ends with last n elements
+        * @return Tuple(List[Int], List[Int])  Two list of the length n
+      */
+    @tailrec
+    def splitList(n: Int, counter: Int, lowerList: List[Int], upperList: List[Int]): (List[Int], List[Int]) =
+      if( (n + 1)  == counter ) (lowerList, upperList)
+      else splitList(n , counter + 1,   upperList.head::lowerList, upperList.tail)
+
+    // Reverse a list
+    def reverse(l: List[Int]): List[Int] =  if(l.isEmpty) l else reverse(l.tail) ++ List(l.head)
+
+    val (l1, l2) = splitList(n, 1, List(), operands)  // Call the splitList function and save its result in a tuple of Int List
+    val l2rv = reverse(l2) // Reverse the list for set the lower significant digits to front of the list for later bcause the other list is so connfigured
+   
+     /**
+    * Calculate recursively the sum of the two number of n digits 
+        * @param accumulatedList The parcial accumulated result list; The tail of this list is the caariage of the operation in every step
+        * @param firstList A list that represents the first number
+        * @param lastList A list that represents the second number
+        * @return List[Int] The number resulted of the sum operation
+    */
+    @tailrec
+    def adderHelper( accumulatedList: List[Int],  firstList:List[Int],  secondList: List[Int] ): List[Int] = {
+      if(firstList.isEmpty || secondList.isEmpty) accumulatedList     // Check if the some list is empty to end the recursion proccess
+      else {
+        val fullAddResult = full_adder(firstList.head::secondList.head::accumulatedList.head::Nil) // Pass in to the fulladder: the head of the first list, the head of second list and the head of the accumulated list which has the carriage of previous full_adder operation
+        return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail ) // Const he partial result list with previous adder result, and pass in the rest(tail) of both list.
+      }
+    }
+    val initial_sum = half_adder(l1.head::l2rv.head::Nil) // Determine the first digiit sum without carriage input
+    adderHelper( initial_sum.tail.head::initial_sum.head::Nil, l1.tail, l2rv.tail) // Arrange the accumulated list so the carriage is in the head
+  }
+}
+\end{lstlisting}
+
+Lo que hace adder, sucitamente, es calcular primeramente la suma del digito menos significativo utilizando semi-sumador y, a posteriori, resultado lo anterior como el estado inicial de iteración, entra en un proceso iterativo donde en cada paso iterativo aplica el sumador completo con la cabeza de las dos listas implicadas como operandos; y asi, sucesivamente hasta exhaustar, o llegar a consumir, los elementos de alguna de las listas. Tambien se observa, como parte de la solución, un función splitList que divide la lista de entrada al adder en dos sublista de n elementos cada una. Por último,  para alinear potencias en sus posiciones correspondientes, como se definió en en la lista argumento de la función, se reversa la lista de la parte superior de la lista original. En consecuencia, las operaciones quedan primero en aplicadas en los dígitos menos significativos y luego acumula hasta los más significativos.\\ \\
+
+$val ~add\_4 = adder(4)$ \\
+$add\_4(List(0,0,1,1)~~++~~List(1, 1, 1, 1))$ \\
+$\rightarrow splitList(4, 0, List(), List(0,0,1,1,1,1,1,1))$ \\
+$\rightarrow~if(4 == 0) ~(List(), List(0,0,1,1,1,1,1,1))$\\
+$~~~~~else~spplitList(4, 1, 0::List(), List(0,1,1,1,1,1,1))$ \\
+$\twoheadrightarrow~if(4 == 4) ~(List(0,0,1,1), ~List(1,1,1,1))$\\
+$\rightarrow~val~(l1,~l2)=(List(0,0,1,1), ~List(1,1,1,1))$ \\
+$\rightarrow~adderHelper( half\_adder(0::1::Nil), List(0,1,1), List(1,1,1) )$ \\
+$\rightarrow~adderHelper( List(1,0), List(0,1,1), List(1,1,1) )$ \\
+$\rightarrow~if( List(0,1,1).isEmpty || List(1,1,1).isEmpty ) List(1,~0)$ \\
+$~~~~~val~fullAddResult = full\_adder(0::1::1::Nil)$ \\
+$~~~~~adderHelper( List(1, 0) ++ List(0), List(1,1), List(1,1))$ \\
+$\twoheadrightarrow~if(List().isEmpty~||~List().isEmpty) ~List(1,0,0,1,0)$\\
+$\rightarrow~[1,0,0,1,0]$\\
+
+\subsection{Corrección de procesos}
+Sea $f$  una función $B \rightarrow B$ donde $B = \{ b | b = <b_n,... b_i,..., b_0 ...>~con~b_i \in {0,~1}\}$, es decir, una funcion con dominio e imagen en los números binarios, y sea $Pf$ una implementación de $f$ con una aplicación $List[B] \rightarrow List[B]$ realizada en el leguaje de programación $Scala$.  Se tiene:
+
+\begin{itemize}
+    \item Un estado  $s = (l_{acc}, l_1, l_2)$  donde los subindices representa la lista con la suma parcial y las listas repsentando los digitos del primer y segundo número, respectivamente..
+  \item Un estado inicial $s_0 = (l_0, l_{n-1~inf}, l_{n-1~sup})$  donde los subindices connotan un lista de tamaño n - 1, y la parte superior e inferior de la lista original, respectivamente.
+  \item Un estado final $s_f = (l_{acc}, [~], [~])$  con la lista que contine el resultado final de las operación y una de las dos listas operantes exhausta.
+  \item $Inv(n, l_{acc}, l_1, l_2) = l_{acc} \leq n+1 \land f(op)$: 
+  \item $x::l$: devuelve la lista que representa la secuencia $<x,x_1,x_2,...,x_n>$ si $l$ es la lista que representa
+  la secuencia $<x_1,x_2,...,x_n>$.
+  \item $l1 ++ l2$ devuelve la lista que representa la concatenacion de las secuencias representadas por $l1$ y $l2$.
+\end{itemize}
+  
+\section{Conclusion}
+La conclusion
+\newpage{}
+\begin{displaymath}
+ a = \sum F \dot m = \frac{dv}{dt}
+\end{displaymath}
+
+\end{document}
+List[Int] \Rightarrow List[Int]

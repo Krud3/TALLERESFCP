@@ -264,7 +264,52 @@ $~~~~~val~or\_op = chip\_or(List(1)~~++~~List(0))$ \\
 $~~~~~List(1)~~++~~List(0)$ \\
 $\rightarrow [1,~0]$\\ \\
 
+\section{Implementnación de adder}
 \subsection{Informe de corrección}
+En la siguiente figura se muestra la implementación algorítmica de un sumador de n dígitos, construido a partir de las funciones previamente desarrolladas y utilizadas de forma declarativa: \\[16pt]
+
+\begin{lstlisting}[style=scalaStyle, caption=Aplica una operación binaria sobre una valor de entrada.]
+   def adder ( n : Int ) : Chip = (operands: List[Int]) => {
+    /**
+    * Return a tuple of two list splited in n elements 
+        * @param n Number to split the original list
+        * @param lowerList A list that accumlates the first n elements
+        * @param upperList A list that ends with last n elements
+        * @return Tuple(List[Int], List[Int])  Two list of the length n
+      */
+    @tailrec
+    def splitList(n: Int, counter: Int, lowerList: List[Int], upperList: List[Int]): (List[Int], List[Int]) =
+      if( (n + 1)  == counter ) (lowerList, upperList)
+      else splitList(n , counter + 1,   upperList.head::lowerList, upperList.tail)
+
+    // Reverse a list
+    def reverse(l: List[Int]): List[Int] =  if(l.isEmpty) l else reverse(l.tail) ++ List(l.head)
+
+    val (l1, l2) = splitList(n, 1, List(), operands)  // Call the splitList function and save its result in a tuple of Int List
+    val l2rv = reverse(l2) // Reverse the list for set the lower significant digits to front of the list for later bcause the other list is so connfigured
+   
+     /**
+    * Calculate recursively the sum of the two number of n digits 
+        * @param accumulatedList The parcial accumulated result list; The tail of this list is the caariage of the operation in every step
+        * @param firstList A list that represents the first number
+        * @param lastList A list that represents the second number
+        * @return List[Int] The number resulted of the sum operation
+    */
+    @tailrec
+    def adderHelper( accumulatedList: List[Int],  firstList:List[Int],  secondList: List[Int] ): List[Int] = {
+      if(firstList.isEmpty || secondList.isEmpty) accumulatedList     // Check if the some list is empty to end the recursion proccess
+      else {
+        val fullAddResult = full_adder(firstList.head::secondList.head::accumulatedList.head::Nil) // Pass in to the fulladder: the head of the first list, the head of second list and the head of the accumulated list which has the carriage of previous full_adder operation
+        return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail ) // Const he partial result list with previous adder result, and pass in the rest(tail) of both list.
+      }
+    }
+    val initial_sum = half_adder(l1.head::l2rv.head::Nil) // Determine the first digiit sum without carriage input
+    adderHelper( initial_sum.tail.head::initial_sum.head::Nil, l1.tail, l2rv.tail) // Arrange the accumulated list so the carriage is in the head
+  }
+}
+\end{lstlisting}
+
+Lo que hace adder, sucitamente, es calcular primeramente la suma del digito menos significativo utilizando semi-sumador y, a posteriori, resultado lo anterior como el estado inicial de iteración, entra en un proceso iterativo donde en cada paso iterativo aplica el sumador completo con la cabeza de las dos listas implicadas como operandos; y asi, sucesivamente hasta exhaustar, o llegar a consumir, los elementos de alguna de las listas. Tambien se observa, como parte de la solución, un función splitList que divide la lista de entrada al adder en dos sublista de n elementos cada una. Por último,  para alinear potencias en sus posiciones correspondientes, como se definió en en la lista argumento de la función, se reversa la lista de la parte superior de la lista original. En consecuencia, las operaciones quedan primero en aplicadas en los dígitos menos significativos y luego acumula hasta los más significativos.\\ \\
 
 $val ~add\_4 = adder(4)$ \\
 $add\_4(List(0,0,1,1)~~++~~List(1, 1, 1, 1))$ \\
@@ -279,7 +324,20 @@ $\rightarrow~if( List(0,1,1).isEmpty || List(1,1,1).isEmpty ) List(1,~0)$ \\
 $~~~~~val~fullAddResult = full\_adder(0::1::1::Nil)$ \\
 $~~~~~adderHelper( List(1, 0) ++ List(0), List(1,1), List(1,1))$ \\
 $\twoheadrightarrow~if(List().isEmpty~||~List().isEmpty) ~List(1,0,0,1,0)$\\
-$\rightarrow~[1,0,0,1,0]$
+$\rightarrow~[1,0,0,1,0]$\\
+
+\subsection{Corrección de procesos}
+Sea $f$  una función $B \rightarrow B$ donde $B = \{ b | b = <b_n,... b_i,..., b_0 ...>~con~b_i \in {0,~1}\}$, es decir, una funcion con dominio e imagen en los números binarios, y sea $Pf$ una implementación de $f$ con una aplicación $List[B] \rightarrow List[B]$ realizada en el leguaje de programación $Scala$.  Se tiene:
+
+\begin{itemize}
+  \item Un estado inicial $s_0 = (l_0, l_{n-1~inf}, l_{n-1~sup})$  donde los subindices connotan un lista de tamaño n - 1, y la parte superior e inferior de la lista original, respectivamente.
+  \item $head$: Int (devuelve si una lista $l$ esta vacia).
+  \item $tail$: List[Int] (devuelve la lista sin el primer elemento $l$).
+  \item $x::l$: devuelve la lista que representa la secuencia $<x,x_1,x_2,...,x_n>$ si $l$ es la lista que representa
+  la secuencia $<x_1,x_2,...,x_n>$.
+  \item $l1 ++ l2$ devuelve la lista que representa la concatenacion de las secuencias representadas por $l1$ y $l2$.
+\end{itemize}
+  
 \section{Conclusion}
 La conclusion
 \newpage{}

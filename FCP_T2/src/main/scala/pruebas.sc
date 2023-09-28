@@ -25,11 +25,11 @@ adder(1)(List(0)++List(0))
 adder(1)(List(1)++List(0))
 adder(1)(List(0)++List(1))
 
-println(adder(2)(List(1,0)++List(0,1)))
-println(adder(2)(List(1,1)++List(0,1)))
+adder(2)(List(1,0)++List(0,1))
+adder(2)(List(1,1)++List(0,1))
 
-println(adder(3)(List(1,0,1)++List(0,0,0)))
-println(adder(3)(List(1,0,1)++List(1,0,1)))
+adder(3)(List(1,0,1)++List(0,0,0))
+adder(3)(List(1,0,1)++List(1,0,1))
 
 val ad4 = adder(4)
-println(ad4(List(1,0,1,1)++List(1,0,1,0)))
+ad4(List(1,0,1,1)++List(1,0,1,0))
