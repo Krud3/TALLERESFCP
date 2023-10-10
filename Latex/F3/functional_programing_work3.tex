@@ -37,6 +37,42 @@
 \subsubsection{Informe de uso del reconocimiento de patrones.}
 \textbf{Tabla 3}
 \subsubsection{Informe de Corrección.}
+Sea k $\in N$, $ 0 \leq k \leq n$, un entero que indica el número actual de maniobras en el trayecto principal $T_p$,
+$S_0$ = $<b_1, \ldots,~b_i,~\ldots, b_{n-1}, b_n>$ una secuencia que define el estado inicial en $T_p$;
+$S_1 = < c_1, c_2,~\ldots~, b_{n-1}, c_n >$, $ 0 \leq j \leq n - 1$ elementos, una secuencia que define el estado de un trayectto secundario $T_2$ en el paso $k$,
+$S_2 =  < e_1, e_2,~\ldots~, e_{n-1}, e_n >$, $ 0 \leq j \leq n - 1$ elementos, una secuencia que define el estado de un trayectto secundario $T_2$ en el paso $k$;
+una función l que determina el número de elementos de la secuencia $s$ de entrada;
+y $P_{k-n}^{k-n}(S_k)$ una funcion de permutacion de $k-n$ en $k-n$ elementos sobre los elementos de secuencia
+$S$ en el paso $k$ de la maniobra. \\
+Por premisa se tiene que $S_0[i] = Sd[j]$,  para $0 \leq i \leq n$ y $0 \leq j \leq n$ \\
+Se quiere demostar que $\exists~ S_n = < a_1, a_2, ~\ldots~, a_{n-1}, a_n >~|~S_n[i] = Sd[i]$ para $0 \leq i \leq n$
+
+Se define  \\
+
+\begin{itemize}
+  \item Un estado $s=(S_k, S_1, S_2, S_d, m)$ donde
+  \begin{itemize}
+    \item $S_k$ representa la secuencia en la iteracion $k$.
+    \item $S_1$ el estado sobre el trayecto $T_1$.
+    \item $S_2$ el estado sobre el trayecto $T_2$.
+    \item $Sd$ el estado deseado.
+    \item $m$ la lista de moviemientos (maniobras) hasta el paso $k$.
+  \end{itemize}
+  \item El estado inicial $s_0=(S_0, [~~], [~~], S_d, [~~])$.
+  \item $S_f=(S_n, [~~], [~~],~S_d,~ m)$. donde $S_n[i] = S_d[i]$ en $0 \leq i \leq n$.
+  \item $Inv(S_k, S_1, S_2, S_d, m)\equiv$ $ \exists~p := P_{n-1}^{n-1} ( Si~k = 0 \rightarrow S_0 \lor S_1  ++ S_2) \\ |~S_k[k:n] = S_d[k:n]$ $~\land~l(m) \leq (n-1) + \ldotp~+ (n-k+1)$ \\
+  para $0 \leq k \leq n$.
+  \item $transformar(S_k, S_1, S_2, S_d, m)$ = \[   
+    T(S_k, S_1, S_2, S_d, m) = 
+    \begin{cases}
+       \text{$(S_k + c_0, S_1 - [c_0], S_2,  S_d, m + (Uno(-1)))$,} \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k \neq 0 \land k \neq n \land~$$S_1[0] = S_d[k]$}\\
+       \text{$(S_k + e_0, S_1, S_2 - [e_0],  S_d, m + (Dos(-1)))$,} \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k \neq 0 \land k \neq n \land~$$S_2[0] = S_d[k]$}\\
+       \text{$([~~], , [b_1, \ldots,~b_i,~\ldots, b_{n-1}, b_n], [~~],  S_d, [~~] + (Uno(-n)))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k = 0$}\\
+       \text{$([~~], , [~~], [~~],  S_d, [~~] + (Uno(-n)))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k = n$}\\
+     \end{cases}
+\]
+\end{itemize}
+
 \subsubsection{Conclusión.}
 
 \end{document}
