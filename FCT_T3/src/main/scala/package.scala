@@ -56,16 +56,14 @@ package object mypackage2{
         }
         helper(state, movs, List())   
     }
-    def applyMovesToState(state: Estado, moves:List[Movimiento]) = moves.foldLeft(state)((currentState, currentMovement) => aplicarMovimiento(currentState, currentMovement))
 
-    def definirManiobra2(initialState:Tren,wantedState:Tren):Maniobra = {
-
+    def definirManiobra(initialState:Tren,wantedState:Tren):Maniobra = {
         def moveHelper(state: Estado, wantedState: Tren, movs: List[Movimiento]): List[Movimiento] = {
             wantedState match {
                 case Nil => movs
                 //Evauates if the first element of the wanted state is the same as the first element of the current state and if the current state is not empty
                 case x::xs if(!state._1.isEmpty && x == state._1.head) => {
-                    moveHelper((state._1.tail,state._2,state._3), xs, movs :+ Uno(0))
+                    moveHelper((state._1.tail,state._2,state._3), xs, movs)
                 }
                 //Evaluates if the first element of the wanted state is not the same as the first element of the current state
                 case x::xs => {
@@ -91,7 +89,6 @@ package object mypackage2{
                             val mov = Uno(-1)
                             moveHelper(aplicarMovimiento(state, mov), x::xs, movs :+ mov)
                         }
-
                         case (_,s1,s2) if(tamI(s2)==1 ) => {
                             val mov = Dos(-1)
                             moveHelper(aplicarMovimiento(state, mov), x::xs, movs :+ mov)
@@ -99,8 +96,7 @@ package object mypackage2{
                         case (_,Nil,s2) if (tamI(s2)==1) =>{
                             val mov = Uno(tamI(state._1))
                             moveHelper(aplicarMovimiento(state, mov), x::xs, movs :+ mov)
-                        }
-                        
+                        }                        
                         case (_,Nil,s2) => {
                             val cant = (tamI(s2)-1)
                             val mov = Dos(-cant)
