@@ -7,15 +7,22 @@ package object SubsecuenciaMasLarga {
 
     def subindices(i: Int, n: Int): Set[Subsecuencia] = {
         
-        def subsecuenceHelper(i: Int, n: Int, accSubsecuence: Set[Subsecuencia]): Set[Subsecuencia] = 
-            n match {
-                case n  if n == i => accSubsecuence
+        def subsecuenceHelper(i: Int, n: Int, accSubsecuence: Set[Subsecuencia]): Set[Subsecuencia] = {
+            
+            val determinedSubsequence: Set[Subsecuencia] = n match {
+                case n if n == i => accSubsecuence ++ List()
                 case _ => {
-                    val subsecuenceRange = i until n
-                    (for subsequenceIndex <- subsecuenceRange     
-                            yield subsecuenceHelper(i + 1, n, accSubsecuence + subsecuenceRange.filter( _ <= subsequenceIndex))).toSet
-                            
-                        }
+                            val subsequenceRange = (i until n)
+                            (for {   
+                                    subsequenceIndex <- subsequenceRange 
+                                    subsequence = subsequenceRange.filter( _ <= subsequenceIndex)
+                                } 
+                             yield subsequence).toSet} ++ accSubsecuence                  
+            }
+            subsecuenceHelper(i + 1, n, determinedSubsequence)
+        }
+
+        subsecuenceHelper(i, n, Set())
     }
-}
+    
 }
