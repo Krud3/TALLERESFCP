@@ -47,7 +47,7 @@ $S$ en el paso $k$ de la maniobra. \\
 Por premisa se tiene que $S_0[i] = Sd[j]$,  para $0 \leq i \leq n$ y $0 \leq j \leq n$ \\
 Se quiere demostar que $\exists~ S_n = < a_1, a_2, ~\ldots~, a_{n-1}, a_n >~|~S_n[i] = Sd[i]$ para $0 \leq i \leq n$
 
-Se define  \\
+Por tanto, se tiene \\
 
 \begin{itemize}
   \item Un estado $s=(S_k, S_1, S_2, S_d, m)$ donde
@@ -58,21 +58,43 @@ Se define  \\
     \item $Sd$ el estado deseado.
     \item $m$ la lista de moviemientos (maniobras) hasta el paso $k$.
   \end{itemize}
-  \item El estado inicial $s_0=(S_0, [~~], [~~], S_d, [~~])$.
+  \item El estado inicial $S_0=(S_0, [~~], [~~], S_d, [~~])$.
   \item $S_f=(S_n, [~~], [~~],~S_d,~ m)$. donde $S_n[i] = S_d[i]$ en $0 \leq i \leq n$.
-  \item $Inv(S_k, S_1, S_2, S_d, m)\equiv$ $ \exists~p := P_{n-1}^{n-1} ( Si~k = 0 \rightarrow S_0 \lor S_1  ++ S_2) \\ |~S_k[k:n] = S_d[k:n]$ $~\land~l(m) \leq (n-1) + \ldotp~+ (n-k+1)$ \\
-  para $0 \leq k \leq n$.
+  \item $Inv(S_k, S_1, S_2, S_d, m)\equiv$ $ \exists~p := P_{n-k}^{n-k} ( Si~k = 0 \rightarrow S_0 \lor S_1  + S_2) \\ |~p[n-k:n] = S_d[n-k:n]$ $~\land~l(m) \leq (n-1) +~\ldots~+ (n-k+1), \\ \land ~S_d[i] = T(S_k)[i],~~\forall i~|~0 \leq i \leq n-k \land 0 \leq k \leq n$ \\
+  
   \item $transformar(S_k, S_1, S_2, S_d, m)$ = \[   
     T(S_k, S_1, S_2, S_d, m) = 
     \begin{cases}
-       \text{$(S_k + c_0, S_1 - [c_0], S_2,  S_d, m + (Uno(-1)))$,} \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k \neq 0 \land k \neq n \land~$$S_1[0] = S_d[k]$}\\
-       \text{$(S_k + e_0, S_1, S_2 - [e_0],  S_d, m + (Dos(-1)))$,} \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k \neq 0 \land k \neq n \land~$$S_2[0] = S_d[k]$}\\
-       \text{$([~~], , [b_1, \ldots,~b_i,~\ldots, b_{n-1}, b_n], [~~],  S_d, [~~] + (Uno(-n)))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k = 0$}\\
-       \text{$([~~], , [~~], [~~],  S_d, [~~] + (Uno(-n)))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k = n$}\\
-     \end{cases}
-\]
+       \text{$((S_k[k:n],~S_1,~S_2),~S_d[k:n],~m )$,} \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k \neq 0 \land k \neq n \land~$$S_k[0] = S_d[0]$}\\
+       \text{$(S_k,~[b_k] + S_1,~S_2), ~S_d,~m + (Uno(1))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~S_1,~[~~]) \land l(S_k) = 1$}\\
+       \text{$(S_k, [~~], [~~]),  S_d,~[~~] + (Uno(-n))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~~ \text{Si $ k \neq 0 \land k \neq n \land~$$S_k[0] \neq S_d[0]$}\\
+       \text{$(S_k,~S_1,~[b_k, \ldots, b_n]), ~S_d,~m + (Dos(k-n))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~S_1,~[~~]) \land l(S_1) = 1$}\\
+       \text{$(S_k,~S_1[l(S_1)-1:l(S_1)],~S_2), ~S_d, ~m + (Uno(-l(S_1)-1))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~S_1,~[~~])$}\\
+       \text{$(S_k + [c_1],~[~],~S_2), ~S_d, ~m + (Uno(-1))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~S_1,~S_2) \land l(S_1) = 1$}\\
+       \text{$(S_k + [e_1],~S_1,~[~]), ~S_d, ~m + (Dos(-1))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~S_1,~S_2) \land l(S_2) = 1$}\\
+       \text{$([~] + [b_k:b_{n-1}] + S_1,~S_2), ~S_d, ~m + (Uno(l(S_k)))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~[~],~S_2) \land l(S_2) = 1$}\\
+       \text{$(S_k + [e_k:e_{n-1}],~[~],~[~e_1]), ~S_d, ~m + (Dos(-l(S_2)-1))$,}  \\ ~~~~~~~~~~~~~~~~~~~~~~ \text{Si $S_k \neq [~] \land S_K = (S_k,~[~],~S_2) $}\\
+       \text{$((S_K, S_1, S_2), ~S_d, ~m )$,}~~~~~~~ \text{$ Si~S_k = (\_,\_,\_)$}\\
+     \end{cases} \]
 \end{itemize}
 
+Ahora se procede a demostrar la correctitud de los enunciados anteriores. Para el estado inicial $S_0$, se tiene: \\
+
+$Inv(S_0) \rightarrow Inv(S_0,~[~],~[~], S_d,~[~]),$ para $k = 0$ iteraciones se cumple que existe
+una permutacion $p = P_n^n(S_0)$, tal que lleva $S_0$ a $S_d$, pues $S_0~\subseteq S_d \land S_d \subseteq S_0$. \\
+Por otro lado, $S_k = S_0$, el estado no se ha modificado mediante la transformacion $T$. Ádemas, $l(m) = 0 \leq k-n$ se cumple. \\
+$( S_k \neq S_f \land Inv(S_k)) \rightarrow Inv(T(S_{k+1}))$ \\
+$\equiv$ \\
+$(\exists~p := P_{n-k}^{n-k} ( S_1  + S_2)~|~p[n-k:n] = S_d[n-k:n]$ $~\land~l(m) \leq (n-1) +~\ldots~+ (n-k+1), \land ~S_d[i] = T(S_k)[i],para~ i~|~0 \leq i \leq n-k)$ \\
+$(\exists~p := P_{n-k+1}^{n-k+1} ([S_1+ S_2]-[a \in S_1 + S_2])~|~p[n-k+1:n] = S_d[n-k+1:n]$ $~\land~l(m) \leq (n-1) +~\ldots~+ (n-k+2), \land ~S_d[i] = T(S_{k+1})[i],para~ i~|~0 \leq i \leq n-k+1)$ \\
+Y, por ultimo, se tiene para $S_f$ \\
+$Inv(S_f) \rightarrow S_n = S_d$ \\
+$\equiv$ \\
+$(\exists~p := P_0^0 ([~])~|~p[~] = S_d[~]$ $~\land~l(m) \leq \frac{n(n-1)}{2} \land ~S_d[i] = S_{i}, ~para~0 \leq i \leq n)$ \\
+$\equiv$ \\
+$true~\land~true$ \\
+$\equiv$ \\
+$true$
 \subsubsection{Conclusión.}
 
 \end{document}

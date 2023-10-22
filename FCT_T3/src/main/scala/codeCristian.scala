@@ -1,4 +1,6 @@
 
+   
+   /*
     def definirManiobra(initialState:Tren, wantedState:Tren): Maniobra = {
 
         def moveHelper(state: Estado, wantedState: Tren, movs: List[Movimiento]): List[Movimiento] = {
@@ -51,3 +53,5 @@
 
         moveHelper((initialState, List(), List()), wantedState, List())
     }
+
+*/
