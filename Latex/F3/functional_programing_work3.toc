@@ -1,6 +1,7 @@
 \contentsline {section}{\numberline {1}Maniobras en trenes.}{3}{}%
 \contentsline {subsection}{\numberline {1.1}Aplicar movimiento.}{3}{}%
 \contentsline {subsubsection}{\numberline {1.1.1}Informe de uso del reconocimiento de patrones.}{3}{}%
+<<<<<<< HEAD
 \contentsline {subsubsection}{\numberline {1.1.2}Informe de Corrección.}{3}{}%
 \contentsline {subsubsection}{\numberline {1.1.3}Conclusión.}{3}{}%
 \contentsline {subsection}{\numberline {1.2}Aplicar movimientos}{3}{}%
@@ -11,3 +12,15 @@
 \contentsline {subsubsection}{\numberline {1.3.1}Informe de uso del reconocimiento de patrones.}{3}{}%
 \contentsline {subsubsection}{\numberline {1.3.2}Informe de Corrección.}{3}{}%
 \contentsline {subsubsection}{\numberline {1.3.3}Conclusión.}{5}{}%
+=======
+\contentsline {subsubsection}{\numberline {1.1.2}Informe de Corrección.}{4}{}%
+\contentsline {subsubsection}{\numberline {1.1.3}Conclusión.}{5}{}%
+\contentsline {subsection}{\numberline {1.2}Aplicar movimientos}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.1}Informe de uso del reconocimiento de patrones.}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.2}Informe de Corrección.}{7}{}%
+\contentsline {subsubsection}{\numberline {1.2.3}Conclusión.}{8}{}%
+\contentsline {subsection}{\numberline {1.3}Definir maniobras}{9}{}%
+\contentsline {subsubsection}{\numberline {1.3.1}Informe de uso del reconocimiento de patrones.}{9}{}%
+\contentsline {subsubsection}{\numberline {1.3.2}Informe de Corrección.}{10}{}%
+\contentsline {subsubsection}{\numberline {1.3.3}Conclusión.}{12}{}%
+>>>>>>> 7a9250ddb606ef27e04cf2956c3de8f85afa3a00
