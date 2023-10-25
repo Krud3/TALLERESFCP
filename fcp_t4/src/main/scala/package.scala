@@ -7,21 +7,53 @@ package object SubsecuenciaMasLarga {
 
     def subindices(i: Int, n: Int): Set[Subsecuencia] = {
         
-        def subsecuenceHelper(i: Int, n: Int, accSubsecuence: Set[Subsecuencia]): Set[Subsecuencia] = {
+        def subsecuenceHelper(i: Int, n: Int, accSubsequence: Set[Subsecuencia]): Set[Subsecuencia] = {
             
             val determinedSubsequence: Set[Subsecuencia] = n match {
-                case n if n == i => accSubsecuence ++ List()
+                case m if m == i => accSubsequence
                 case _ => {
                             val subsequenceRange = (i until n)
                             (for {   
                                     subsequenceIndex <- subsequenceRange 
                                     subsequence = subsequenceRange.filter( _ <= subsequenceIndex)
                                 } 
-                             yield subsequence).toSet} ++ accSubsecuence                  
+                             yield {
+                                for {
+                                    k <- 0 until subsequence.size
+                                    ki <- k until subsequence.size
+                                    sq = subsequence.take(k)
+                                } yield (sq ++ Seq(subsequence(ki)))
+                            }).flatten.toSet } ++ accSubsequence                 
             }
-            subsecuenceHelper(i + 1, n, determinedSubsequence)
+            if (i < n) subsecuenceHelper(i + 1, n, determinedSubsequence) else accSubsequence ++ List()
         }
+        subsecuenceHelper(i, n, Set())
+    }
 
+       def subindices2(i: Int, n: Int): Set[Subsecuencia] = {
+        
+        def subsecuenceHelper(i: Int, n: Int, accSubsequence: Set[Subsecuencia]): Set[Subsecuencia] = {
+            
+            val determinedSubsequence: Set[Subsecuencia] = n match {
+                case m if m == i => accSubsequence
+                case _ => {
+                            val subsequenceRange = (i until n)
+                            (   
+                                for {   
+                                    subsequenceIndex <- subsequenceRange 
+                                    subsequence = subsequenceRange.filter( _ <= subsequenceIndex)
+                                } 
+                                yield subsequence
+                            ).flatMap { subsequence =>
+                                for {
+                                    k <- 0 until subsequence.size
+                                    ki <- k until subsequence.size
+                                    sq = subsequence.take(k)
+                                } yield (sq ++ Seq(subsequence(ki)))
+                            }.toSet } ++ accSubsequence                
+            }
+            if (i < n) subsecuenceHelper(i + 1, n, determinedSubsequence) else accSubsequence ++ List()
+        }
         subsecuenceHelper(i, n, Set())
     }
     
