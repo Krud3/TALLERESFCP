@@ -44,4 +44,10 @@ package object SubsecuenciaMasLarga {
         val combinationIndex = subindices(0, s.size) 
         for index <- combinationIndex yield subSecuenciaAsoc(s, index)
     }
+
+
+    def incremental(seq: Subsecuencia): Boolean = 
+      (for index <- 1 to (seq.size - 1) yield  seq(index - 1) < seq(index)) forall( x => x)
+      
+    
 }
