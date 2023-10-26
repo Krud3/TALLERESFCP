@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 \usepackage{float}
 \usepackage{listings}
+\usepackage{amsfonts} 
 \usepackage{xcolor} 
 \usepackage[margin=1in]{geometry} 
 \lstset{
@@ -96,7 +97,37 @@ El uso de colecciones y expresiones \texttt{for} en Scala representa una poderos
 
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
-\textbf{Casos de prueba: \\}
+
+
+ \[ \text{Sea } i, n \in \mathbb{N}^{+} \mid 0 \leq i \leq n;\] 
+ \[ \text{Sea } S  = \{a_1,a_i,...,a_{n}\} \text{ donde } a_{i-1} < a_i \text{ una secuencia denominada incremental;} \] \
+ \[ \text{Sea } P(S) \text{el conjunto potencia de } s_i, \text{es decir} s \in P(S) \text{ cuando } s_i \text{ esta contenido en} S \] 
+ \[ \text{Esto es } s_i \text{ es una subsecuencia incremental desde elemento } a_i \text{ de } S\] 
+  \[ \text{Sea } K \in \mathbb{N}^{+}\{0\} K \in [n;|S|]\] 
+  \[ P_k(S) \text{ representa los subconjuntos con tamaño } \in [0;k]\] 
+  \textbf{Estado inicial:} \\
+  \[ 1) (0,n,{\phi }) \] 
+  \textbf{Estado:} \\
+  \[ 2) (k,n,P_k(S)) \] 
+  \[ \text{es final si } k == n+1 \rightarrow s_f=(n+1,n,P_n(S))\]
+  \textbf{Invariante:} \\
+  \[ 3) Inv(k,n,P_k(S)) \equiv k < = n+1 \land |P_K(S)<=|2^k|\] \\
+  \textbf{Transformar:} \\
+  \[ 4) Tran(k,n,P_k(S)) = (k+1,n,P_k(S)\cup P_{k+1}(S))\] \\
+  \textbf{Demostracion: } \\
+  \begin{enumerate}
+    \item $Inv (S_0)$ se cumple, pues $0<= n+1$ $\land$ $P_0(S) = \{\phi\}$ $\rightarrow$ $|P_0(S)| = 1 <= 2^0 = 1$
+    \item $(s_k \neq s_f \land Inv(s_k)) \rightarrow Inv(tranformar(s_k))$
+    \[\equiv\]
+    \[ k \neq n+1 \land k <= k+1 \land P_k(S) <= 2^k \rightarrow k+1 <= n+1 \land ...\]
+    \[ ... P_{k+1}(S)< 2^{k+1} \rightarrow P_{k+1}(S) = \bigcup_{0<i}^{k}P_k \cup P_{k+1}\] 
+    \[ \text{Por tanto, } Inv(tranformar(s_k)) \text{ se cumple.} \]
+    \item $Inv(S_f) \rightarrow |P_n(S)| <= 2^n \equiv Inv(n+1,n,P_n(S))$
+    \[\rightarrow n+1 <= n+1 \land |P_n(S)|<= 2^n \rightarrow P_n(S)\]
+    \[ true \land true \rightarrow P_n(S)\]
+    \item En cada paso se aumenta $k$ en una unidad hasta superar la condicion de $n$. por tanto cada vez estaria mas cerca de $n+1$ en cada iteracion se unen los subconjuntos tal que sus elementos son crecientes y acotados por una cantidad $2^k$
+  \end{enumerate}
+  \textbf{Casos de prueba: \\}
 \begin{lstlisting}[caption=Casos de prueba para la función subindices, label=lst:scala_code]
   subindices(1, 5)
   subindices(3, 6)
@@ -111,7 +142,7 @@ El uso de colecciones y expresiones \texttt{for} en Scala representa una poderos
   \item \textbf{Valor esperado}: HashSet(List(3, 5, 6), List(2, 3, 5, 6), List(5, 6), List(4, 5), List(), List(2, 3), List(2, 3, 5), List(3, 5), List(3, 6), List(3, 4), List(2, 3, 6), List(2), List(2, 4), List(4, 6), List(2, 4, 5), List(2, 3, 4, 5), List(2, 3, 4, 5, 6), List(3), List(3, 4, 5, 6), List(2, 3, 4, 6), List(2, 5, 6), List(4, 5, 6), List(5), List(6), List(2, 4, 6), List(3, 4, 6), List(3, 4, 5), List(2, 3, 4), List(2, 5), List(2, 6), List(2, 4, 5, 6), List(4))
   \item \textbf{Valor esperado}: HashSet(List(4, 5, 7), List(4, 6, 7), List(5, 6), List(4, 5), List(), List(5, 7), List(4, 5, 6), List(6, 7), List(4), List(5, 6, 7), List(4, 7), List(4, 5, 6, 7), List(4, 6), List(7), List(5), List(6))
 \end{enumerate}
-\subsubsection{Conclusiones}
+
 \subsection{Generación de todas las subsecuencias de una secuencia}
 \subsubsection{Informe de uso de colecciones y expresiones for}
 \begin{lstlisting}[caption=Código en Scala para la funcion subSecuenciaAsoc, label=lst:scala_code]
@@ -167,6 +198,97 @@ El uso de colecciones y expresiones \texttt{for} en Scala representa una poderos
 
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
+\textbf{subSecuenciasAsoc: } \\
+\[ \text{Sea } S =<a_1,...,a_i,...,a_n> \text{ e } I=<b_1,...,b_k,...,b_r>\text{ tal que i,k,n,r} \in \mathbb{N}^{+} \]
+\[ \land 0 \leqslant i \leqslant n~ 0 \leqslant k \leqslant r \land~ 0 \leqslant r \leqslant \text{, dos secuencias de modo que $I$ representa los indices ... }\]
+\[\text{de $a_i \in S\{a_n\}$ de los cuales se va a extraer sus respectivos valores.}\]
+
+\textbf{Estado:}
+\[ 1) S=(k,n,r,S_k,I) \]
+\begin{itemize}
+  \item Numero de indice actual en $I$ tal que $a_{bi}$ es el elemento a extraer.
+  \item $n$,$r$ tamanio de la secuencia de estados y de indices respectivamenteamentemente.
+  \item $S_k$ la secuencia tal $S_k = <a_{b},...,a_k>$
+\end{itemize}
+
+
+\textbf{Estado inicial:}
+\[ 2) S_0 =(0,n,r,\{\phi\},I) \qquad S_f=(r+1,n,r,[a_{b1},...,a_{br}],I) \]
+
+
+\textbf{Invariante:}
+\[ 3) \text{Inv}(k,n,r,S_k,I) \equiv k \leq r+1 \land r < n \land |S_k| = l \land S_k =<a_{b1},...,a_{bk}>\]
+
+\textbf{Transformar:}
+\[ 4) \text{Tran}(k,n,r,S_k,I) = (k+1,n,r,S_k \cup \{a_{b_{k+1}}\},I) \]
+
+\textbf{Demostración:}
+
+\begin{enumerate}
+  \item $Inv(S_0)$, se cumple. Se tiene $0 < r+1 \land r<n \land |\{\phi\}|=0$ 
+  \item \( (S_k \neq S_f \land \text{Inv}(S_k)) \rightarrow \text{Inv}(\text{transformar}(S_k)) \)
+  \[\equiv\]
+  \[k\leq r+1 \land r < n \land |S_k|=k \rightarrow k+1 \leq r+1 \land r <Mn \land |S_{k+1}|=k+1\]
+  \[ \text{Ya que } S_k =<a_{bi},...,a_{bk}>\]
+  \[ \rightarrow\]
+  \[ (S_k \neq S_f \land Inv(S_k)) \rightarrow Inv(Tran(S_k))\]
+  \item \( \text{Inv}(S_f) \rightarrow S_r =<a_{b1},...,a_{br}>\land |Sr|=r\)
+  \[ \equiv\]
+
+  \[Inv(r+1,n,r,S_r,I) \rightarrow r+1 \leq r+1 \land r<n \land |S_r| = r \land S_k = <a_{i1},...,a_{r}> \]
+  \[ \equiv \]
+  \[ true \land true\land true \land true \equiv true\]
+  \item Cada paso de iteracion converge a $r$, lo cual implica la extraccion de r elemento $a_i$ de $S$, por tanto la subsequencia de $r$ elementos incrementales de $S$ es:
+  \[ S_k =<a_{b1},...,a_{br}> |  i \leq b_i \leq n-1 \land a_{bi}\in S_i\]
+\end{enumerate}
+
+  \textbf{subSecuenciasDe: } \\
+  \[ \text{Sea } S =<a_1,...,a_i,...,a_n> \text{ tal que k,n,i} \in \mathbb{N}^{+} \]
+  \[ \text{Sea } SA \text{ la funcion demostrada anteriormente (subsecuenciasAsoc)}  \]
+  \[ \text{Sea } Si(i,n) \text{ la funcion demostrada anteriormente (subindices)}  \]
+  \[ \text{Sea } D_s(S) \text{ como la funcion que devuelve todas las posibles subsecuencias de }S\]
+  \[\text{Primero se define la aplicacion de } s_i \text{ sobre  los extremos $1-n$ de la secuencia } S\]
+  \[ SI (1,n) = \{e | e \in D(n)\} \text{, donde $P(n)$ define el conjunto potencia sobre los n primero numeros}\]
+  \[ \text{ $N$, es decir } \]
+  \[ i \leq n \land |P(n)| = m\]
+  \[ \text{Llamemos $SI_k \in SI(1,n) | 1 \leq l \leq m$, el $k-esimo$ elemento de $SI_k$}\]  
+  \textbf{Estado:}
+  \[ 1) S=(k,m,SI_k,LC,S) \]
+  \begin{itemize}
+    \item $S$ La secuencia original que genera todas sus posibles subsecuencias.
+    \item Donde $k$ representa el $k-esimo$ elemento asociado a $SI$.
+    \item $m$ el tamaño de $SI$.
+    \item $SI_k$ representa el $k-esimo$ conjunto de indices posibles de $SI$.
+    \item $LC$ representa el resultado de la aplicacion $SA(S,SI_k)$ para extraer los elementos correspondientes a los $SI_k$ indices.
+  \end{itemize}
+    
+  \textbf{Estado inicial:}
+  \[ 2) S_0 =(0,m,SI_0,\{\phi\},S) \qquad S_f=(m+1,m,SI,[SA(S,SI_1),...,SA(S,SI_{m-1})],S) \]
+  
+  
+  \textbf{Invariante:}
+  \[ 3) \text{Inv}(k,m,SI_k,LC,S) \equiv k \leq m+1 \land LC  =[SA(S,SI_1),...,SA(S,SI_{m-1})] \]
+  
+  \textbf{Transformar:}
+  \[ 4) \text{Tran}(k,m,SI_k,LC,S) \rightarrow (k+1,m,SI_{k+1},LC \cup SA(S,SI_{k+1}),S) \]
+  
+  \textbf{Demostración:}
+  
+  \begin{enumerate}
+    \item $Inv(S_0)$, se cumple, puesto que $(0,m,SI_0,[\phi])$ 
+    \item \( (S_k \neq S_f \land \text{Inv}(S_k)) \rightarrow \text{Inv}(\text{transformar}(S_k)) \)
+    \[\equiv\]
+    \[k \leq m+1 \land LC  =[SA(S,SI_1),...,SA(S,SI_{k})]\] 
+    \[\rightarrow   \]
+    \[k+1\leq m+1 \land LC =[SA(S,SI_1),...,SA(S,SI_{k+1})]\]
+    \[ \text{Puesto que $LC$ representa un subconjunto asociado a las $k$ posibilidades de}\]
+    \[ \text{seleccion de indices, se tiene:}\]
+    \[ (S_k \neq S_f \land Inv(S_k)) \rightarrow Inv(Tran(S_k))\]
+    \item \( \text{Inv}(S_f) \rightarrow m+1 \leq m+1 \land LC = [SA(S,SI_1),...,SA(S,SI_{m-1})]\)
+    \[ \equiv\]
+    \[ true  \rightarrow true \land true\] 
+    \[\equiv true\]
+\end{enumerate}
 \textbf{Casos de prueba: \\}
 \begin{lstlisting}[caption=Casos de prueba para la función subSecuenciaAsoc, label=lst:scala_code]
   val s1 = Seq(5, 25, 35, 45, 55, 65, 75)
@@ -203,7 +325,7 @@ El uso de colecciones y expresiones \texttt{for} en Scala representa una poderos
   \item \textbf{Valor esperado} (line 10): HashSet(List(50, 60, 70), List(70), List(60, 80, 90), List(50, 60, 80, 90, 100), List(50, 70), List(60, 70, 80), List(100), List(50, 90, 100), List(50, 60, 90), List(90), List(60, 100), List(80, 90, 100), List(60, 70, 100), List(50, 80, 100), List(70, 100), List(50, 60, 70, 90, 100), List(50, 80, 90, 100), List(50, 60), List(50, 100), List(50, 70, 80, 90), List(50, 60, 100), List(50, 70, 90, 100), List(50, 60, 70, 80, 100), List(60, 70, 80, 90), List(60, 80), List(80, 100), List(70, 90, 100), List(50, 70, 80, 100), List(60, 70, 90, 100), List(60, 90), List(60, 80, 90, 100), List(50, 70, 100), List(80), List(60, 90, 100), List(), List(50, 60, 70, 90), List(50, 60, 70, 80, 90, 100), List(70, 80, 90, 100), List(50, 60, 80, 100), List(50, 60, 80), List(80, 90), List(60, 70, 80, 100), List(60, 70), List(50, 70, 80, 90, 100), List(90, 100), List(70, 80, 100), List(60, 80, 100), List(50, 70, 80), List(50, 80), List(60, 70, 90), List(50, 60, 
   70, 80, 90), List(70, 90), List(60, 70, 80, 90, 100), List(50, 80, 90), List(50), List(60), List(50, 60, 80, 90), List(70, 80), List(50, 90), List(50, 60, 70, 80), List(50, 60, 70, 100), List(50, 60, 90, 100), List(50, 70, 90), List(70, 80, 90))
 \end{enumerate}
-\subsubsection{Conclusiones}
+
 \subsection{Generación de todas las subsecuencias incrementales de una secuencia}
 \subsubsection{Informe de uso de colecciones y expresiones for}
 \begin{lstlisting}[caption=Código en Scala para la funcion incremental, label=lst:scala_code]
@@ -257,6 +379,74 @@ El uso de colecciones y expresiones \texttt{for} en Scala representa una poderos
 
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
+\textbf{incremental: } \\
+\[ \text{Sea } seq \text{ una subsecuencia de números naturales.} \]
+
+\[ \text{Sea } S = \{a_1, a_2, ..., a_n\} \text{ donde } n = seq.size \text{ y } a_i \text{ es el } i\text{-ésimo elemento de }seq. \]
+
+\[ \text{El objetivo del algoritmo es determinar si la subsecuencia es incremental, es decir,}\] 
+\[ \text{si } a_i < a_{i+1} \text{ para todo } i \text{ en } [1, n-1]. \]
+
+\textbf{Estado inicial:}
+\[ 1) (1, \text{seq}, \text{true}) \]
+
+\textbf{Estado:}
+\[ 2) (i, \text{seq}, \text{true/false}) \]
+\[ \text{es final si } i = n \rightarrow s_f = (n, \text{seq}, \text{true/false}) \]
+
+\textbf{Invariante:}
+\[ 3) \text{Inv}(i, \text{seq}, \text{true/false}) \equiv i \leq n \land (a_{i-1} < a_i \text{ implica true, de lo contrario false}) \]
+
+\textbf{Transformar:}
+\[ 4) \text{Tran}(i, \text{seq}, \text{true/false}) = (i+1, \text{seq}, \text{true/false según la comparación de } a_{i} \text{ y } a_{i+1}) \]
+
+\textbf{Demostración:}
+
+\begin{enumerate}
+  \item \( \text{Inv}(S_0) \) se cumple, pues \( 1 \leq n \) y no hay elementos anteriores a \( a_1 \) para comparar, por lo que el valor inicial es verdadero.
+  \item \( (s_k \neq s_f \land \text{Inv}(s_k)) \rightarrow \text{Inv}(\text{transformar}(s_k)) \)
+  \[\equiv\]
+  \( i \neq n \land i \leq n \land (a_{i-1} < a_i \text{ implica true, de lo contrario false}) \rightarrow i+1 \leq n \land (a_i < a_{i+1} \text{ implica true, de lo contrario false}) \)
+  \[ \text{Por tanto, } \text{Inv}(\text{transformar}(s_k)) \text{ se cumple.} \]
+  \item \( \text{Inv}(S_f) \rightarrow (a_{n-1} < a_n \text{ implica true, de lo contrario false}) \)
+  \[\rightarrow n \leq n \land (a_{n-1} < a_n \text{ implica true, de lo contrario false}) \]
+  \[ \text{true} \land \text{true/false según la comparación de } a_{n-1} \text{ y } a_n \]
+  \item En cada paso, se aumenta \( i \) en una unidad hasta alcanzar \( n \). En cada iteración, se verifica si el elemento actual es mayor que el anterior y se actualiza el valor de verdad según el resultado de la comparación.
+\end{enumerate}
+\textbf{subSecuenciasInc: } \\
+\[ \text{Sea } \text{seq} \text{ una secuencia de números naturales.} \]
+
+\[ \text{El objetivo del algoritmo es determinar todas las subsecuencias incrementales de } \text{seq}. \]
+
+\textbf{Estado inicial:}
+\[ 1) (0, \text{seq}, \{\phi\}) \]
+
+\textbf{Estado:}
+\[ 2) (i, \text{seq}, \text{subSecuencias}) \]
+\[ \text{es final si } i = \text{seq.size} \rightarrow s_f = (\text{seq.size}, \text{seq}, \text{subSecuencias}) \]
+
+\textbf{Invariante:}
+\[ 3) \text{Inv}(i, \text{seq}, \text{subSecuencias}) \equiv i \leq \text{seq.size} \land \text{subSecuencias} \text{ contiene todas las subsecuencias} \]
+\[ \text{ incrementales de } \text{seq} \text{ hasta el índice } i \]
+
+\textbf{Transformar:}
+\[ 4) \text{Tran}(i, \text{seq}, \text{subSecuencias}) = (i+1, \text{seq}, \text{subSecuencias} \cup \text{subSecuencia} \text{ si es incremental}) \]
+
+\textbf{Demostración:}
+
+\begin{enumerate}
+  \item \( \text{Inv}(S_0) \) se cumple, pues \( 0 \leq \text{seq.size} \) y no hay subsecuencias para considerar en el índice 0.
+  \item \( (s_k \neq s_f \land \text{Inv}(s_k)) \rightarrow \text{Inv}(\text{transformar}(s_k)) \)
+  \[\equiv\]
+  \( i \neq \text{seq.size} \land i \leq \text{seq.size} \land \text{subSecuencias} \text{ contiene todas las subsecuencias incrementales} \)
+  \( \text{ de } \text{seq} \text{ hasta el índice } i \rightarrow i+1 \leq \text{seq.size} \land \text{subSecuencias} \text{ contiene todas las subsecuencias} \)
+  \( \text{ incrementales de } \text{seq} \text{ hasta el índice } i+1 \)
+  \[ \text{Por tanto, } \text{Inv}(\text{transformar}(s_k)) \text{ se cumple.} \]
+  \item \( \text{Inv}(S_f) \rightarrow \text{subSecuencias} \text{ contiene todas las subsecuencias incrementales de } \text{seq} \)
+  \[\rightarrow \text{seq.size} \leq \text{seq.size} \land \text{subSecuencias} \text{ contiene todas las subsecuencias incrementales de } \text{seq} \]
+  \[ \text{true} \land \text{true} \]
+  \item En cada paso, se aumenta \( i \) en una unidad hasta alcanzar \( \text{seq.size} \). En cada iteración, se verifica si la subsecuencia actual es incremental y, si es así, se agrega a la colección de subsecuencias incrementales.
+\end{enumerate}
 \textbf{Casos de prueba: \\}
 \begin{lstlisting}[caption=Casos de prueba para la función incremental, label=lst:scala_code]
   val s7 = Seq(1, 2, 3, 4, 5, 6, 7)
@@ -284,7 +474,7 @@ El uso de colecciones y expresiones \texttt{for} en Scala representa una poderos
   \item \textbf{Valor esperado}: HashSet(List(1), List(0, 1), List(1, 2), List(0, 2), List(0), List(2), List(0, 1, 2), List())
   \item \textbf{Valor esperado}: HashSet(List(30, 40), List(10, 20), List(10, 40), List(20, 40), List(30), List(10, 30, 40), List(10), List(20, 30, 40), List(20, 30), List(10, 20, 30), List(10, 30), List(), List(20), List(40), List(10, 20, 40), List(10, 20, 30, 40))
 \end{enumerate}
-\subsubsection{Conclusiones}
+
 \subsection{Hallar la subsecuencia incremental más larga}
 \subsubsection{Informe de uso de colecciones y expresiones for}
 \begin{lstlisting}[caption=Código en Scala para la funcion subsecuenciaIncrementalMasLarga, label=lst:scala_code]
@@ -333,6 +523,57 @@ def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
    \end{table}
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
+
+\[ \text{Sea } S =<a_1,...,a_i,...,a_n> | 1 \leq i \leq n  \in \mathbb{N}^{+} \text{una secuencia } \]
+\[ \text{Sea } Inc(S) \text{ una funcion predicado que determina si $S$ es incremental}  \]
+\[ \text{Sea } SInc(S)) \text{ la funcion que retorna el conjunto de las subsequiencias incrementales de $S$}  \]
+\[ \text{Sea }k| k \leq m \text{ donde $|SInc(S)| =m$, es la cantidad de subsecuencias de $S$ }\]
+\[ \text{Sea }SInc_k \text{ la $k-esima$ subsecuencia incremental de $SInc$ }\]
+
+\textbf{Estado:}
+\[ 1) S=(k,m,SInc_k,Inc,S) \]
+\begin{itemize}
+  \item $k$ elemento de $SInc$.
+  \item $m$ el tamaño de conjunto $SInc$.
+  \item $SInc_k$ la $k-esima$ subsecuencia incremental de $SInc_k$.
+  \item $Inc$ conjunto que colecciona las $k$ subsecuencias determinadas hasta entonces.
+  \item $S$ la secuencia original.
+\end{itemize}
+  
+\textbf{Estado inicial:}
+\[ 2) S_0 =(0,m,\{\phi\},\{\phi\},S) \qquad S_f=(m+1,m,\{\phi\},Inc_n,S) | Inc_n = [SInc_1,...,SInc_m] \]
+
+
+\textbf{Invariante:}
+\[ 3) \text{Inv}(S_k) \equiv k \leq m+1 \land Inc_k  =[SInc_1,...,SInc_k] \]
+
+\textbf{Transformar:}
+\[ 4) \text{Tran}(k,m,SInc_k,Inc,S) \rightarrow (k+1,m,SInc_{k+1},Inc \cup SInc_k,S) \]
+
+\textbf{Demostración:}
+
+\begin{enumerate}
+  \item $Inv(S_0)$, se cumple, puesto que $(0,m,[\phi],[\phi],S)$ 
+  \item \( (S_k \neq S_f \land \text{Inv}(S_k)) \rightarrow \text{Inv}(\text{transformar}(S_k)) \)
+  \[\equiv\]
+  \[k \leq m+1 \land Inc_k  =[SInc_1,...,SInc_k]\] 
+  \[\rightarrow   \]
+  \[k+1\leq m+1 \land Inc \cup SInc_{k+1}\]
+  \[ \text{Puesto que $Inc_{k+1}=\bigcup_{1\leq i \leq k } SInc_i \cup Inc_{k+1}$ }\]
+  \[ \text{Se tiene:}\]
+  \[ (S_k \neq S_f \land Inv(S_k)) \rightarrow Inv(Tran(S_k))\]
+  \item \( \text{Inv}(S_f) \rightarrow m+1 \leq m+1 \land Inc_n \equiv Inc \)
+  \[\text{donde $Inc$ representa todas las posibles combinaciones incrementales de }S\]
+  \[ \equiv\]
+  \[ true  \rightarrow true \land true\] 
+  \[\equiv true\]
+\end{enumerate}
+Hasta aqui, se ha determinado todas las posibles subsequiencias de $S$, ahora la subsecuencia mas larga. Sea $Size(z)$ una funcion que aplica una transformacion de cada $SInc_k$ a su respectivo tamaño.
+$Size(Inc)=\{x|x = |Inc_k|\}$. \\
+Sea la funcion $max(S)$ que determina el mayor valor del elemento de $S$ y sea $find(e,N)$ una funcion que devuelve un resultado opcional si se cumple l predicado $p$ sobre un elemento $n \in N$ secuencia.
+\\ 
+$\rightarrow$ $find(max(size(Inc)),Inc)$ da la subsecuencia mas larga en los elementos de $Inc$. \\
+\newpage
 \textbf{Casos de prueba: \\}
 \begin{lstlisting}[caption=Casos de prueba para la función subsecuenciaIncrementalMasLarga, label=lst:scala_code]
   val s14 = Seq(1, 2, 3, 4, 5)
@@ -346,7 +587,7 @@ def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
   val s18 = Seq(10, 20, 30, 25, 35, 45)
   subsecuenciaIncrementalMasLarga(s18) //List(10, 20, 30, 35, 45)
 \end{lstlisting}
-\subsubsection{Conclusiones}
+
 \section{Hacia una solución más eficiente}
 \subsection{Calculando $SIML_i(S)$}
 \subsubsection{Informe de uso de colecciones y expresiones for}
@@ -403,6 +644,32 @@ def sssimlComenzandoEn(i: Int, seq: Secuencia): Subsecuencia = {
    \end{table}
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
+la funcion $sssimlComenzandoEn$ devuelve la secuencia $S_i$ mas larga de la secuencia $S$ desde el 
+    indice $i$; hace uso de una expresion $for$ la cual genera un producto cartesiano $k$x$j$, donde $k$ representa
+    las lista original sin los k primeros elementos, y $j$ el recorrido desde $k$ hasta el tamaño $n$ de la subsecuencia de
+    tamaño $n - k$. Dentro de la expresion $for$ se llama para cada combinacion $(k,j)$ la funcion $sssimlHelper$,
+    que recibe el parametro $j$ actual, la secuencia original, la subsecuencia de los valores que han sido incrementales en sus anteriores iteraciones, y
+    el ultimo valor mas grande e incremental encontrado. Dentro, tiene las condicion de parada si se ha alcanzado el tamaño de la 
+    secuencia original; de lo contrario, se aplica el predicado que determina si el valor actual de la secuencia $seq(r)$ en $r$ supera en valor 
+    númerico al ultimo valor incremental $maxValueOfSubsequence$; si ello se cumple, el proximo llamado recursivo a 
+    $sssimlHelper$ sera con este nuevo valor determinado addicionado a $subsecuencia$ y $maxValueOfSubsequence$ actualizado a dicho valor 
+con la logica de detrminacion de termino incrementales de la subsecuencia implicada para el indice $t$. Si el predicado no se cumple,
+   se incrementa $r$ en uno para que tienda a $seq.size$ y seguir el proceso sin modificar la $subsecuence$ hasta el paso el paso $r$
+
+   Este proceso lo hace iterativamente para cada $k$ donde $ i \leq k \leq n$.
+   Al final del paso anterior, donde se cumple las invariantes de $ k \leq seq.size \land k \leq  j \leq seq.size$, se tiene 
+   que $subsequences$ es el conjunto de todas las posibles subsecuencias incrementales de $seq$ desde  $i$ hasta $seq.size$
+
+   Al anterior resultado le aaplicamos un transformacion $Size(subsequences)$ a cada elemento de $subsequences$ para obtener
+   el tamaño de cada subsecuencia incrementales de $seq$. Entonces se usa la funcion $max(Size(subsequences))$ para determinar
+   cual de estas secuencias incrementales tiene mayor numero de elementos, que es el interes ultimo de este algoritmo.
+   El resultado de $max$ devuelve un valor que a posteriori sera utilizazo como algumento de la funcion $find$, la cual toma como
+   argumento un predicado $p$ y una secuencia a la cual aplicar el predicado. En particular, el predicado determina el
+   primer elemento dentro de $subsequences$ tal que su valor se corresponda al valor maximo determinado.
+   La ultima instruccion es un match pattern sobre el resultado de $find$, funcion que retorna el resultado en un contexto computacional,
+   la monada $Optional$, el cual permite manejar la ausencia y presencia de un valor de forma natural y sin errores inesperados.
+   Por tanto, la expresion de match pattern permite desenvolver el valor correspondiente a  la subsecuencia mas larga dentor de $seq$ desde $i$,
+   y retornala como el valor retorno de $sssimlComenzandoEn$. Esto demuestra, la correctitud de la implementacion de la funcion. \\
 \textbf{Casos de prueba: \\}
 \begin{lstlisting}[caption=Casos de prueba para la función sssimlComenzandoEn, label=lst:scala_code]
   sssimlComenzandoEn(0, Seq(10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11))
@@ -418,7 +685,7 @@ def sssimlComenzandoEn(i: Int, seq: Secuencia): Subsecuencia = {
   sssimlComenzandoEn(1, Seq(5, 1, 2, 3, 4, 6, 7, 8, 9, 10))
   //List(1, 2, 3, 4, 6, 7, 8, 9, 10)
 \end{lstlisting}
-\subsubsection{Conclusiones}
+
 \subsection{Calculando una subsecuencia incremental más larga, versión 2}
 \subsubsection{Informe de uso de colecciones y expresiones for}
 \begin{lstlisting}[caption=Código en Scala para la funcion subSecIncMasLargaV2, label=lst:scala_code]
@@ -454,6 +721,41 @@ def subSecIncMasLargaV2(sequence: Secuencia) =
    \end{table}
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
+\[ \text{Sea } \text{sequence} \text{ una secuencia de números naturales.} \]
+\[ si \text{ contiene todas las subsecuencias incrementales de } \text{sequence} \text{ hasta el índice } i \]
+
+\[ \text{El objetivo del algoritmo es determinar la subsecuencia incremental más larga de } \text{sequence}. \]
+
+\textbf{Estado inicial:}
+\[ 1) (0, \text{sequence}, \{\phi\}, \{\phi\}) \]
+
+\textbf{Estado:}
+\[ 2) (i, \text{sequence}, si, \text{siSizes}) \]
+\[ \text{es final si } i = \text{sequence.size} \rightarrow s_f = (\text{sequence.size}, \text{sequence}, si, \text{siSizes}) \]
+
+\textbf{Invariante:}
+\[ 3) \text{Inv}(i, \text{sequence}, si, \text{siSizes}) \equiv i \leq \text{sequence.size} \land si \text{ contiene todas las subsecuencias} \]
+\[ \text{ incrementales de } \text{sequence} \text{ hasta el índice } i \]
+
+\textbf{Transformar:}
+\[ 4) \text{Tran}(i, \text{sequence}, si, \text{siSizes}) = (i+1, \text{sequence}, si \cup \text{subSecuencia} \text{ si es incremental}, \]
+\[ \text{siSizes} \cup \text{tamaño de subSecuencia}) \]
+
+\textbf{Demostración:}
+
+\begin{enumerate}
+  \item \( \text{Inv}(S_0) \) se cumple, pues \( 0 \leq \text{sequence.size} \) y no hay subsecuencias para considerar en el índice 0.
+  \item \( (s_k \neq s_f \land \text{Inv}(s_k)) \rightarrow \text{Inv}(\text{transformar}(s_k)) \)
+  \[\equiv\]
+  \[ i \neq \text{sequence.size} \land i \leq \text{sequence.size} \land si  \]
+  \[  i \rightarrow i+1 \leq \text{sequence.size} \land si \]
+  \[ \text{Por tanto, } \text{Inv}(\text{transformar}(s_k)) \text{ se cumple.} \]
+  \item \[ \text{Inv}(s_f) \rightarrow si \] 
+
+  \[\rightarrow \text{sequence.size} \leq \text{sequence.size} \land si  \]
+  \[ \text{true} \land \text{true} \]
+  \item En cada paso, se aumenta \( i \) en una unidad hasta alcanzar \( \text{sequence.size} \). En cada iteración, se verifica si la subsecuencia actual es incremental y, si es así, se agrega a la colección de subsecuencias incrementales y se actualiza el tamaño de la subsecuencia.
+\end{enumerate}
 \textbf{Casos de prueba: \\}
 \begin{lstlisting}[caption=Casos de prueba para la función subSecIncMasLargaV2, label=lst:scala_code]
   subSecIncMasLargaV2(Seq())
@@ -469,6 +771,7 @@ def subSecIncMasLargaV2(sequence: Secuencia) =
   subSecIncMasLargaV2(Seq(5, 1, 2, 3, 4, 6, 7, 8, 9, 10))
   // List(1, 2, 3, 4, 6, 7, 8, 9, 10)
 \end{lstlisting}
-\subsubsection{Conclusiones}
-
+\section{Conclusiones}
+Los casos de prueba actuales son bastante robustos y cubren una amplia variedad de escenarios que el programa podría encontrar en la práctica. Se trata de abordar diferentes escenarios para que mientras se va desarrollando el programa/funcion se puedan encontrar errores en el proceso de solucion de este. Como bien sabemos la mejor manera de demostrar la correctitud de este tipo de algoritmos, es a través de una demostracion formal. Para estas 8 funciones que se desarrollaron en este taller,
+la modalidad de demostracion que se uso fue $Induccion~Estructural$, creemos que es pertinente porque todas las funciones utilizan expresiones $for$ y colecciones de $scala$. A pesar que algunos casos de prueba nos ayudaron en el proceso de la creacion o solucion de las funciones, es practicamente imposible hacer suficientes casos de prueba para abarcar todas las posibles combinaciones de listas o sequencias que podrian entrar por parametro para estas funciones. Por lo tanto se acude a una demostracion formal para verificar su correctitud en todos los puntos del taller.
 \end{document}
