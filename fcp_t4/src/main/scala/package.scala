@@ -55,7 +55,7 @@ package object SubsecuenciaMasLarga {
     def subSecuenciasInc(seq: Secuencia): Set[Subsecuencia] = 
        (for subsequence <- subSecuenciasDe(seq) if incremental(subsequence) yield subsequence).toSet
     
-     def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
+     def subsecuenciaIncrementalMasLarga2(seq: Secuencia): Subsecuencia = {
        val subsequences = (for subsequence <- subSecuenciasInc(seq) if incremental(subsequence) yield subsequence).toList
        val subsequencesSizes = subsequences.map(_.size) 
        val indexOfLargestSubsequence = (subsequencesSizes.find(x => x == subsequencesSizes.max)) match { 
@@ -69,7 +69,7 @@ package object SubsecuenciaMasLarga {
       }
      }
 
-    def subsecuenciaIncrementalMasLarga2(seq: Secuencia): Subsecuencia = {
+    def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
        val subsequences = (for subsequence <- subSecuenciasInc(seq) if incremental(subsequence) yield subsequence).toList
        val subsequencesSizes = subsequences.map(_.size) 
        val indexOfLargestSubsequence = (subsequencesSizes.indexWhere(x => x == subsequencesSizes.max))

@@ -5,6 +5,29 @@
 \usepackage{float}
 \usepackage{listings}
 \usepackage{xcolor} 
+\usepackage[margin=1in]{geometry} 
+\lstset{
+    language=Scala,  % lenguaje de programación
+    basicstyle=\ttfamily\small,  % estilo de la fuente del código
+    numbers=left,  % posición de los números de línea
+    numberstyle=\tiny\color{gray},  % estilo de los números de línea
+    stepnumber=1,  % el paso entre dos números de línea
+    numbersep=5pt,  % cómo de lejos están los números de línea del código
+    backgroundcolor=\color{white},  % color de fondo
+    showspaces=false,  % mostrar espacios añadiendo particular subrayado
+    showstringspaces=false,  % subrayar espacios dentro de las cadenas
+    showtabs=false,  % mostrar tabs dentro de las cadenas añadiendo particular subrayado
+    frame=single,  % añade un marco al código
+    rulecolor=\color{black},  % si no se establece, el color del marco será el del texto
+    tabsize=2,  % tamaño de los tabs
+    captionpos=b,  % posición del título de la tabla (t=top, b=bottom)
+    breaklines=true,  % establecer si las líneas automáticas se rompen
+    breakatwhitespace=false, 
+    escapeinside={\%*}{*)},  % si quieres añadir LaTeX dentro de tu código
+    keywordstyle=\color{blue},  % estilo de las palabras clave
+    commentstyle=\color{olive},  % estilo de los comentarios
+    stringstyle=\color{violet},  % estilo de las cadenas
+}
 \graphicspath{ {./images/} }
 \title{
   \begin{figure}[th]
@@ -28,86 +51,301 @@
 
 \tableofcontents
 \newpage{}
+\section{Vista general. Uso de colecciones y expresiones for.}
+El uso de colecciones y expresiones \texttt{for} en Scala representa una poderosa combinación que facilita la manipulación y transformación de datos. Las colecciones ofrecen una amplia gama de operaciones que permiten trabajar con conjuntos de datos de manera eficiente y expresiva. Por otro lado, las expresiones \texttt{for} proporcionan una sintaxis concisa para iterar y filtrar datos, haciendo que el código sea más legible y mantenible. Juntas, estas herramientas permiten a los desarrolladores escribir algoritmos complejos de manera más intuitiva, reduciendo la posibilidad de errores y mejorando la productividad.
+
 \section{Solución ingenua usando fuerza bruta}
 \subsection{Generación de los índices asociados a todas las subsecuencias}
 \subsubsection{Informe de uso de colecciones y expresiones for}
+\begin{lstlisting}[caption=Código en Scala para la funcion subindices, label=lst:scala_code]
+  def subindices(i: Int, n: Int): Set[Seq[Int]] = {
+      val elements = (i until n).toSet
+      (for {
+          k <- 0 to elements.size
+          combination <- elements.subsets(k)
+      } yield combination.toSeq.sorted ).toSet 
+  }
+      \end{lstlisting}
 \begin{table}[H]
     \scriptsize
    \begin{tabular}{ |p{4cm}|p{3cm}|p{5.5cm}|  }
     \hline
-    \multicolumn{3}{|c|}{Tabla base completar} \\
+    \multicolumn{3}{|c|}{Tabla $subindices(i:Int,n:nt)$} \\
     \hline
     \textbf{Función}& ¿Se utilizó colecciones y expresiones for?  & ¿Razón?\\
     \hline
-     Completar... & Completar... &  Completar... \\
+     $subindices(i:Int,n:Int)$... & Sí &  
+       \textbf{Colecciones en Scala:} 
+      \begin{itemize}
+          \item \texttt{Set} y \texttt{Seq} permiten representar y manipular conjuntos y secuencias de datos de manera eficiente.
+          \item \texttt{subsets(k)} es una función de las colecciones que facilita la generación de todas las combinaciones posibles de un conjunto.
+          \item \texttt{toSeq.sorted} convierte un conjunto en una secuencia ordenada, lo cual es útil para garantizar la consistencia en las combinaciones generadas.
+      \end{itemize}
+      
+       \textbf{Expresiones \texttt{for}:} 
+      \begin{itemize}
+          \item Facilitan la iteración sobre colecciones y la generación de nuevas colecciones.
+          \item Permiten combinar múltiples generadores y filtros en una sola expresión, simplificando el código y haciéndolo más legible.
+      \end{itemize}
+   \\
      \hline
    \end{tabular}
    \centering
-   \caption{Completar...}
+   \caption{Tabla de uso de colecciones y expresiones for en la función $subindices(i:Int,n:Int)$}
    \end{table}
+
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
 \textbf{Casos de prueba: \\}
+\begin{lstlisting}[caption=Casos de prueba para la función subindices, label=lst:scala_code]
+  subindices(1, 5)
+  subindices(3, 6)
+  subindices(0, 4)
+  subindices(2, 7)
+  subindices(4, 8)
+\end{lstlisting}
+\begin{enumerate}
+  \item \textbf{Valor esperado}: HashSet(List(1), List(1, 2, 3), List(1, 3), List(3), List(), List(2, 3), List(1, 4), List(1, 3, 4), List(1, 2), List(2, 3, 4), List(3, 4), List(4), List(2), List(2, 4), List(1, 2, 3, 4), List(1, 2, 4))
+  \item \textbf{Valor esperado}: HashSet(List(4, 5), List(3), List(), List(3, 5), List(5), List(3, 4, 5), List(3, 4), List(4))
+  \item \textbf{Valor esperado}: HashSet(List(1, 2, 3), List(0, 1, 2, 3), List(0, 3), List(3), List(2, 3), List(0, 1), List(1, 2), List(0, 2), List(0), List(2), List(0, 1, 3), List(1), List(1, 3), List(0, 2, 3), List(0, 1, 2), List())
+  \item \textbf{Valor esperado}: HashSet(List(3, 5, 6), List(2, 3, 5, 6), List(5, 6), List(4, 5), List(), List(2, 3), List(2, 3, 5), List(3, 5), List(3, 6), List(3, 4), List(2, 3, 6), List(2), List(2, 4), List(4, 6), List(2, 4, 5), List(2, 3, 4, 5), List(2, 3, 4, 5, 6), List(3), List(3, 4, 5, 6), List(2, 3, 4, 6), List(2, 5, 6), List(4, 5, 6), List(5), List(6), List(2, 4, 6), List(3, 4, 6), List(3, 4, 5), List(2, 3, 4), List(2, 5), List(2, 6), List(2, 4, 5, 6), List(4))
+  \item \textbf{Valor esperado}: HashSet(List(4, 5, 7), List(4, 6, 7), List(5, 6), List(4, 5), List(), List(5, 7), List(4, 5, 6), List(6, 7), List(4), List(5, 6, 7), List(4, 7), List(4, 5, 6, 7), List(4, 6), List(7), List(5), List(6))
+\end{enumerate}
 \subsubsection{Conclusiones}
 \subsection{Generación de todas las subsecuencias de una secuencia}
 \subsubsection{Informe de uso de colecciones y expresiones for}
+\begin{lstlisting}[caption=Código en Scala para la funcion subSecuenciaAsoc, label=lst:scala_code]
+  def subSecuenciaAsoc(s:Secuencia, inds:Seq[Int]): Subsecuencia = 
+      (for i <- 0 to inds.size-1 yield s(inds(i))).toList
+      \end{lstlisting}
+      \begin{lstlisting}[caption=Código en Scala para la funcion subSecuenciasDe, label=lst:scala_code]
+  def subSecuenciasDe(s:Secuencia): Set[Subsecuencia] ={
+    val combinationIndex = subindices(0, s.size) 
+    for index <- combinationIndex yield subSecuenciaAsoc(s, index)
+  }
+            \end{lstlisting}
 \begin{table}[H]
     \scriptsize
    \begin{tabular}{ |p{4cm}|p{3cm}|p{5.5cm}|  }
     \hline
-    \multicolumn{3}{|c|}{Tabla base completar} \\
+    \multicolumn{3}{|c|}{Tabla $subSecuenciaAsoc$ y $subSecuenciasDe$} \\
     \hline
     \textbf{Función}& ¿Se utilizó colecciones y expresiones for?  & ¿Razón?\\
     \hline
-     Completar... & Completar... &  Completar... \\
+    $subSecuenciaAsoc$ & Sí &  
+      \textbf{Colecciones en Scala:} 
+      \begin{itemize}
+          \item \texttt{Seq} representa una secuencia de elementos en Scala. En esta función, se utiliza para representar una secuencia de índices.
+          \item \texttt{toList} convierte una colección en una lista. Esto puede ser útil para garantizar un tipo de salida específico o para realizar operaciones específicas de las listas.
+      \end{itemize}
+      
+       \textbf{Expresiones \texttt{for}:} 
+      \begin{itemize}
+          \item La expresión \texttt{for} se utiliza para iterar sobre la secuencia de índices y extraer los elementos correspondientes de la secuencia \texttt{s}.
+          \item Facilita la generación de una nueva colección basada en otra, en este caso, una subsecuencia basada en índices específicos.
+      \end{itemize}
+  \\
      \hline
+
+    
+    $subSecuenciasDe$ & Sí &  
+       \textbf{Uso de Funciones Preexistentes:}
+      \begin{itemize}
+          \item La función \texttt{subindices} se utiliza para obtener todas las combinaciones posibles de índices para una secuencia dada. Esto demuestra la reutilización de código y la composición de funciones en Scala.
+      \end{itemize}
+      
+       \textbf{Generación de Subsecuencias:}
+      \begin{itemize}
+          \item La expresión \texttt{for} se utiliza para iterar sobre cada combinación de índices y generar la subsecuencia correspondiente utilizando la función \texttt{subSecuenciaAsoc}.
+      \end{itemize}
+      \\ \hline
    \end{tabular}
+   
    \centering
-   \caption{Completar...}
+   \caption{Tabla de uso de colecciones y expresiones for en la función $subSecuenciaAsoc$ y $subSecuenciasDe$}
    \end{table}
+
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
 \textbf{Casos de prueba: \\}
+\begin{lstlisting}[caption=Casos de prueba para la función subSecuenciaAsoc, label=lst:scala_code]
+  val s1 = Seq(5, 25, 35, 45, 55, 65, 75)
+  subSecuenciaAsoc(s1, Seq())
+  subSecuenciaAsoc(s1, Seq(0, 2, 4))
+  subSecuenciaAsoc(s1, Seq(1, 2, 4, 6))
+  subSecuenciaAsoc(s1, Seq(0, 3, 5))
+  subSecuenciaAsoc(s1, Seq(2, 3, 4, 5))
+\end{lstlisting}
+\begin{enumerate}
+  \item \textbf{Valor esperado}: List()
+  \item \textbf{Valor esperado}: List(5, 35, 55)
+  \item \textbf{Valor esperado}: List(25, 35, 55, 75)
+  \item \textbf{Valor esperado}: List(5, 45, 65)
+  \item \textbf{Valor esperado}: List(35, 45, 55, 65)
+\end{enumerate}
+\begin{lstlisting}[caption=Casos de prueba para la función subSecuenciasDe, label=lst:scala_code]
+  val s2 = Seq(20, 30, 10)
+  subSecuenciasDe(s2)  
+  val s3 = Seq(10, 20)
+  subSecuenciasDe(s3)  
+  val s4 = Seq(5, 15, 25, 35)
+  subSecuenciasDe(s4)  
+  val s5 = Seq(1, 2, 3, 4, 5)
+  subSecuenciasDe(s5)  
+  val s6 = Seq(50, 60, 70, 80, 90, 100)
+  subSecuenciasDe(s6)  
+\end{lstlisting}
+\begin{enumerate}
+  \item \textbf{Valor esperado} (line 2): HashSet(List(30), List(20, 30, 10), List(30, 10), List(20), List(10), List(20, 30), List(20, 10), List())
+  \item \textbf{Valor esperado} (line 4): Set(List(), List(10), List(20), List(10, 20))
+  \item \textbf{Valor esperado} (line 6): HashSet(List(5, 15, 25, 35), List(), List(5, 15, 35), List(15, 35), List(5, 25, 35), List(15, 25, 35), List(25), List(35), List(15, 25), List(15), List(5, 35), List(5, 15), List(5), List(25, 35), List(5, 25), List(5, 15, 25))
+  \item \textbf{Valor esperado} (line 8): HashSet(List(1), List(1, 2, 3), List(1, 3), List(3, 4), List(4), List(2), List(1, 2, 3, 4), List(1, 2, 4), List(1, 2, 3, 4, 5), List(1, 2, 3, 5), List(1, 4, 5), List(4, 5), List(1, 3, 4, 5), List(2, 4, 5), List(2, 3, 4, 5), List(3), List(1, 5), List(), List(1, 2, 4, 5), List(2, 3), List(2, 3, 5), List(1, 4), List(1, 3, 4), List(3, 5), List(1, 2), List(1, 2, 5), List(5), List(3, 4, 5), List(2, 3, 4), List(2, 5), List(1, 3, 5), List(2, 4))
+  \item \textbf{Valor esperado} (line 10): HashSet(List(50, 60, 70), List(70), List(60, 80, 90), List(50, 60, 80, 90, 100), List(50, 70), List(60, 70, 80), List(100), List(50, 90, 100), List(50, 60, 90), List(90), List(60, 100), List(80, 90, 100), List(60, 70, 100), List(50, 80, 100), List(70, 100), List(50, 60, 70, 90, 100), List(50, 80, 90, 100), List(50, 60), List(50, 100), List(50, 70, 80, 90), List(50, 60, 100), List(50, 70, 90, 100), List(50, 60, 70, 80, 100), List(60, 70, 80, 90), List(60, 80), List(80, 100), List(70, 90, 100), List(50, 70, 80, 100), List(60, 70, 90, 100), List(60, 90), List(60, 80, 90, 100), List(50, 70, 100), List(80), List(60, 90, 100), List(), List(50, 60, 70, 90), List(50, 60, 70, 80, 90, 100), List(70, 80, 90, 100), List(50, 60, 80, 100), List(50, 60, 80), List(80, 90), List(60, 70, 80, 100), List(60, 70), List(50, 70, 80, 90, 100), List(90, 100), List(70, 80, 100), List(60, 80, 100), List(50, 70, 80), List(50, 80), List(60, 70, 90), List(50, 60, 
+  70, 80, 90), List(70, 90), List(60, 70, 80, 90, 100), List(50, 80, 90), List(50), List(60), List(50, 60, 80, 90), List(70, 80), List(50, 90), List(50, 60, 70, 80), List(50, 60, 70, 100), List(50, 60, 90, 100), List(50, 70, 90), List(70, 80, 90))
+\end{enumerate}
 \subsubsection{Conclusiones}
 \subsection{Generación de todas las subsecuencias incrementales de una secuencia}
 \subsubsection{Informe de uso de colecciones y expresiones for}
+\begin{lstlisting}[caption=Código en Scala para la funcion incremental, label=lst:scala_code]
+  def incremental(seq: Subsecuencia): Boolean = seq match {
+    case Nil => true
+    case _ => (for index <- 1 to (seq.size - 1) yield  seq(index - 1) < seq(index)) forall( x => x)
+  }
+            \end{lstlisting}
+  \begin{lstlisting}[caption=Código en Scala para la funcion subSecuenciasInc, label=lst:scala_code]
+  def subSecuenciasInc(seq: Secuencia): Set[Subsecuencia] = 
+    (for subsequence <- subSecuenciasDe(seq) if incremental(subsequence) yield subsequence).toSet
+              \end{lstlisting}
 \begin{table}[H]
     \scriptsize
    \begin{tabular}{ |p{4cm}|p{3cm}|p{5.5cm}|  }
     \hline
-    \multicolumn{3}{|c|}{Tabla base completar} \\
+    \multicolumn{3}{|c|}{Tabla $incremental$ y $subSecuenciasInc$} \\
     \hline
     \textbf{Función}& ¿Se utilizó colecciones y expresiones for?  & ¿Razón?\\
     \hline
-     Completar... & Completar... &  Completar... \\
+     $incremental$ & Sí &  
+       \textbf{Pattern Matching:}
+      \begin{itemize}
+          \item El pattern matching es una característica poderosa de Scala que permite descomponer y verificar estructuras de datos. En este caso, se utiliza para manejar dos escenarios: cuando la subsecuencia es vacía (representada por `Nil`) y cuando no lo es.
+      \end{itemize}
+      
+       \textbf{Verificación Incremental:}
+      \begin{itemize}
+          \item La expresión \texttt{for} se utiliza para iterar sobre la subsecuencia y verificar si cada elemento es menor que el siguiente. Esto genera una colección de valores booleanos.
+          \item La función \texttt{forall} se utiliza para verificar que todos los valores en la colección booleana sean \texttt{true}, lo que indica que la subsecuencia es incremental.
+      \end{itemize}
+   \\
+     \hline
+     $subSecuenciasInc$ & Sí &  
+       \textbf{Generación y Filtrado de Subsecuencias:}
+      \begin{itemize}
+          \item La función \texttt{subSecuenciasDe} se utiliza para generar todas las posibles subsecuencias de la secuencia dada.
+          \item La cláusula \texttt{if incremental(subsequence)} dentro de la expresión \texttt{for} filtra las subsecuencias, conservando solo aquellas que son incrementales. Esto demuestra cómo Scala permite combinar la generación y el filtrado de colecciones de manera concisa.
+      \end{itemize}
+      
+       \textbf{Conversión a Conjunto:}
+      \begin{itemize}
+          \item \texttt{toSet} convierte la colección resultante en un conjunto, eliminando posibles duplicados y garantizando la unicidad de las subsecuencias.
+      \end{itemize}
+  \\
      \hline
    \end{tabular}
    \centering
-   \caption{Completar...}
+   \caption{Tabla de uso de colecciones y expresiones for en la función $incremental$ y $subSecuenciasInc$}
    \end{table}
+
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
 \textbf{Casos de prueba: \\}
+\begin{lstlisting}[caption=Casos de prueba para la función incremental, label=lst:scala_code]
+  val s7 = Seq(1, 2, 3, 4, 5, 6, 7)
+  incremental(s7)// true
+  val s8 = Seq()
+  incremental(s8)//true
+  val s9 = Seq(1, 1, 1, 1, 1, 1, 1)
+  incremental(s9)//false
+  val s10 = Seq(1, 2, 3, 5, 4, 6, 7)
+  incremental(s10)//false
+  val s11 = Seq(7, 6, 5, 4, 3, 2, 1)
+  incremental(s11)//false
+\end{lstlisting}
+\begin{lstlisting}[caption=Casos de prueba para la función subSecuenciasInc, label=lst:scala_code]
+  subSecuenciasInc(Seq(1, 2))
+  subSecuenciasInc(Seq(5, 7, 9))
+  subSecuenciasInc(Seq(2, 4, 8, 16))
+  subSecuenciasInc(Seq(0, 1, 2))
+  subSecuenciasInc(Seq(10, 20, 30, 40))
+\end{lstlisting}
+\begin{enumerate}
+  \item \textbf{Valor esperado}: Set(List(), List(1), List(2), List(1, 2))
+  \item \textbf{Valor esperado}: HashSet(List(5, 9), List(9), List(7), List(), List(5, 7), List(7, 9), List(5, 7, 9), List(5))
+  \item \textbf{Valor esperado}: HashSet(List(8), List(16), List(4, 16), List(2, 8), List(2, 4, 16), List(4), List(2, 16), List(2, 8, 16), List(8, 16), List(4, 8, 16), List(), List(2), List(2, 4, 8, 16), List(4, 8), List(2, 4), List(2, 4, 8))
+  \item \textbf{Valor esperado}: HashSet(List(1), List(0, 1), List(1, 2), List(0, 2), List(0), List(2), List(0, 1, 2), List())
+  \item \textbf{Valor esperado}: HashSet(List(30, 40), List(10, 20), List(10, 40), List(20, 40), List(30), List(10, 30, 40), List(10), List(20, 30, 40), List(20, 30), List(10, 20, 30), List(10, 30), List(), List(20), List(40), List(10, 20, 40), List(10, 20, 30, 40))
+\end{enumerate}
 \subsubsection{Conclusiones}
 \subsection{Hallar la subsecuencia incremental más larga}
 \subsubsection{Informe de uso de colecciones y expresiones for}
+\begin{lstlisting}[caption=Código en Scala para la funcion subsecuenciaIncrementalMasLarga, label=lst:scala_code]
+def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
+  val subsequences = (for subsequence <- subSecuenciasInc(seq) if incremental(subsequence) yield subsequence).toList
+  val subsequencesSizes = subsequences.map(_.size) 
+  val indexOfLargestSubsequence = (subsequencesSizes.indexWhere(x => x == subsequencesSizes.max))
+  indexOfLargestSubsequence match {
+    case x if x < 0 => List()
+    case x => subsequences(x)
+  }
+}
+                      \end{lstlisting}
 \begin{table}[H]
     \scriptsize
    \begin{tabular}{ |p{4cm}|p{3cm}|p{5.5cm}|  }
     \hline
-    \multicolumn{3}{|c|}{Tabla base completar} \\
+    \multicolumn{3}{|c|}{Tabla base $subsecuenciaIncrementalMasLarga$} \\
     \hline
     \textbf{Función}& ¿Se utilizó colecciones y expresiones for?  & ¿Razón?\\
     \hline
-     Completar... & Completar... &  Completar... \\
+     subsecuenciaIncremental-MasLarga & Sí &  
+      \textbf{Generación y Filtrado de Subsecuencias Incrementales:}
+      \begin{itemize}
+          \item Se utiliza la función \texttt{subSecuenciasInc} para obtener todas las subsecuencias incrementales de la secuencia dada.
+          \item Aunque \texttt{subSecuenciasInc} ya filtra las subsecuencias incrementales, la cláusula \texttt{if incremental(subsequence)} se mantiene por claridad y robustez.
+      \end{itemize}
+      
+       \textbf{Determinación de la Subsecuencia Más Larga:}
+      \begin{itemize}
+          \item \texttt{map} se utiliza para transformar la lista de subsecuencias en una lista de sus tamaños.
+          \item \texttt{find} se utiliza para obtener el índice de la subsecuencia más larga.
+      \end{itemize}
+  
+       \textbf{Pattern Matching para la Salida:}
+      \begin{itemize}
+          \item Se utiliza pattern matching para manejar diferentes escenarios: cuando no se encuentra ninguna subsecuencia, cuando se encuentra una subsecuencia y cualquier otro caso.
+      \end{itemize}
+  \\
      \hline
    \end{tabular}
+  
    \centering
-   \caption{Completar...}
+   \caption{Tabla de uso de colecciones y expresiones for en la función $subsecuenciaIncrementalMasLarga$}
+
    \end{table}
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
 \textbf{Casos de prueba: \\}
+\begin{lstlisting}[caption=Casos de prueba para la función subsecuenciaIncrementalMasLarga, label=lst:scala_code]
+  val s14 = Seq(1, 2, 3, 4, 5)
+  subsecuenciaIncrementalMasLarga(s14) //List(1, 2, 3, 4, 5)
+  val s15 = Seq(5, 10, 15, 14, 13, 12)
+  subsecuenciaIncrementalMasLarga(s15) //List(5, 10, 14)
+  val s16 = Seq(2, 4, 8, 7, 6, 5)
+  subsecuenciaIncrementalMasLarga(s16) //List(2, 4, 7)
+  val s17 = Seq(0, 1, 1, 2, 3, 5, 4)
+  subsecuenciaIncrementalMasLarga(s17) //List(0, 1, 2, 3, 5)
+  val s18 = Seq(10, 20, 30, 25, 35, 45)
+  subsecuenciaIncrementalMasLarga(s18) //List(10, 20, 30, 35, 45)
+\end{lstlisting}
 \subsubsection{Conclusiones}
 \section{Hacia una solución más eficiente}
 \subsection{Calculando $SIML_i(S)$}
