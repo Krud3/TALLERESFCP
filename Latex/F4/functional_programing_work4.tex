@@ -350,6 +350,36 @@ def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
 \section{Hacia una solución más eficiente}
 \subsection{Calculando $SIML_i(S)$}
 \subsubsection{Informe de uso de colecciones y expresiones for}
+\begin{lstlisting}[caption=Código en Scala para la funcion sssimlComenzandoEn, label=lst:scala_code]
+def sssimlComenzandoEn(i: Int, seq: Secuencia): Subsecuencia = {
+      
+  def sssimlHelper(r: Int, seq: Secuencia, subsequence: Subsecuencia, maxValueOfSubsequence: Int): Subsecuencia = {
+    r match {
+        case r if seq.size == r => subsequence
+        case r => {
+          val isLargestValue = seq(r) > maxValueOfSubsequence
+          sssimlHelper(
+          r + 1, 
+          seq, 
+          if (isLargestValue) subsequence ++ List(seq(r)) else subsequence, 
+          if (isLargestValue) seq(r) else maxValueOfSubsequence)
+        }
+    }
+  }
+
+  val subsequences = (
+    for{ k <- i until seq.size 
+          j <- k  until seq.size
+          subsequence = sssimlHelper(j, seq, List(seq(k)), seq(k))
+  } yield {
+    subsequence}).toList
+  val subsequencesMaxSize = subsequences.map(_.size).max
+  subsequences.find(x => x.size == subsequencesMaxSize) match {
+    case None => List() 
+    case Some(x) => x
+  }
+}
+                        \end{lstlisting}
 \begin{table}[H]
     \scriptsize
    \begin{tabular}{ |p{4cm}|p{3cm}|p{5.5cm}|  }
@@ -358,18 +388,48 @@ def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
     \hline
     \textbf{Función}& ¿Se utilizó colecciones y expresiones for?  & ¿Razón?\\
     \hline
-     Completar... & Completar... &  Completar... \\
+    $ssimlComenzandoEn$ & Si &  
+    
+       \textbf{Generación de Subsecuencias}: La expresión \texttt{for} permite iterar sobre la secuencia de entrada y generar todas las posibles subsecuencias incrementales que comienzan en el índice \(i\). Esta estructura proporciona una forma concisa y eficiente de generar subsecuencias.
+      
+      \textbf{Filtrado y Búsqueda}: Las colecciones en Scala ofrecen métodos como \texttt{map}, \texttt{max} y \texttt{find} que se utilizan en el algoritmo para filtrar y buscar la subsecuencia deseada.
+      
+       \textbf{Recursividad y Colecciones}: La función auxiliar \texttt{sssimlHelper} utiliza recursividad para construir la subsecuencia incremental. Las colecciones facilitan la construcción y el paso de subsecuencias a través de llamadas recursivas.
+   \\
      \hline
    \end{tabular}
    \centering
-   \caption{Completar...}
+   \caption{Tabla de uso de colecciones y expresiones for en la función $ssimlComenzandoEn$}
    \end{table}
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
 \textbf{Casos de prueba: \\}
+\begin{lstlisting}[caption=Casos de prueba para la función sssimlComenzandoEn, label=lst:scala_code]
+  sssimlComenzandoEn(0, Seq(10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11))
+  // List(10, 22)
+  sssimlComenzandoEn(5, Seq(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+  //List(6, 7, 8, 9, 10)
+  sssimlComenzandoEn(3, Seq(5, 6, 7, 1, 2, 3, 4, 8, 9, 10)) 
+  //List(1, 2, 3, 4, 8, 9, 10)
+  sssimlComenzandoEn(2, Seq(10, 20, 5, 15, 25, 35, 45)) 
+  //List(5, 15, 25, 35, 45)
+  sssimlComenzandoEn(4, Seq(2, 4, 6, 8, 1, 3, 5, 7, 9))
+  //List(1, 3, 5, 7, 9)
+  sssimlComenzandoEn(1, Seq(5, 1, 2, 3, 4, 6, 7, 8, 9, 10))
+  //List(1, 2, 3, 4, 6, 7, 8, 9, 10)
+\end{lstlisting}
 \subsubsection{Conclusiones}
 \subsection{Calculando una subsecuencia incremental más larga, versión 2}
 \subsubsection{Informe de uso de colecciones y expresiones for}
+\begin{lstlisting}[caption=Código en Scala para la funcion subSecIncMasLargaV2, label=lst:scala_code]
+def subSecIncMasLargaV2(sequence: Secuencia) = 
+  val si = (for i <- 0 until sequence.size yield sssimlComenzandoEn(i, sequence))
+  val siSizes = for j <- 0 until si.size yield si(j).size
+  (si.find(x => x.size == siSizes.max)) match {
+      case None => List()
+      case Some(x) => x 
+  }
+                          \end{lstlisting}
 \begin{table}[H]
     \scriptsize
    \begin{tabular}{ |p{4cm}|p{3cm}|p{5.5cm}|  }
@@ -378,15 +438,37 @@ def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
     \hline
     \textbf{Función}& ¿Se utilizó colecciones y expresiones for?  & ¿Razón?\\
     \hline
-     Completar... & Completar... &  Completar... \\
+    $subSecIncMasLargaV2$ & Si &  
+       \textbf{Generación de Subsecuencias}: La primera expresión \texttt{for} itera sobre cada índice de la secuencia y utiliza la función \texttt{sssimlComenzandoEn} para generar la subsecuencia incremental más larga que comienza en ese índice. Esto resulta en una colección de subsecuencias.
+  
+       \textbf{Obtención de Tamaños}: La segunda expresión \texttt{for} itera sobre la colección de subsecuencias generadas y obtiene el tamaño de cada una. Esto facilita la identificación de la subsecuencia más larga en pasos posteriores.
+  
+       \textbf{Búsqueda de la Subsecuencia Más Larga}: Se utiliza el método \texttt{find} de las colecciones en Scala para buscar la subsecuencia con el tamaño máximo. Esta operación es eficiente y concisa gracias a las capacidades de las colecciones en Scala.
+  
+       \textbf{Manejo de Casos}: El uso del emparejamiento de patrones (pattern matching) con \texttt{match} permite manejar diferentes casos, como cuando no se encuentra ninguna subsecuencia o cuando se encuentra la subsecuencia deseada. Esto proporciona una forma estructurada y legible de manejar diferentes escenarios de salida.
+   \\
      \hline
    \end{tabular}
    \centering
-   \caption{Completar...}
+   \caption{Tabla de uso de colecciones y expresiones for en la función subSecIncMasLargaV2}
    \end{table}
 \subsubsection{Informe de corrección}
 \textbf{Argumentación sobre la corrección: \\}
 \textbf{Casos de prueba: \\}
+\begin{lstlisting}[caption=Casos de prueba para la función subSecIncMasLargaV2, label=lst:scala_code]
+  subSecIncMasLargaV2(Seq())
+  // List()
+  subSecIncMasLargaV2(Seq(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) 
+  // List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+  subSecIncMasLargaV2(Seq(5, 6, 7, 1, 2, 3, 4, 8, 9, 10))  
+  // List(1, 2, 3, 4, 8, 9, 10)
+  subSecIncMasLargaV2(Seq(10, 20, 5, 15, 25, 35, 45))  
+  // List(10, 20, 25, 35, 45)
+  subSecIncMasLargaV2(Seq(2, 4, 6, 8, 1, 3, 5, 7, 9))  
+  // List(2, 4, 6, 8, 9)
+  subSecIncMasLargaV2(Seq(5, 1, 2, 3, 4, 6, 7, 8, 9, 10))
+  // List(1, 2, 3, 4, 6, 7, 8, 9, 10)
+\end{lstlisting}
 \subsubsection{Conclusiones}
 
 \end{document}

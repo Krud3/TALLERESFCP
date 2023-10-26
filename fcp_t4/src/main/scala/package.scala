@@ -1,4 +1,6 @@
 
+import scala.compiletime.ops.int
+
 package object SubsecuenciaMasLarga {
     def hello = "Hello, world!"
     def bye = "Bye, world!"
@@ -49,7 +51,7 @@ package object SubsecuenciaMasLarga {
 
     def incremental(seq: Subsecuencia): Boolean = seq match {
       case Nil => true
-      case _ => (for index <- 1 to (seq.size - 1) yield  seq(index - 1) < seq(index)) forall( x => x)
+      case _ => (for index <- 1 until seq.size yield  seq(index - 1) < seq(index)) forall( x => x)
     }
 
     def subSecuenciasInc(seq: Secuencia): Set[Subsecuencia] = 
@@ -58,15 +60,10 @@ package object SubsecuenciaMasLarga {
      def subsecuenciaIncrementalMasLarga2(seq: Secuencia): Subsecuencia = {
        val subsequences = (for subsequence <- subSecuenciasInc(seq) if incremental(subsequence) yield subsequence).toList
        val subsequencesSizes = subsequences.map(_.size) 
-       val indexOfLargestSubsequence = (subsequencesSizes.find(x => x == subsequencesSizes.max)) match { 
-        case None => Nil 
+       (subsequences.find(x => x.size == subsequencesSizes.max)) match { 
+        case None => List() 
         case Some(x) => x 
        }
-       indexOfLargestSubsequence match {
-        case Nil => List()
-        case x: Int => subsequences(x)
-        case _ => List()
-      }
      }
 
     def subsecuenciaIncrementalMasLarga(seq: Secuencia): Subsecuencia = {
@@ -78,6 +75,62 @@ package object SubsecuenciaMasLarga {
         case x => subsequences(x)
       }
      }
+
+    def sssimlComenzandoEn(i: Int, seq: Secuencia): Subsecuencia = {
+      
+      def sssimlHelper(r: Int, seq: Secuencia, subsequence: Subsecuencia, maxValueOfSubsequence: Int): Subsecuencia = {
+        r match {
+            case r if seq.size == r => subsequence
+            case r => {
+              val isLargestValue = seq(r) > maxValueOfSubsequence
+              sssimlHelper(
+              r + 1, 
+              seq, 
+              if (isLargestValue) subsequence ++ List(seq(r)) else subsequence, 
+              if (isLargestValue) seq(r) else maxValueOfSubsequence)
+            }
+        }}
+
+      val subsequences = (
+        for{ k <- i until seq.size 
+              j <- k  until seq.size
+              subsequence = sssimlHelper(j, seq, List(seq(k)), seq(k))
+      } yield {
+        subsequence}).toList
+      val subsequencesMaxSize = subsequences.map(_.size).max
+      subsequences.find(x => x.size == subsequencesMaxSize) match {
+        case None => List() 
+        case Some(x) => x
+      }
+    }
+
+
+    def sssimlComenzandoEn2(i: Int, seq: Secuencia): Subsecuencia = {
+
+      val subsequences = (
+        for{ k <- i until seq.size 
+              j <- k  until seq.size
+              subsequence = seq
+              .drop(k)
+              .foldLeft( List(seq(k)) )( (acc, el) => if(acc.last < el) acc ++ List(el) else acc )
+      } yield {
+        subsequence})
+      println(subsequences)
+      val subsequencesMaxSize = subsequences.map(_.size).max
+      subsequences.find(x => x.size == subsequencesMaxSize) match {
+        case None => List() 
+        case Some(x) => x
+      }
+    }
+
+
+    def subSecIncMasLargaV2(sequence: Secuencia) = 
+      val si = (for i <- 0 until sequence.size yield sssimlComenzandoEn(i, sequence))
+      val siSizes = for j <- 0 until si.size yield si(j).size
+      (si.find(x => x.size == siSizes.max)) match {
+          case None => List()
+          case Some(x) => x 
+      }
 
      
 }

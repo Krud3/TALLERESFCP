@@ -63,22 +63,42 @@ subSecuenciasInc(Seq(2, 4, 8, 16)) //HashSet(List(8), List(16), List(4, 16), Lis
 subSecuenciasInc(Seq(0, 1, 2)) //HashSet(List(1), List(0, 1), List(1, 2), List(0, 2), List(0), List(2), List(0, 1, 2), List())
 subSecuenciasInc(Seq(10, 20, 30, 40))//HashSet(List(30, 40), List(10, 20), List(10, 40), List(20, 40), List(30), List(10, 30, 40), List(10), List(20, 30, 40), List(20, 30), List(10, 20, 30), List(10, 30), List(), List(20), List(40), List(10, 20, 40), List(10, 20, 30, 40))
 
-  val s12 = Seq(20, 30, 10, 15, 16, 17)
-  println(subsecuenciaIncrementalMasLarga(s12) ) 
-  val s13 = Seq(20, 30, 10)
-  println(subsecuenciaIncrementalMasLarga(s13) ) 
+val s12 = Seq(20, 30, 10, 15, 16, 17)
+println(subsecuenciaIncrementalMasLarga(s12) ) 
+val s13 = Seq(20, 30, 10)
+println(subsecuenciaIncrementalMasLarga(s13) ) 
 
-  val s14 = Seq(1, 2, 3, 4, 5)
-  subsecuenciaIncrementalMasLarga(s14) //List(1, 2, 3, 4, 5)
-  val s15 = Seq(5, 10, 15, 14, 13, 12)
-  subsecuenciaIncrementalMasLarga(s15) //List(5, 10, 14)
-  val s16 = Seq(2, 4, 8, 7, 6, 5)
-  subsecuenciaIncrementalMasLarga(s16) //List(2, 4, 7)
-  val s17 = Seq(0, 1, 1, 2, 3, 5, 4)
-  subsecuenciaIncrementalMasLarga(s17) //List(0, 1, 2, 3, 5)
-  val s18 = Seq(10, 20, 30, 25, 35, 45)
-  subsecuenciaIncrementalMasLarga(s18) //List(10, 20, 30, 35, 45)
+val s14 = Seq(1, 2, 3, 4, 5)
+subsecuenciaIncrementalMasLarga(s14) //List(1, 2, 3, 4, 5)
+val s15 = Seq(5, 10, 15, 14, 13, 12)
+subsecuenciaIncrementalMasLarga(s15) //List(5, 10, 14)
+val s16 = Seq(2, 4, 8, 7, 6, 5)
+subsecuenciaIncrementalMasLarga(s16) //List(2, 4, 7)
+val s17 = Seq(0, 1, 1, 2, 3, 5, 4)
+subsecuenciaIncrementalMasLarga(s17) //List(0, 1, 2, 3, 5)
+val s18 = Seq(10, 20, 30, 25, 35, 45)
+subsecuenciaIncrementalMasLarga(s18) //List(10, 20, 30, 35, 45)
+
+sssimlComenzandoEn(4,Seq(10,9,8,7,6,5,4,3,2,1,22,21,20,19,18,17,16,15,14,13,12,11))
+sssimlComenzandoEn(12,Seq(10,9,8,7,6,5,4,3,2,1,22,21,20,19,18,17,16,15,14,13,12,11))
+
+sssimlComenzandoEn(0, Seq(10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11))
+sssimlComenzandoEn(5, Seq(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+sssimlComenzandoEn(3, Seq(5, 6, 7, 1, 2, 3, 4, 8, 9, 10)) 
+sssimlComenzandoEn(2, Seq(10, 20, 5, 15, 25, 35, 45)) 
+sssimlComenzandoEn(4, Seq(2, 4, 6, 8, 1, 3, 5, 7, 9))
+sssimlComenzandoEn(1, Seq(5, 1, 2, 3, 4, 6, 7, 8, 9, 10))
 
 
+subSecIncMasLargaV2(Seq(10,9,8,7,6,5,4,3,2,1,22,21,20,19,18,17,16,15,14,13,12,11))
+
+subSecIncMasLargaV2(Seq())
+subSecIncMasLargaV2(Seq(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))  
+subSecIncMasLargaV2(Seq(5, 6, 7, 1, 2, 3, 4, 8, 9, 10))  
+subSecIncMasLargaV2(Seq(10, 20, 5, 15, 25, 35, 45))  
+subSecIncMasLargaV2(Seq(2, 4, 6, 8, 1, 3, 5, 7, 9))  
+subSecIncMasLargaV2(Seq(5, 1, 2, 3, 4, 6, 7, 8, 9, 10))  
+
+//sssimlComenzandoEn2(4,Seq(10,9,8,7,6,5,4,3,2,1,22,21,20,19,18,17,16,15,14,13,12,11))
 
 
