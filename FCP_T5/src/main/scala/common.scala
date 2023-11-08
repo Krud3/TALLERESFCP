@@ -1,6 +1,8 @@
 import java.util.concurrent._
 import scala.util.DynamicVariable
+import scala.util.Random
 package object common {
+  val random = Random
   val forkJoinPool = new ForkJoinPool
 
   abstract class TaskScheduler {
@@ -23,7 +25,7 @@ package object common {
         case wt: ForkJoinWorkerThread =>
           t.fork()
         case _ =>
-          forkJoinPool.execute(t)
+          forkJoinPool.execute {/*Thread.sleep(random.between(1,2));*/t}
       }
       t
     }
@@ -33,7 +35,9 @@ package object common {
     new DynamicVariable[TaskScheduler](new DefaultTaskScheduler)
 
   def task[T](body: => T): ForkJoinTask[T] = {
+    /*println("task number: " + forkJoinPool.getActiveThreadCount + "\n")*/
     scheduler.value.schedule(body)
+    
   }
 
   def parallel[A, B](taskA: => A, taskB: => B): (A, B) = {
