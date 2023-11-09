@@ -7,24 +7,27 @@ object Main {
     println("Hello world!")
     println(msg)
     
-    /*val m1 = matrizAlAzar(pow(2, 0).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 0).toInt, 2)*/
-    /*val m1 = matrizAlAzar(pow(2, 1).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 1).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 2).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 2).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 3).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 3).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 4).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 4).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 5).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 5).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 6).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 6).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 7).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 7).toInt, 2)
-    val m1 = matrizAlAzar(pow(2, 8).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 8).toInt, 2)*/
+    val values =
+    Vector(matrizAlAzar(pow(2, 0).toInt, 2)
+    ,matrizAlAzar(pow(2, 0).toInt, 2)
+    ,matrizAlAzar(pow(2, 1).toInt, 2)
+    ,matrizAlAzar(pow(2, 1).toInt, 2)
+    ,matrizAlAzar(pow(2, 2).toInt, 2)
+    ,matrizAlAzar(pow(2, 2).toInt, 2)
+    ,matrizAlAzar(pow(2, 3).toInt, 2)
+    ,matrizAlAzar(pow(2, 3).toInt, 2)
+    ,matrizAlAzar(pow(2, 4).toInt, 2)
+    ,matrizAlAzar(pow(2, 4).toInt, 2)
+    ,matrizAlAzar(pow(2, 5).toInt, 2)
+    ,matrizAlAzar(pow(2, 5).toInt, 2)
+    ,matrizAlAzar(pow(2, 6).toInt, 2)
+    ,matrizAlAzar(pow(2, 6).toInt, 2)
+    ,matrizAlAzar(pow(2, 7).toInt, 2)
+    ,matrizAlAzar(pow(2, 7).toInt, 2)
+    ,matrizAlAzar(pow(2, 8).toInt, 2)
+    ,matrizAlAzar(pow(2, 8).toInt, 2))
+
+    automaticBenchmark(compareAlgmMRPmSP,values).foreach(println)
     //val m1 = matrizAlAzar(pow(2, 9).toInt, 2)
     //val m2 = matrizAlAzar(pow(2, 9).toInt, 2)
     /*
@@ -140,14 +143,21 @@ object Main {
     compareAlgmMRmS(m1, m2)
     compareAlgmMRmSP(m1, m2)
     compareAlgmMRPmS(m1, m2)
-    compareAlgmMRPmSP(m1, m2)
+    */
+    //val result = compareAlgmMRPmSP(m1, m2)
+    //println(result)
+    /*
     compareAlgmSmSP(m1, m2)*/
 
   }
 
   def msg = "I was compiled by Scala 2.13. :)"
 
-
+  def automaticBenchmark(a:(Matriz, Matriz)=>(Double,Double, Double), b: Vector[Vector[Vector[Int]]]): List[(Double,Double,Double)] ={
+    (for {i <- 0 until b.length by 2} yield {
+      a(b(i), b(i+1))
+    }).toList
+  }
   def compareAlgmMmP(m1: Matriz, m2: Matriz): (Double,Double,Double) = { 
       compararAlgoritmos(multMatriz, multMatrizPar)(m1, m2)
     }
@@ -191,8 +201,17 @@ object Main {
     def compareAlgmMRPmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
       compararAlgoritmos(multMatrizRecPar, multStrassenPar)(m1, m2)
     }
-
+/*
     def compareAlgmSmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
       compararAlgoritmos(multStrassen, multStrassenPar)(m1, m2)
     }
+    def compareAlgmSmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multStrassen, multStrassenPar)(m1, m2)
+    }
+    def compareAlgmSmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multStrassen, multStrassenPar)(m1, m2)
+    }
+    def compareAlgmSmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multStrassen, multStrassenPar)(m1, m2)
+    }*/
 }
