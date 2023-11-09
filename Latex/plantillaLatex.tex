@@ -36,6 +36,22 @@ A introduction
 \subsection{Dividiendo una lista en dos sublistas a partir de un pivote}
 \subsubsection{Proceso}
 \subsubsection{Corrección}
+
+Sea $$f: List[Int] \rightarrow List[Int]$$ una funcion con dominio en el conjunto S finito de k >= 1 elementos, con codominio en el conjunto M de listas finitas
+tal que m contenido en S, y por tanto l <=
+Sea L = List(a_i, ..., a_k) un elemento de S
+Se definine entonces las caracterizacion del proceso iterativo
+  s = (L, M, v) donde M y L son listas y v es el valor pivote con el cual se compara
+  s_o = (L, [], v)  L la lista original, v el valor pivote
+  s_i = s_f si en s = (l, m, v) l es la lista vacia
+  inv(s_i) = \equiv l = List(a_i, a_{i+1}...,a_k) ^ m \in List(a_1, ...., a_i-1) ^ m = f(List(a_1, ...., a_i-1))
+  T(s_i) = (l(a_{i+1},...,k)), m, v)  donde si a_i < v \tehn a_i::m | m \in L(a_1,...,a_{i-1}) sino m \in L(a_1,...,a_{i-1})
+
+Sea $$k: List[Int] \rightarrow Int$$, un numero entero k | 0 <= k <= tamI(l), un numero entero que representa el elemento en la posicion k de la lista
+
+
+s = ()
+
 \subsubsection{Casos de pruebas}
 \subsection{Calculando el k-ésimo elemento de una lista}
 \subsubsection{Proceso}
