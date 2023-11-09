@@ -1,22 +1,21 @@
 \contentsline {section}{\numberline {1}Creación de las compuertas sencillas.}{3}{}%
 \contentsline {subsection}{\numberline {1.1}Creando compuertas unarias.}{3}{}%
 \contentsline {subsubsection}{\numberline {1.1.1}Informe de procesos.}{3}{}%
-\contentsline {subsubsection}{\numberline {1.1.2}Informe de corrección.}{3}{}%
-\contentsline {subsubsection}{\numberline {1.1.3}Casos de pruebas.}{3}{}%
-\contentsline {subsection}{\numberline {1.2}Creando compuertas binarias.}{3}{}%
-\contentsline {subsubsection}{\numberline {1.2.1}Informe de procesos.}{3}{}%
-\contentsline {subsubsection}{\numberline {1.2.2}Informe de corrección.}{3}{}%
-\contentsline {subsubsection}{\numberline {1.2.3}Casos de pruebas.}{3}{}%
-\contentsline {section}{\numberline {2}Creando $semisumadores$.}{3}{}%
-\contentsline {subsection}{\numberline {2.1}Informe de procesos}{3}{}%
-\contentsline {subsection}{\numberline {2.2}Informe de corrección}{3}{}%
-\contentsline {subsection}{\numberline {2.3}Casos de pruebas}{3}{}%
-\contentsline {section}{\numberline {3}Creando $sumadores \ completos$.}{3}{}%
-\contentsline {subsection}{\numberline {3.1}Informe de procesos}{3}{}%
-\contentsline {subsection}{\numberline {3.2}Informe de corrección}{3}{}%
-\contentsline {subsection}{\numberline {3.3}Casos de pruebas}{3}{}%
-\contentsline {section}{\numberline {4}Construyendo un $sumador-n$}{3}{}%
-\contentsline {subsection}{\numberline {4.1}Informe de procesos}{3}{}%
-\contentsline {subsection}{\numberline {4.2}Informe de corrección}{3}{}%
-\contentsline {subsection}{\numberline {4.3}Casos de pruebas}{3}{}%
-\contentsline {section}{\numberline {5}Conclusion}{3}{}%
+\contentsline {subsubsection}{\numberline {1.1.2}Informe de corrección.}{4}{}%
+\contentsline {subsubsection}{\numberline {1.1.3}Casos de pruebas.}{5}{}%
+\contentsline {subsection}{\numberline {1.2}Creando compuertas binarias.}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.1}Informe de procesos.}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.2}Informe de corrección.}{7}{}%
+\contentsline {subsubsection}{\numberline {1.2.3}Casos de pruebas.}{8}{}%
+\contentsline {section}{\numberline {2}Creando $semisumadores$.}{9}{}%
+\contentsline {subsection}{\numberline {2.1}Informe de procesos}{9}{}%
+\contentsline {subsection}{\numberline {2.2}Informe de corrección}{10}{}%
+\contentsline {subsection}{\numberline {2.3}Casos de pruebas}{11}{}%
+\contentsline {section}{\numberline {3}Creando $sumadores \ completos$.}{12}{}%
+\contentsline {subsection}{\numberline {3.1}Informe de procesos}{12}{}%
+\contentsline {subsection}{\numberline {3.2}Informe de corrección}{12}{}%
+\contentsline {subsection}{\numberline {3.3}Casos de pruebas}{13}{}%
+\contentsline {section}{\numberline {4}Construyendo un $sumador-n$}{14}{}%
+\contentsline {subsection}{\numberline {4.1}Informe de procesos}{14}{}%
+\contentsline {subsection}{\numberline {4.2}Informe de corrección}{15}{}%
+\contentsline {subsection}{\numberline {4.3}Casos de pruebas}{15}{}%

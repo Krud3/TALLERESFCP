@@ -1,0 +1,22 @@
+\contentsline {section}{\numberline {1}Vista general. Uso de colecciones y expresiones for.}{3}{}%
+\contentsline {section}{\numberline {2}Solución ingenua usando fuerza bruta}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Generación de los índices asociados a todas las subsecuencias}{3}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Informe de uso de colecciones y expresiones for}{3}{}%
+\contentsline {subsubsection}{\numberline {2.1.2}Informe de corrección}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Generación de todas las subsecuencias de una secuencia}{6}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Informe de uso de colecciones y expresiones for}{6}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Informe de corrección}{7}{}%
+\contentsline {subsection}{\numberline {2.3}Generación de todas las subsecuencias incrementales de una secuencia}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}Informe de uso de colecciones y expresiones for}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.2}Informe de corrección}{12}{}%
+\contentsline {subsection}{\numberline {2.4}Hallar la subsecuencia incremental más larga}{15}{}%
+\contentsline {subsubsection}{\numberline {2.4.1}Informe de uso de colecciones y expresiones for}{15}{}%
+\contentsline {subsubsection}{\numberline {2.4.2}Informe de corrección}{16}{}%
+\contentsline {section}{\numberline {3}Hacia una solución más eficiente}{18}{}%
+\contentsline {subsection}{\numberline {3.1}Calculando $SIML_i(S)$}{18}{}%
+\contentsline {subsubsection}{\numberline {3.1.1}Informe de uso de colecciones y expresiones for}{18}{}%
+\contentsline {subsubsection}{\numberline {3.1.2}Informe de corrección}{19}{}%
+\contentsline {subsection}{\numberline {3.2}Calculando una subsecuencia incremental más larga, versión 2}{20}{}%
+\contentsline {subsubsection}{\numberline {3.2.1}Informe de uso de colecciones y expresiones for}{20}{}%
+\contentsline {subsubsection}{\numberline {3.2.2}Informe de corrección}{21}{}%
+\contentsline {section}{\numberline {4}Conclusiones}{22}{}%

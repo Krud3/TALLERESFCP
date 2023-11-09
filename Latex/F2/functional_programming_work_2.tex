@@ -2,6 +2,23 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+% Configuración de estilo para el código Scala
+\lstdefinestyle{scalaStyle}{
+    language=Scala,                 % Lenguaje del código
+    basicstyle=\ttfamily\small,     % Estilo básico de fuente y tamaño
+    keywordstyle=\color{blue},      % Estilo para palabras clave
+    commentstyle=\color{orange},     % Estilo para comentarios
+    numbers=left,                   % Mostrar números de línea a la izquierda
+    numberstyle=\tiny,              % Estilo de los números de línea
+    frame=single,                   % Un marco alrededor del código
+    breaklines=true,                % Permitir saltos de línea automáticos
+    captionpos=b,                   % Posición de la leyenda
+}
+
 \graphicspath{ {./images/} }
 \title{
   \begin{figure}[th]
@@ -13,7 +30,7 @@
   \\{\large Ingeniería en sistemas}}}
 \author{Cristian David Pacheco Torres
   \\ 2227437
-  \\ Sebastian Molina Cuellar
+  \\ Juan Sebastian Molina Cuellar
   \\ 2224491}
 \date{28 de Septiembre del 2022}
 \begin{document}
@@ -24,30 +41,369 @@ Taller 2: Simular un sumador de $n$ digitos a partir de compuertas lógicas senc
 \newpage{}
 \section{Creación de las compuertas sencillas.}
 \subsection{Creando compuertas unarias.}
+A partir de una función de tipo $Int => Int$ se crea la función \textbf{crearChipUnario}, que devuelve un $Chip$ correspondiente al procesar el único bit de la lista de entrada. \\
+A continuación se muestra el código de la función implementada: \\ [16pt]
+\begin{lstlisting}[style=scalaStyle, caption=Aplica una operación binaria sobre una valor de entrada.]
+  def crearChipUnario( f: Int => Int ) : Chip = (arg: List[Int]) => { 
+    @tailrec
+    def crearChipUnarioHelper(f: Int => Int, transformedList: List[Int],  currentList: List[Int]): List[Int] =
+      if (currentList.isEmpty) transformedList
+      else crearChipUnarioHelper(f, f(currentList.head)::transformedList, currentList.tail)
+    crearChipUnarioHelper(f, List(), arg)
+  }
+\end{lstlisting}
 \subsubsection{Informe de procesos.}
+\textbf{Tipo de proceso.} \\ 
+El algoritmo $crearChipUnario$ utiliza un un proceso \textbf{recursivo lineal}, debido a que a pesar de que no se expande, se contrae cada vez que se llama recursivamente (en este caso a su helper $crearChipUnarioHelper$) y entra a su $else$ (ver linea 5 del Listing 1). \\ \\ 
+$val~chip\_not = crearchipUnario(x => 1- x)$ \\ \\
+Caso 1: \\ 
+$chip\_not((List(0)))$ \\
+$\rightarrow crearChipUnarioHelper(x => 1 - x, [~], ~List(0))$ \\
+$\rightarrow if (List(0).isEmpty)~[~] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 0)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 1)::[1], [~])$ \\
+$\rightarrow [1]$ \\ \\
+Caso 2: \\ 
+$chip\_not((List(1)))$ \\
+$\rightarrow crearChipUnarioHelper(x => 1- x, [~], List(1))$ \\
+$\rightarrow if (List(1).isEmpty)~[~] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 1)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[0] $ \\
+$~~~~~else~crearChipUnarioHelper(x => 1 - x, (1 - 0)::[0], [~])$ \\
+$\rightarrow [0]$  
 \subsubsection{Informe de corrección.}
-\subsubsection{Casos de pruebas.}
-\subsection{Creando compuertas binarias.}
-\subsubsection{Informe de procesos.}
-\subsubsection{Informe de corrección.}
-\subsubsection{Casos de pruebas.}
-\section{Creando $semisumadores$.}
-\subsection{Informe de procesos}
-\subsection{Informe de corrección}
-\subsection{Casos de pruebas}
-\section{Creando $sumadores \ completos$.}
-\subsection{Informe de procesos}
-\subsection{Informe de corrección}
-\subsection{Casos de pruebas}
-\section{Construyendo un $sumador-n$}
-\subsection{Informe de procesos}
-\subsection{Informe de corrección}
-\subsection{Casos de pruebas}
-\section{Conclusion}
-La conclusion
-\newpage{}
+Dada una función $f: \mathbb{Z} \rightarrow \mathbb{Z}$,y una lista $L$ de longitud $n$, la función $crearChipUnario$ devuelve una lista $L'$ que aplica $f$ a cada elemento de la lista de entrada. \\ 
+Y sea $P_f$ el anterior programa realizado en Scala, que implementa a $f$ y al cual se quiere demostrar su correctitud. \\
+\textbf{Hipótesis:} 
 \begin{displaymath}
- a = \sum F \dot m = \frac{dv}{dt}
-\end{displaymath}
+  \forall L \in \mathbb{Z}^n, \forall i \in \{1, \dots, n\}, P_f(f, L)_i = f(L_i)
+ \end{displaymath} 
+ \begin{itemize}
+  \item \textbf{Caso base.}\\
+  La lista de entrada es vacía, por lo tanto $n = 0$. \\
+  Puesto que no hay elementos que procesar, la lista de salida es vacía. Esto satisface la definición de la función. \\
+  
+  \item \textbf{Paso inductivo.} \\
+  Supongamos que $P_f$ es correcto para una lista de longitud $k$. Ahora, queremos probar que también es correcto para una lista de longitud $k + 1$. \\
+  
+
+\textbf{Hipótesis:}
+\[
+\forall L \in \mathbb{Z}^k, \forall i \in \{1, \dots, k\}, P_f(f, L)_i = f(L_i)
+\]
+\textbf{Paso a demostrar:}
+\[
+\forall L' \in \mathbb{Z}^{k+1}, \forall j \in \{1, \dots, k+1\}, P_f(f, L')_j = f(L'_j)
+\]
+
+\item \textbf{Demostración del Paso Inductivo.}
+
+Consideremos una lista \( L' \) de longitud \( k + 1 \) donde \( L' = L \cup \{x\} \), siendo \( x \) el elemento adicional.
+
+Al aplicar $P_f$ a \( L' \), el primer elemento \( x \) se transforma usando \( f \) y el resultado se añade al principio de la lista transformada. Luego, $P_f$ se aplica al resto de la lista \( L \).
+
+Por la hipótesis de inducción, sabemos que $P_f(f, L)_i = f(L_i)$ para todos los \( i \) en \( L \). Por lo tanto, cada elemento en \( L \) se transformará correctamente.
+
+El elemento adicional \( x \) también se transformará correctamente, ya que simplemente se aplica \( f \) a \( x \).
+
+Por lo tanto, $P_f(f, L')_j = f(L'_j)$ para todos los \( j \) en \( L' \), lo que completa la demostración del paso inductivo.
+\end{itemize}
+\subsubsection{Casos de pruebas.}
+\begin{lstlisting}[style=scalaStyle, caption=Casos de prueba para la función crearChipUnario.]
+  val chip_not = crearChipUnario((x: Int) => (1 - x))
+  chip_not(List(0)) // Deberia imprimir [1]
+  chip_not(List(1)) // Deberia imprimir [0]
+  chip_not(List(-1))  // Deberia imprimir [2]
+  chip_not(List(3))  // Deberia imprimir [-2]
+  chip_not(List(99))  // Deberia imprimir [-98]
+  
+\end{lstlisting}
+\textbf{Anotaciones:} 
+\begin{itemize}
+  \item La función $crearChipUnario$ es correcta, puesto que cumple con la definición de la función, la forma idonea de llegar a esta conclusion independiente de los casos de prueba que se hagan es usando un metodo de demostración formal.
+  \item A pesar de que la función $crearChipUnario$ se pretende usar para negar un bit, se puedodria usar para cualquier función $f: \mathbb{Z} \rightarrow \mathbb{Z}$ y a su vez para cualquier entero, por eso se hacen pruebas con otros enteros y no solo bits para probar su funcionamiento.
+  \item Gracias a los casos de prueba, se pudo caer en cuenta de que la funcion que teniamos implementada inicialmente, si cumplia con su deber, pero retornaba la lista de forma invertida si fuera el caso de que le entrara una lista con un tamaño mayor a 1. Si este tipo de caso estuviese en cuestión, se podria usar la función $reverse$ de Scala para invertir la lista de salida.
+\end{itemize}
+\subsection{Creando compuertas binarias.}
+Realiza una operación logica sobre un solo valor de entrada. A continuación, se presenta su implementación en $Scala$ \\
+\begin{lstlisting}[style=scalaStyle, caption=Aplica una operación binaria sobre una valor de entrada.]
+  def crearChipBinario ( f: (Int, Int) => Int ) : Chip =  (arg: List[Int]) => {
+    def crearChipBinarioHelper(f: (Int, Int) => Int, transformedList: List[Int], currentList: List[Int]): List[Int] =
+      if( currentList.isEmpty || currentList.tail.isEmpty) transformedList
+      else crearChipBinarioHelper(f, f(currentList.head, currentList.tail.head)::transformedList, currentList.tail.tail)
+  crearChipBinarioHelper(f, List(), arg)
+}
+  
+\end{lstlisting}
+\subsubsection{Informe de procesos.}
+\textbf{Tipo de proceso.} \\
+Debido a que en la llamada recursiva (ver linea 4 del Listing 3), el problema se reduce al pasar por $currentList.tail.tail$ como el nuevo argumento de la lista. Esto asegura que, la lista estara en este caso en un proceso de contracción y este tipo de procesos son caracteristicos de los procesos \textbf{recursivos lineales}. \\ \\
+$val~chip\_and = crearChipBinario((x: Int, y: Int) => x*y~)$ \\
+$val~chip\_or = crearChipBinario((x: Int, y: Int) => (x+y)-(x*y)~)$ \\ \\
+Caso 1: \\ 
+$chip\_and((List(0, 0)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => x*y, [~], ~List(0,~0))$ \\
+$\rightarrow if ( List(0,~0).isEmpty ~||~ List(0, ~0).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => x*y,  (0*0)::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[0] $ \\
+$\rightarrow [0]$ \\ \\
+Caso 2: \\ 
+$chip\_or((List(0, 1)))$ \\
+$\rightarrow crearChipBinarioHelper((x: Int, y: Int) => (x+y)-(x*y), [~], ~List(0,~1))$ \\
+$\rightarrow if ( List(0,~1).isEmpty | List(0, ~1).tail.isEmpty)~[~] $ \\
+$~~~~~else~crearChipBinarioHelper((x: Int, y: Int) => (x+y)-(x*y),  ((0+1)-(0*1))::[~], [~])$ \\
+$\rightarrow if (List().isEmpty)~[1] $ \\
+$\rightarrow [1]$
+
+\subsubsection{Informe de corrección.}
+
+Sea \( P_f \) la función `crearChipBinario` que aplica una función binaria \( f \) a pares consecutivos de elementos en una lista \( L \). \\
+Sea \( L \) es una lista de números enteros de longitud \( n \).\\
+Sea \( f: \mathbb{Z} \times \mathbb{Z} \rightarrow \mathbb{Z} \) es una función binaria.\\
+Y sea \( P_f(L) \) denota el resultado de aplicar \( P_f \) a la lista \( L \).
+
+
+\textbf{Hipótesis:}
+\[
+\forall L \in \mathbb{Z}^{2n}, P_f(L) = [f(L_1, L_2), f(L_3, L_4), \dots, f(L_{2n-1}, L_{2n})]
+\]
+\begin{itemize}
+  \item \textbf{Caso Base.} \\ \( n = 1 \) (la lista tiene dos elementos)
+  Para una lista \( L = [a, b] \):
+  \[ P_f(L) = [f(a, b)] \]
+  \item \textbf{Paso Inductivo.} \\ Supongamos que la hipótesis es verdadera para alguna lista \( L \) de longitud \( 2k \). Queremos demostrar que es verdadera para una lista de longitud \( 2(k + 1) \).
+
+  \textbf{Hipótesis:}
+  \[
+  \forall L \in \mathbb{Z}^{2k}, P_f(L) = [f(L_1, L_2), f(L_3, L_4), \dots, f(L_{2k-1}, L_{2k})]
+  \]
+  
+  \textbf{Paso a demostrar:}
+  \[
+  \forall L' \in \mathbb{Z}^{2(k+1)}, P_f(L') = [f(L'_1, L'_2), f(L'_3, L'_4), \dots, f(L'_{2k+1}, L'_{2k+2})]
+  \]
+  \item  \textbf{Demostración del Paso Inductivo.}\\
+
+  Consideremos una lista \( L' \) de longitud \( 2(k + 1) \) donde \( L' = L \cup \{x, y\} \), siendo \( x \) y \( y \) los elementos adicionales.
+  
+  Al aplicar \( P_f \) a \( L' \), los primeros elementos \( x \) y \( y \) se transforman usando \( f \) y el resultado se añade al principio de la lista transformada. Luego, \( P_f \) se aplica al resto de la lista \( L \).
+  
+  Por la hipótesis de inducción, sabemos que \( P_f(L) \) transforma correctamente los elementos en \( L \). El par adicional \( (x, y) \) también se transformará correctamente, ya que simplemente se aplica \( f \) a \( x \) y \( y \).
+  
+  Por lo tanto, todos los elementos en \( L' \) se transformarán correctamente, lo que completa la demostración del paso inductivo.
+   
+\end{itemize}
+
+\subsubsection{Casos de pruebas.}
+\begin{lstlisting}[style=scalaStyle, caption=Casos de prueba para la función crearChipBinario.]
+  val chip_add = crearChipBinario((x: Int, y: Int) => (x * y))
+  chip_add(List(0, 1))  // Deberia imprimir [0]
+  chip_add(List(1, 1))  // Deberia imprimir [1]
+  chip_add(List(1, 0))  // Deberia imprimir [0]
+  chip_add(List(0,0))  // Deberia imprimir [0]
+  chip_add(List(-1, 1)) // Deberia imprimir [-1]
+  val chip_or = crearChipBinario((x: Int, y: Int) => (x + y) - (x * y ))
+  chip_or(List(0, 0))   // Deberia imprimir [0]
+  chip_or(List(0, 1))   // Deberia imprimir [1]
+  chip_or(List(1, 0))   // Deberia imprimir [1]
+  chip_or(List(1, 1))   // Deberia imprimir [1]
+  chip_or(List(-1, 0))  // Deberia imprimir [-1] 
+\end{lstlisting}
+\textbf{Anotaciones:}
+\begin{itemize}
+  \item Evaluando todos los casos de las posibles combinaciones de 2 bits, se puede concluir que la función $crearChipBinario$ es correcta.
+  \item La demostración formal nos lleva a pensar  de que se pueden hacer casos de prueba para diferentes valores, que no solo sean un par de bits. 
+  \item Debido a que el algoritmo es similar al anterior, si se usara una lista de bits o de enteros de mayor tamaño, el proceso terminaria con una $List[n/2]$ y estaria invertida.
+\end{itemize}
+\newpage
+ \section{Creando $semisumadores$.}
+ Construye un \textit{Chip} correspondiente a un \textit{semisumador} a partir de compuertas lógicas sencillas. \\
+ \begin{lstlisting}[style=scalaStyle, caption=SemiSumador implementado]
+  def half_adder : Chip = ( operands: List[Int]) => {
+    val add = chip_add(operands)
+    val or = chip_or(operands)
+    val not_add = chip_not(add)
+    val s = chip_add(or ++ not_add)
+    val c = add
+    c ++ s 
+  }
+\end{lstlisting}
+ \subsection{Informe de procesos}
+  \textbf{Tipo de proceso.} \\
+  Puesto a que el algoritmo $half\_adder$ no se expande ni se contrae, ni se llama recursivamente a si mismo, la deducción es que el proceso depende de las funciones de las que esta compuesto, en este caso $chip\_add$, $chip\_or$ y $chip\_not$. \\ 
+  Por lo tanto se considera el algoritmo como un proceso \textbf{recursivo}. \\ \\
+
+$half\_adder(List(0,~0))$\\
+$\rightarrow val~add = chip\_add(List(0,~0))$\\
+$\twoheadrightarrow val~add = List[0]$ \\
+$\rightarrow val~or = chip\_or(List(0,~0))$\\
+$\twoheadrightarrow val~or = List[0]$ \\
+$\rightarrow val~not\_add = chip\_not(add)$\\
+$\twoheadrightarrow val~not\_add = List[1]$ \\
+$\rightarrow val~s = chip\_add(or ++not\_add)$\\
+$\twoheadrightarrow s = List[0]$ \\
+$\rightarrow val~c = List[0]$\\
+$\twoheadrightarrow List(0)~~++~~List(0)$\\
+$\rightarrow [0,~0]$\\ \\
+
+\subsection{Informe de corrección}
+Puesto que el programa $half\_adder(chip)$ (ver Listing 5) retorna $c++s$. \\
+Teniendo demostrados anteriormente todos los subprocesos que $half\_adder(chip)$ ocupa, el retorno de esta operación es $c ++ s$. \\
+Para demostrar esto tenemos:
+\\ consideremos a $f$ como la funcion que retorna un semi sumador, tal que $f(chip(a,b)) = c ++ s$.\\ 
+\\ Sean \( A \) y \( B \), dos bits (en cualquier combinación) la operación $S$ se define como:
+\[ A \oplus B = (A \land \neg B) \lor (\neg A \land B) \]
+\\ Y $C$ como la función que retorna un sumador, tal que:
+\[ C = chip\_add(chip(A,B)) = A \wedge  B \]\\
+Si $half\_adder(chip)$ retorna $c ++ s$, entonces $c = C$ y $s = S$.\\ \\
+\textbf{Demostración.}
+    \[ half\_adder(List(A,~B))\] 
+    \[ \rightarrow val~add = chip\_add(List(A,~B))\] 
+    \[ \twoheadrightarrow val~add = A\wedge B\] 
+    \[ \rightarrow val~or = chip\_or(List(A,~B))\] 
+    \[ \twoheadrightarrow val~or = A\vee B \] 
+    \[ \rightarrow val~not\_add = chip\_not(add)\] 
+    \[ \twoheadrightarrow val~not\_add = \urcorner (A ~\wedge ~  B) \] 
+    \[ \rightarrow val~s = chip\_add(or ++not\_add)\] 
+    \[ \twoheadrightarrow s = (A\vee B) \wedge  (\urcorner (A ~\wedge ~  B))\]
+    \[ \text{Alpicando distribucion: }(A\wedge \urcorner(A\wedge B))\vee (B\wedge \urcorner(A\wedge B))  \]
+    \[ \text{Expandiendo la forma: }\urcorner(A\wedge B)\therefore  ~ \urcorner A \vee \urcorner B \]
+    \[ (A\wedge (\urcorner A \vee \urcorner B))\vee (B\wedge (\urcorner A \vee \urcorner B))\]
+    \[ \text{Por distribucion nuevamente: } (A \wedge \urcorner A) \vee (A \wedge \urcorner B) \vee (B \wedge \urcorner A) \vee (B \wedge \urcorner B)\]
+    \[ \text{Pero tenemos dos casos que siempre son falsos (se contradicen): } (A \wedge \urcorner A) \vee (B \wedge \urcorner B)\]
+    \[ \text{Por lo tanto nos queda: } S=(A \land \neg B) \lor (\neg A \land B)\]
+    \[ \rightarrow val~c = A\wedge B\] 
+\textbf{Puesto que desde $half\_adder$ se llego a la misma expresión que $S$ y $C$, se puede concluir que $half\_adder$ es correcto.}
+\subsection{Casos de pruebas}
+\begin{lstlisting}[style=scalaStyle, caption=Casos de prueba para la función half\_adder.]
+  val ha = half_adder
+  ha(List(0, 0))  // Deberia imprimir [0, 0]
+  ha(List(0, 1))  // Deberia imprimir [0, 1]
+  ha(List(1, 0))  // Deberia imprimir [0, 1]
+  ha(List(1, 1))  // Deberia imprimir [1, 0]
+  ha(List(1, 1))  // Deberia imprimir [1, 0]
+  
+\end{lstlisting}
+
+\textbf{Anotaciones:}
+\begin{itemize}
+  \item Evaluando todos los casos de las posibles combinaciones de 2 bits, se puede concluir que la función half\_adder hace su proceso de manera correcta.
+  \item A través de la lógica proposicional es posible demostrar a través de equivalencias una función de alto nivel.
+  \item La función half\_adder no solo calcula la suma, sino que también determina correctamente el acarreo para cada combinación de entrada..
+\end{itemize}
+\newpage
+\section{Creando $sumadores \ completos$.}
+Construye un $chip$ correspondiente a un $sumador \ completo$ a partir de compuertas lógicas sencillas. \\
+\begin{lstlisting}[style=scalaStyle, caption=Sumador completo implementado]
+  def full_adder : Chip = (operands: List[Int]) => {
+      val halfAdder_1 = half_adder(operands.head::operands.tail.head::Nil) 
+      val halfAdder_2 = half_adder(halfAdder_1.tail.head::operands.tail.tail.head::Nil) 
+      val C_out = chip_or(halfAdder_1.head::halfAdder_2.head::Nil).head 
+      C_out::halfAdder_2.tail.head::Nil 
+  }
+\end{lstlisting}
+\subsection{Informe de procesos}
+\textbf{Tipo de proceso.} \\
+El algoritmo $full\_adder$ se puede considerar como un proceso \textbf{recursivo}, debido a que a pesar de que no se llama recursivamente a si mismo y no tiene proceso iterativo, llama funciones que ya hemos desarrollado anteriormente que fueron catalogadas como \textbf{recursivas}. \\ \\ 
+$ full\_adder(List(0,~0,~0)) $ \\
+$ \rightarrow val~half\_Adder\_1 = half\_adder(List(0,~0)) $ \\
+$ \twoheadrightarrow half\_Adder\_1 = [0,~0] $  \\
+$ \rightarrow val~half\_Adder\_2 = half\_adder(List(0,~0)) $ \\
+$ \twoheadrightarrow half\_Adder\_2 = [0,~0] $ \\
+$ \rightarrow val~or\_op = chip\_or(List(0,~0)) $ \\
+$ \twoheadrightarrow or\_op = List[0] $ \\
+$ \rightarrow List(0)~~++~~List(0) $ \\
+$ \rightarrow [0,~0] $ \\
+\subsection{Informe de corrección}
+
+Dado que \(half\_adder\) ya ha sido demostrado, podemos usarlo para construir el \(full\_adder\). 
+
+\[ full\_adder(List(A, B, C_{in})) \]
+\[ \rightarrow val~half\_Adder\_1 = half\_adder(List(B, C_{in})) \]
+\[ \twoheadrightarrow half\_Adder\_1 = [S_1, C_1] \]
+\[ \rightarrow val~half\_Adder\_2 = half\_adder(List(A, S_1)) \]
+\[ \twoheadrightarrow half\_Adder\_2 = [S, C_2] \]
+\[ \rightarrow val~or\_op = chip\_or(List(C_1, C_2)) \]
+\[ \twoheadrightarrow or\_op = [C_{out}] \]
+\[ \rightarrow [C_{out}, S] \]
+
+Donde:
+$ S_1$ es la suma de \(B\) y \(C_{in}\) usando el primer \(half\_adder\).
+$C_1$ es el acarreo de la suma de \(B\) y \(C_{in}\).
+$ S$ es la suma final que es el resultado de sumar \(A\) con \(S_1\) usando el segundo \(half\_adder\).
+$ C_2 $ es el acarreo de la suma de \(A\) y \(S_1\).
+$ C_{out} $ es el acarreo final que es el resultado de la operación OR entre \(C_1\) y \(C_2\).
+
+Por lo tanto, el \(full\_adder\) produce correctamente la suma \(S\) y el acarreo \(C_{out}\) para cualquier combinación de entradas \(A\), \(B\), y \(C_{in}\).
+
+\subsection{Casos de pruebas}
+\begin{lstlisting}[style=scalaStyle, caption=Casos de prueba para la función full\_adder.]
+  val fa = full_adder
+
+  fa(List(0, 0, 0))  // Deberia imprimir [0, 0]
+  fa(List(0, 0, 1))  // Deberia imprimir [0, 1]
+  fa(List(0, 1, 0))  // Deberia imprimir [0, 1]
+  fa(List(0, 1, 1))  // Deberia imprimir [1, 0]
+  fa(List(1, 0, 0))  // Deberia imprimir [0, 1]
+  fa(List(1, 0, 1))  // Deberia imprimir [1, 0]
+  fa(List(1, 1, 0))  // Deberia imprimir [1, 0]
+  fa(List(1, 1, 1))  // Deberia imprimir [1, 1]
+  
+\end{lstlisting}
+\textbf{Anotaciones:}
+\begin{itemize}
+  \item Gracias al uso de casos de pruebas se pudo corregir un error de codigo que hacia que no retornara los valores correctos al calcular la funcion.
+  \item Evaluando todos los casos de las posibles combinaciones de 3 bits, se puede concluir que la función full\_adder hace su proceso de manera correcta.
+\end{itemize}
+  \section{Construyendo un $sumador-n$}
+  Se construye un sumador que implementando la funcion adder construye un chip correspondiente a un sumador-n.
+  \begin{lstlisting}[style=scalaStyle, caption=sumador-n.]
+ 
+
+  def adder ( n : Int ) : Chip = (operands: List[Int]) => {
+    def splitList(n: Int, counter: Int, lowerList: List[Int], upperList: List[Int]): (List[Int], List[Int]) =
+     { if( (n + 1)  == counter ) (lowerList, upperList)
+      else splitList(n , counter + 1, upperList.head::lowerList, upperList.tail)
+
+    val (l1, l2) = splitList(n, 1, List(), operands)  
+    def adderHelper( accumulatedList: List[Int],  firstList:List[Int],  secondList: List[Int] ): List[Int] = {
+      if(firstList.isEmpty || secondList.isEmpty) accumulatedList     
+        val fullAddResult = full_adder(firstList.head::secondList.head::accumulatedList.head::Nil) 
+        return adderHelper( fullAddResult ++ accumulatedList.tail, firstList.tail, secondList.tail ) 
+      }
+    }
+    val initial_sum = half_adder(l1.head::l2.head::Nil) 
+    adderHelper( initial_sum.tail.head::initial_sum.head::Nil, l1.tail, l2.tail) 
+  }
+  \end{lstlisting}
+\subsection{Informe de procesos}
+\textbf{Tipo de proceso.} \\ 
+Bajo el mismo razonamiento utilizado anteriormente, consideramos que $adder$ utiliza un proceso \textbf{recursivo}. \\ \\
+\newpage
+\begin{align*}
+  &\text{val } fa = adder \\
+  &fa(List(1,0,1,0) ++ List(0,1,1,1)) \\
+  &\rightarrow \text{splitList}(4, 1, List(), List(1,0,1,0,0,1,1,1)) \\
+  &\twoheadrightarrow \text{if}(4 == 1) ~(List(), List(1,0,1,0,0,1,1,1)) \\
+  &\quad \text{else splitList}(4, 2, 1::List(), List(0,1,0,0,1,1,1)) \\
+  &\twoheadrightarrow \text{if}(4 == 4) ~(List(1,0,1,0), List(0,1,1,1)) \\
+  &\rightarrow \text{val }(l1, l2) = (List(1,0,1,0), List(0,1,1,1)) \\
+  &\rightarrow \text{adderHelper}( \text{half\_adder}(1::0::Nil), List(0,1,0), List(1,1,1) ) \\
+  &\rightarrow \text{adderHelper}( List(0,1), List(0,1,0), List(1,1,1) ) \\
+  &\rightarrow \text{if}( List(0,1,0).isEmpty \text{ or } List(1,1,1).isEmpty ) List(0,1) \\
+  &\quad \text{else } \\
+  &\quad \text{val fullAddResult} = \text{full\_adder}(0::1::0::Nil) \\
+  &\quad \text{return adderHelper}( \text{List(1, 0)} ++ \text{List(0)}, List(1,0), List(1,1) ) \\
+  &\twoheadrightarrow \text{if}(List(1,0).isEmpty \text{ or } List(1,1).isEmpty) \text{ List(1,1,0,1,1)} \\
+  &\rightarrow [1,1,0,1,1]
+  \end{align*}
+
+
+
+
+\subsection{Informe de corrección}
+
+\subsection{Casos de pruebas}
 
 \end{document}
