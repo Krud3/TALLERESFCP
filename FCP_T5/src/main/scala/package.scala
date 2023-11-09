@@ -157,7 +157,7 @@ package object Matrices {
 
     def multStrassen(m1:Matriz, m2:Matriz): Matriz ={
         //recibe m1 y m2 matrices cuadradas de la misma dimension, potencia de 2
-        //y devuelve la multiplicacion de las 2 matrices, paralelizando tareas
+        //y devuelve la multiplicacion de las 2 matrices
         val n = m1.length
         
         /*if(umbral <= n){
@@ -171,7 +171,7 @@ package object Matrices {
             val l = n/2
 
             val (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10) = (
-                restaMatriz(subMatriz(m2,0,l,l), subMatriz(m1,l,l,l)),
+                restaMatriz(subMatriz(m2,0,l,l), subMatriz(m2,l,l,l)),
                 sumMatriz(subMatriz(m1,0,0,l), subMatriz(m1,0,l,l)),
                 sumMatriz(subMatriz(m1,l,0,l), subMatriz(m1,l,l,l)),
                 restaMatriz(subMatriz(m2,l,0,l), subMatriz(m2,0,0,l)),
@@ -182,6 +182,7 @@ package object Matrices {
                 restaMatriz(subMatriz(m1,0,0,l), subMatriz(m1,l,0,l)),
                 sumMatriz(subMatriz(m2,0,0,l), subMatriz(m2,0,l,l))
             )
+
 
             val (p1, p2, p3, p4, p5, p6, p7) = (
                 multStrassen(subMatriz(m1,0,0,l), s1),
@@ -194,10 +195,10 @@ package object Matrices {
             )
 
             val (c_11, c_12, c_21, c_22) = (
-                restaMatriz(sumMatriz(p5, p4), sumMatriz(p6, p2)),
+                sumMatriz(restaMatriz(sumMatriz(p5,p4), p2), p6),
                 sumMatriz(p1, p2),
                 sumMatriz(p3, p4),
-                restaMatriz(sumMatriz(p1, p5), restaMatriz(p3, p7))
+                restaMatriz(restaMatriz(sumMatriz(p5, p1),p3), p7)
             )
 
             Vector.tabulate(n,n)((i,j)=>
@@ -207,10 +208,11 @@ package object Matrices {
                 else c_22(i-l)(j-l))
         }
     }
+  
 
-     def multStrassenPar(m1:Matriz, m2:Matriz): Matriz ={
+    def multStrassenPar(m1:Matriz, m2:Matriz): Matriz ={
         //recibe m1 y m2 matrices cuadradas de la misma dimension, potencia de 2
-        //y devuelve la multiplicacion de las 2 matrices, paralelizando tareas
+        //y devuelve la multiplicacion de las 2 matrices
         val n = m1.length
         
         /*if(umbral <= n){
@@ -222,48 +224,18 @@ package object Matrices {
         else {
             
             val l = n/2
-
+            
             val (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10) = (
-                restaMatriz(
-                    subMatriz(m2,0,l,l), 
-                    subMatriz(m1,l,l,l)
-                    ),
-                sumMatriz(
-                    subMatriz(m1,0,0,l), 
-                    subMatriz(m1,0,l,l)
-                ),
-                sumMatriz(
-                    subMatriz(m1,l,0,l), 
-                    subMatriz(m1,l,l,l)
-                ),
-                restaMatriz(
-                    subMatriz(m2,l,0,l), 
-                    subMatriz(m2,0,0,l)
-                ),
-                sumMatriz(
-                    subMatriz(m1,0,0,l), 
-                    subMatriz(m1,l,l,l)
-                ),
-                sumMatriz(
-                    subMatriz(m2,0,0,l), 
-                    subMatriz(m2,l,l,l)
-                ),
-                restaMatriz(
-                    subMatriz(m1,0,l,l), 
-                    subMatriz(m1,l,l,l)
-                ),
-                sumMatriz(
-                    subMatriz(m2,l,0,l), 
-                    subMatriz(m2,l,l,l)
-                ),
-                restaMatriz(
-                    subMatriz(m1,0,0,l), 
-                    subMatriz(m1,l,0,l)
-                ),
-                sumMatriz(
-                    subMatriz(m2,0,0,l), 
-                    subMatriz(m2,0,l,l)
-                )
+                restaMatriz(subMatriz(m2,0,l,l), subMatriz(m2,l,l,l)),
+                sumMatriz(subMatriz(m1,0,0,l), subMatriz(m1,0,l,l)),
+                sumMatriz(subMatriz(m1,l,0,l), subMatriz(m1,l,l,l)),
+                restaMatriz(subMatriz(m2,l,0,l), subMatriz(m2,0,0,l)),
+                sumMatriz(subMatriz(m1,0,0,l), subMatriz(m1,l,l,l)),
+                sumMatriz(subMatriz(m2,0,0,l), subMatriz(m2,l,l,l)),
+                restaMatriz(subMatriz(m1,0,l,l), subMatriz(m1,l,l,l)),
+                sumMatriz(subMatriz(m2,l,0,l), subMatriz(m2,l,l,l)),
+                restaMatriz(subMatriz(m1,0,0,l), subMatriz(m1,l,0,l)),
+                sumMatriz(subMatriz(m2,0,0,l), subMatriz(m2,0,l,l))
             )
 
             val (p1, p2, p3, p4, p5, p6, p7) = (
@@ -290,10 +262,11 @@ package object Matrices {
                 )
             )
 
+            
             val (c_11, c_12, c_21, c_22) = (
-                restaMatriz(
-                    sumMatriz(p5.join(), p4.join()), 
-                    sumMatriz(p6.join(), p2.join())),
+                sumMatriz(
+                    restaMatriz(sumMatriz(p5.join(), p4.join()),p2.join()), 
+                    p6.join()),
                 sumMatriz(
                     p1.join(), 
                     p2.join()),
@@ -301,10 +274,10 @@ package object Matrices {
                     p3.join(), 
                     p4.join()),
                 restaMatriz(
-                    sumMatriz(p1.join(), p5.join()), 
-                    restaMatriz(p3.join(), p7.join())
-                    )
+                    restaMatriz(sumMatriz(p5.join(),p1.join()), p3.join()), 
+                    p7.join())                    
             )
+
             
             Vector.tabulate(n,n)((i,j)=>
                 if(i<l && j<l) c_11(i)(j)
@@ -338,7 +311,8 @@ package object Matrices {
         val m = m2.length
         val v = ParVector.tabulate(l,m)((i,j)=>
             prodPuntoParD(m1(i),
-            transpuestaD(m2)(j))) 
+            transpuestaD(m2)(j)))
+
         v
     }
 
