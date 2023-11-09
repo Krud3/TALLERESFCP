@@ -1,4 +1,5 @@
 import Matrices._
+import Benchmark._
 hello()
 bye()
 
@@ -12,3 +13,5 @@ multMatrizPar(m1,m2)
 subMatriz(m1,2,2,2)
 multMatrizRec(m1,m2)
 multMatrizRecPar(m1,m2)
+
+//compararAlgoritmos(multMatriz,multMatrizRec)(m1,m2)

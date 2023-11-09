@@ -2,7 +2,7 @@ import Matrices._
 import scala.collection.parallel.CollectionConverters._
 import org.scalameter._
 package object Benchmark {
-  /*
+  
   type AlgoritmoMult = (Matriz, Matriz) => Matriz
 
 
@@ -65,5 +65,5 @@ package object Benchmark {
     ) withWarmer(new Warmer.Default) measure {prodPuntoParD(v1parD,v2parD)}
     val speedUp= timeA1.value/timeA2.value
     (timeA1.value, timeA2.value, speedUp)
-  }*/
+  }
 }
