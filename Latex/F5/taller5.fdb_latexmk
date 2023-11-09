@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1699506514 "d:/Programing/funcional/talleres/rama main/TALLERESFCP/Latex/F5/taller5.tex" "taller5.pdf" "taller5" 1699506515 0
+["pdflatex"] 1699537820 "d:/Programing/funcional/talleres/rama main/TALLERESFCP/Latex/F5/taller5.tex" "taller5.pdf" "taller5" 1699537821 0
   "C:/Users/JSMC/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1698229157 84263 37748407d5370f73ac542d667e1fa0b3 ""
   "C:/Users/JSMC/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1694613013 14064 1ef4f2d7d936576a9bdcd49dcf18c600 ""
   "C:/Users/JSMC/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1694606113 24141605 8c490fe370e7e25471489841335631f4 ""
@@ -75,12 +75,13 @@
   "C:/Users/JSMC/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstlang2.sty" 1679057124 93648 37f37f89a55d35f95036cd331d48114f ""
   "C:/Users/JSMC/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstlang3.sty" 1679057124 90074 7af0c10701a4f48b0bf8886e6b18ec82 ""
   "C:/Users/JSMC/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstmisc.sty" 1679057124 77021 d05e9115c67855816136d82929db8892 ""
+  "C:/Users/JSMC/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1686255640 12691 ddae4e0162a664f166015d992388b742 ""
   "C:/Users/JSMC/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
   "Univalle.png" 1696871239 21722 543cf6dc6935658199a92c7926d8422d ""
-  "d:/Programing/funcional/talleres/rama main/TALLERESFCP/Latex/F5/taller5.tex" 1699506514 17195 97da150630c953d673a367f635f00943 ""
-  "taller5.aux" 1699506515 4706 e93b4602d928094c36f6624dd9c853ec "pdflatex"
-  "taller5.tex" 1699506514 17195 97da150630c953d673a367f635f00943 ""
-  "taller5.toc" 1699506515 2020 fbc9aa48aa792b231dc092bcec8f3aba "pdflatex"
+  "d:/Programing/funcional/talleres/rama main/TALLERESFCP/Latex/F5/taller5.tex" 1699537818 29957 6201b7f68273286d874c717f309c97bc ""
+  "taller5.aux" 1699537820 7364 0af8349a56694227be8001626d024bd9 "pdflatex"
+  "taller5.tex" 1699537818 29957 6201b7f68273286d874c717f309c97bc ""
+  "taller5.toc" 1699537820 2021 e7c69756b8bc65eba44063d71333e984 "pdflatex"
   (generated)
   "taller5.aux"
   "taller5.log"

@@ -7,7 +7,12 @@ object Main {
     println("Hello world!")
     println(msg)
     
-    val values =
+    val values =Vector(
+    matrizAlAzar(pow(2, 9).toInt, 2),
+    matrizAlAzar(pow(2, 9).toInt, 2),
+    matrizAlAzar(pow(2, 10).toInt, 2),
+    matrizAlAzar(pow(2, 10).toInt, 2) )
+      /*
     Vector(matrizAlAzar(pow(2, 0).toInt, 2)
     ,matrizAlAzar(pow(2, 0).toInt, 2)
     ,matrizAlAzar(pow(2, 1).toInt, 2)
@@ -25,15 +30,11 @@ object Main {
     ,matrizAlAzar(pow(2, 7).toInt, 2)
     ,matrizAlAzar(pow(2, 7).toInt, 2)
     ,matrizAlAzar(pow(2, 8).toInt, 2)
-    ,matrizAlAzar(pow(2, 8).toInt, 2))
+    ,matrizAlAzar(pow(2, 8).toInt, 2))*/
 
     automaticBenchmark(compareAlgmMRPmSP,values).foreach(println)
-    //val m1 = matrizAlAzar(pow(2, 9).toInt, 2)
-    //val m2 = matrizAlAzar(pow(2, 9).toInt, 2)
-    /*
-    val m1 = matrizAlAzar(pow(2, 10).toInt, 2)
-    val m2 = matrizAlAzar(pow(2, 10).toInt, 2)
 
+    /*
     val m1 = matrizAlAzar(pow(2, 0).toInt, 10)
     val m2 = matrizAlAzar(pow(2, 0).toInt, 10)
     val m1 = matrizAlAzar(pow(2, 1).toInt, 10)
@@ -198,6 +199,7 @@ object Main {
       compararAlgoritmos(multMatrizRecPar, multStrassen)(m1, m2)
     }
 
+    //ya
     def compareAlgmMRPmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
       compararAlgoritmos(multMatrizRecPar, multStrassenPar)(m1, m2)
     }

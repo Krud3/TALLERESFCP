@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{float}
+\usepackage{array}
 \usepackage{listings}
 \usepackage{amsfonts} 
 \usepackage{xcolor} 
@@ -177,6 +178,17 @@ def multMatriz(m1: Matriz, m2: Matriz): Matriz = {
     v
 }
 \end{lstlisting}
+\begin{align*}
+    m1 * m2 &= \text{{multMatriz}}(m1, m2) \\
+    &= \text{{Vector.tabulate}}(l, n)((i, j) \Rightarrow \text{{prodPunto}}(m1[i], \text{{transpose}}(m2)[j])) \\
+    &= \begin{bmatrix}
+        m1[0][0] \cdot \text{{transpose}}(m2)[0][0] + m1[0][1] \cdot \text{{transpose}}(m2)[1][0] + 
+        \\\ldots + m1[0][m-1] \cdot \text{{transpose}}(m2)[m-1][0]\\ & \ldots  & m1[0][0] \cdot \text{{transpose}}(m2)[0][n-1] + m1[0][1] \cdot \text{{transpose}}(m2)[1][n-1] + \\ \ldots + m1[0][m-1] \cdot \text{{transpose}}(m2)[m-1][n-1] \\
+        \vdots & \ddots & \vdots \\
+        m1[l-1][0] \cdot \text{{transpose}}(m2)[0][0] + m1[l-1][1] \cdot \text{{transpose}}(m2)[1][0] + \\ \ldots + m1[l-1][m-1] \cdot \text{{transpose}}(m2)[m-1][0] \\ &  \ldots & m1[l-1][0] \cdot \text{{transpose}}(m2)[0][n-1] + m1[l-1][1] \cdot \text{{transpose}}(m2)[1][n-1] + \\ \ldots + m1[l-1][m-1] \cdot \text{{transpose}}(m2)[m-1][n-1] \\
+        \end{bmatrix}
+\end{align*}
+
 \textbf{{multMatrizPar}} \\ \\
 \begin{lstlisting}[caption=mult matriz paralela, label=lst:scala_code7]
 def multMatrizPar(m1: Matriz, m2: Matriz): Matriz = {
@@ -373,6 +385,322 @@ Conclusión sobre la corrección de cada función.
 \subsection{Informe de desempeño de las funciones secuenciales y de las funciones paralelas}
 \subsubsection{Resultados de Multiplicación de Matrices}
 Tabla comparativa y análisis de desempeño.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & mulMatriz(ms) & multMatrizPar(ms) & speedup \\ 
+    \hline
+    $2^0$ & 0.0208 & 0.0126 & 1.65 \\
+    $2^1$ & 0.054 & 0.0899 & 0.60 \\
+    $2^2$ & 0.1658 & 0.2217 & 0.75 \\
+    $2^3$ & 0.6989 & 1.003 & 0.70 \\
+    $2^4$ & 2.2913 & 4.7724 & 0.48 \\
+    $2^5$ & 2.8232 & 5.416 & 0.52 \\
+    $2^6$ & 22.1308 & 36.1349 & 0.61 \\
+    $2^7$ & 172.5227 & 249.1038 & 0.69 \\
+    $2^8$ & 1391.6189 & 1747.6074 & 0.80 \\
+    $2^9$ & 11624.2295 & 13095.9631 & 0.88 \\
+    $2^{10}$ & 92733.1786 & 92184.1319 & 1.005 \\
+    \hline
+    \end{tabular}
+    \caption{mulMatriz vs multMatrizPar}
+    \label{table:matrix_performance}
+\end{table}
+La tabla proporcionada muestra los tiempos de ejecución de dos implementaciones de multiplicación de matrices, una secuencial (\texttt{mulMatriz}) y otra paralela (\texttt{multMatrizPar}), para diferentes tamaños de matrices, expresados como potencias de 2. Además, se presenta el \textit{speedup} de la versión paralela en comparación con la secuencial. A continuación, se analizan diversos aspectos de estas implementaciones:
+
+\begin{enumerate}
+  \item \textbf{¿Cuál de las implementaciones es más rápida?} \\
+  Para matrices de tamaño pequeño (hasta $2^6$), la versión secuencial (\texttt{mulMatriz}) muestra un mejor rendimiento. Sin embargo, a partir de matrices de tamaño $2^7$, la implementación paralela (\texttt{multMatrizPar}) empieza a ser más eficiente, superando ligeramente a la versión secuencial en tamaños de $2^{10}$.
+
+  \item \textbf{¿De qué depende que la aceleración sea mejor?} \\
+  La aceleración se ve influenciada principalmente por el tamaño de la matriz. Para tamaños pequeños, el \textit{overhead} de la paralelización puede no compensar sus beneficios. A medida que el tamaño aumenta, los beneficios del paralelismo superan este \textit{overhead}, resultando en un mejor \textit{speedup}.
+
+  \item \textbf{¿En qué casos es mejor usar la versión secuencial o paralela de cada algoritmo?} \\
+  \begin{itemize}
+    \item \textbf{Versión Secuencial (\texttt{mulMatriz}):} Ideal para matrices pequeñas (hasta $2^6$), donde el \textit{overhead} del paralelismo no se justifica.
+    \item \textbf{Versión Paralela (\texttt{multMatrizPar}):} Recomendada para matrices de gran tamaño (a partir de $2^7$), donde el coste del paralelismo se ve compensado por la eficiencia en el procesamiento de grandes volúmenes de datos.
+  \end{itemize}
+\end{enumerate}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & mulMatrizRecPar(ms) & multStrassen(ms) & speedup \\ 
+    \hline
+    $n^0$ & 0.0882 & 0.0248 & 3.56 \\
+    $n^1$ & 0.2109 & 0.1308 & 1.61 \\
+    $n^2$ & 0.3769 & 0.4245 & 0.89 \\
+    $n^3$ & 0.9086 & 1.5833 & 0.57 \\
+    $n^4$ & 0.8598 & 4.6825 & 0.18 \\
+    $n^5$ & 17.6741 & 30.5887 & 0.58 \\
+    $n^6$ & 51.2801 & 232.0896 & 0.22 \\
+    $n^7$ & 389.73 & 1692.9611 & 0.23 \\
+    $n^8$ & 3114.4097 & 5199.9472 & 0.60 \\
+    \hline
+    \end{tabular}
+    \caption{mulMatrizRecPar vs multStrassen}
+    \label{table:matrix_performance}
+\end{table}
+
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & mulMatrizRec(ms) & multStrassenPar(ms) & speedup \\ 
+    $n^0$ & 0.0541 & 0.035 & 1.55 \\
+    $n^1$ & 0.033 & 0.2113 & 0.16 \\
+    $n^2$ & 0.1192 & 0.33 & 0.36 \\
+    $n^3$ & 0.5392 & 2.0168 & 0.27 \\
+    $n^4$ & 1.1699 & 5.0879 & 0.23 \\
+    $n^5$ & 8.4393 & 11.5936 & 0.73 \\
+    $n^6$ & 67.8253 & 64.9989 & 1.04 \\
+    $n^7$ & 567.7783 & 451.8261 & 1.26 \\
+    \hline
+    \end{tabular}
+    \caption{mulMatrizRec vs multStrassenPar}
+    \label{table:matrix_performance}
+\end{table}   
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatrizRec(ms) & multStrassen(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.0195 & 0.0129 & 1.51 \\
+    $n^1$ & 0.0584 & 0.0403 & 1.45 \\
+    $n^2$ & 0.0926 & 0.3343 & 0.28 \\
+    $n^3$ & 0.6009 & 0.9823 & 0.61 \\
+    $n^4$ & 1.2007 & 2.0959 & 0.57 \\
+    $n^5$ & 5.8948 & 10.1365 & 0.58 \\
+    $n^6$ & 49.869 & 70.9033 & 0.70 \\
+    $n^7$ & 415.2096 & 529.4741 & 0.78 \\
+    $n^8$ & 3099.9929 & 3523.037 & 0.88 \\
+    $n^9$ & 25379.6906 & 25235.8456 & 1.01 \\
+    \hline
+    \end{tabular}
+    \caption{multMatrizRec vs multStrassen}
+    \label{table:matrix_comparison}
+\end{table} 
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{4cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatrizRec(ms) & multMatrizRecPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.0535 & 0.0495 & 1.08 \\
+    $n^1$ & 0.0632 & 0.1054 & 0.60 \\
+    $n^2$ & 0.1286 & 0.1518 & 0.85 \\
+    $n^3$ & 0.403 & 0.4911 & 0.82 \\
+    $n^4$ & 5.5323 & 3.9688 & 1.39 \\
+    $n^5$ & 8.5952 & 4.7139 & 1.82 \\
+    $n^6$ & 67.7342 & 37.6179 & 1.80 \\
+    $n^7$ & 551.341 & 300.7862 & 1.83 \\
+    $n^8$ & 4441.5969 & 2399.4469 & 1.85 \\
+    \hline
+    \end{tabular}
+    \caption{multMatrizRec vs multMatrizRecPar}
+    \label{table:matrix_comparison}
+\end{table}
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatriz(ms) & multMatrizPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.157074 & 0.508098 & 0.31 \\
+    $n^1$ & 0.058667 & 0.259741 & 0.23 \\
+    $n^2$ & 0.06202 & 0.304369 & 0.20 \\
+    $n^3$ & 0.241862 & 0.186058 & 1.30 \\
+    $n^4$ & 1.196248 & 0.536174 & 2.23 \\
+    $n^5$ & 15.896863 & 2.565981 & 6.20 \\
+    $n^6$ & 234.5659 & 21.393817 & 10.96 \\
+    $n^7$ & 3373.980202 & 374.861453 & 9.00 \\
+    $n^8$ & 52778.116937 & 10691.328672 & 4.94 \\
+    \hline
+    \end{tabular}
+    \caption{multMatriz vs multMatrizPar}
+    \label{table:matrix_performance}
+\end{table}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ | m{4cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatriz(ms) & multMatrizRec(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.197233 & 0.124877 & 1.58 \\
+    $n^1$ & 0.098057 & 0.02626 & 3.73 \\
+    $n^2$ & 0.072356 & 0.128369 & 0.56 \\
+    $n^3$ & 0.128857 & 0.153372 & 0.84 \\
+    $n^4$ & 1.26574 & 0.863941 & 1.47 \\
+    $n^5$ & 15.580685 & 6.217719 & 2.51 \\
+    $n^6$ & 233.389835 & 57.153132 & 4.08 \\
+    $n^7$ & 3756.499596 & 466.273799 & 8.06 \\
+    $n^8$ & 74007.560303 & 3649.418623 & 20.28 \\
+    \hline
+    \end{tabular}
+    \caption{multMatriz vs multMatrizRec}
+    \label{table:matrix_comparison_rec}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatriz(ms) & multMatrizRecPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.213017 & 0.054686 & 3.90 \\
+    $n^1$ & 0.05727 & 0.261487 & 0.22 \\
+    $n^2$ & 0.093867 & 0.193461 & 0.49 \\
+    $n^3$ & 0.138426 & 0.931548 & 0.15 \\
+    $n^4$ & 1.035612 & 0.553565 & 1.87 \\
+    $n^5$ & 15.601226 & 4.07065 & 3.83 \\
+    $n^6$ & 260.689531 & 30.724248 & 8.48 \\
+    $n^7$ & 4699.357314 & 223.874599 & 20.99 \\
+    $n^8$ & 94123.683973 & 1796.040497 & 52.41 \\
+    \hline
+    \end{tabular}
+    \caption{multMatriz vs multMatrizRecPar}
+    \label{table:matrix_comparison_rec_par}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatriz(ms) & multStrassenPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.0271 & 0.0113 & 2.40 \\
+    $n^1$ & 0.05 & 0.0886 & 0.56 \\
+    $n^2$ & 0.0298 & 0.1949 & 0.15 \\
+    $n^3$ & 0.1785 & 0.687 & 0.26 \\
+    $n^4$ & 0.9352 & 2.2692 & 0.41 \\
+    $n^5$ & 10.9968 & 4.8675 & 2.26 \\
+    $n^6$ & 199.8272 & 38.1879 & 5.23 \\
+    $n^7$ & 3721.3193 & 240.8355 & 15.45 \\
+    $n^8$ & 77156.0959 & 1724.9942 & 44.73 \\
+    \hline
+    \end{tabular}
+    \caption{multMatriz vs multStrassenPar}
+    \label{table:matrix_comparison_strassen_par}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multStrassen(ms) & multMatrizPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.0187 & 0.0708 & 0.26 \\
+    $n^1$ & 0.0472 & 0.0979 & 0.48 \\
+    $n^2$ & 0.1763 & 0.1098 & 1.61 \\
+    $n^3$ & 1.4824 & 0.1596 & 9.29 \\
+    $n^4$ & 1.3893 & 0.2277 & 6.10 \\
+    $n^5$ & 10.0845 & 2.1428 & 4.71 \\
+    $n^6$ & 71.4526 & 39.3428 & 1.82 \\
+    $n^7$ & 524.8294 & 660.7993 & 0.79 \\
+    $n^8$ & 3715.7102 & 13099.9935 & 0.28 \\
+    \hline
+    \end{tabular}
+    \caption{multStrassen vs multMatrizPar}
+    \label{table:matrix_comparison_strassen_matrizpar}
+\end{table}
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multStrassen(ms) & multStrassenPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.094566 & 0.018089 & 5.23 \\
+    $n^1$ & 0.164617 & 0.266935 & 0.62 \\
+    $n^2$ & 0.082203 & 0.486237 & 0.17 \\
+    $n^3$ & 0.551889 & 0.492383 & 1.12 \\
+    $n^4$ & 2.002918 & 2.132335 & 0.94 \\
+    $n^5$ & 11.121369 & 9.672645 & 1.15 \\
+    $n^6$ & 83.202037 & 56.999489 & 1.46 \\
+    $n^7$ & 591.982072 & 397.681511 & 1.49 \\
+    $n^8$ & 4214.366236 & 2770.456839 & 1.52 \\
+    \hline
+    \end{tabular}
+    \caption{multStrassen vs multStrassenPar}
+    \label{table:strassen_comparison}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatrizRec(ms) & multMatrizPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.069562 & 0.198001 & 0.35 \\
+    $n^1$ & 0.046654 & 0.318967 & 0.15 \\
+    $n^2$ & 0.501463 & 0.312541 & 1.60 \\
+    $n^3$ & 0.171252 & 0.516339 & 0.33 \\
+    $n^4$ & 0.914017 & 0.475552 & 1.92 \\
+    $n^5$ & 6.9931 & 2.383554 & 2.93 \\
+    $n^6$ & 52.731112 & 44.138359 & 1.19 \\
+    $n^7$ & 459.95615 & 668.513945 & 0.69 \\
+    $n^8$ & 3509.126971 & 13464.049988 & 0.26 \\
+    \hline
+    \end{tabular}
+    \caption{multMatrizRec vs multMatrizPar}
+    \label{table:matrix_comparison_rec_par}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multStrassenPar(ms) & multMatrizPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.0183 & 0.0677 & 0.27 \\
+    $n^1$ & 0.068 & 0.0845 & 0.80 \\
+    $n^2$ & 0.1879 & 0.1407 & 1.34 \\
+    $n^3$ & 0.6789 & 0.2121 & 3.20 \\
+    $n^4$ & 2.3105 & 0.4184 & 5.52 \\
+    $n^5$ & 5.0187 & 2.1041 & 2.39 \\
+    $n^6$ & 35.2597 & 41.5603 & 0.85 \\
+    $n^7$ & 254.7461 & 671.1146 & 0.38 \\
+    $n^8$ & 1759.3622 & 13238.1516 & 0.13 \\
+    \hline
+    \end{tabular}
+    \caption{multStrassenPar vs multMatrizPar}
+    \label{table:strassen_par_matrix_par_comparison}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
+    \hline
+    Matrix size & multMatrizRecPar(ms) & multMatrizPar(ms) & Speedup \\ 
+    \hline
+    $n^0$ & 0.0702 & 0.0311 & 2.26 \\
+    $n^1$ & 0.0424 & 0.1279 & 0.33 \\
+    $n^2$ & 0.0463 & 0.1546 & 0.30 \\
+    $n^3$ & 0.2225 & 0.7962 & 0.28 \\
+    $n^4$ & 1.8466 & 2.8966 & 0.64 \\
+    $n^5$ & 19.7595 & 14.4537 & 1.37 \\
+    $n^6$ & 325.1826 & 104.5296 & 3.11 \\
+    $n^7$ & 5908.247 & 727.7273 & 8.12 \\
+    $n^8$ & 114646.5989 & 5121.9016 & 22.38 \\
+    \hline
+    \end{tabular}
+    \caption{multMatrizRecPar vs multMatrizPar}
+    \label{table:rec_par_matrix_par_comparison}
+\end{table}
+
 \subsubsection{Metodología de Generación de Matrices de Prueba}
 Descripción de cómo se generaron las matrices de prueba.
 \subsubsection{Análisis de Resultados}
