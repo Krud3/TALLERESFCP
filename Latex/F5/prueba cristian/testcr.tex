@@ -46,9 +46,9 @@
 \date{\today}
 
 \begin{document}
-\maketitle
-Taller 5: Multiplicación de matrices en paralelo:
 
+{Taller 4: Colecciones y Expresiones For:
+\\ El problema de la subsecuencia incremental de longitud máxima}
 \newpage{}
 
 \tableofcontents
@@ -94,13 +94,12 @@ Con el proposito de implementar diferentes algoritmos de multiplicación de matr
 \[
     -: \mathbb{R}^{m \times n} \times \mathbb{R}^{m \times n} \to \mathbb{R}^{m \times n}
 \]
-\[
-    A - B = C
-\]
   \begin{equation}
     C_{ij} = A_{ij} - B_{ij}
   \end{equation}
-
+\[
+    A - B = C
+\]
 \end{itemize}
 \textbf{Definiciones de utilidad:}\\ \\
 Sea una tarea computacional $T=(t,r)$, donde $t$ es el tiempo de ejecución y $r$ el resultado.\\
@@ -179,9 +178,9 @@ def multMatriz(m1: Matriz, m2: Matriz): Matriz = {
     v
 }
 \end{lstlisting}
-Sea $m_1$ $m_2$, $\in \mathbb{R}^{n \times n}$, dos matrices a aplicar el operador binario definido en (3), entonces,
+Sea $m_1$ $m_2"$ $\in \mathbb{R}^{n \times n}$, dos matrices a aplicar el operador binario definido en (3), entonces,
 por medio del método de sustitución se quiere demostrar que la implementación es equivalente de (3). Se tiene, además,
-i, l representa los tamaños de $m_1$, $m_2$, respectivmente; prodPunto definido (2) y la transformación transpuesta tranpose definida como (1); llamese la función transpose como $t()$, esto por simplicidad y ahorro de espacio; por tanto
+i, l representa los tamaños de $m_1$, $m_2$, respectivmente; prodPunto definido (2) y la transformación transpuesta trapose definida como (1); llamese la funcón traspose como $t()$, esto por simplicidad y ahorro de espacio: por tanto
     
 \begin{math} m_1 \cdot m_2 = \text{{multMatriz}}(m_1, m_2) \\ \rightarrow
     \text{{Vector.tabulate}}(l, n)((i, j) \Rightarrow \text{{prodPunto}}(m_1[i], \text{{transpose}}(m_2)[j])) \\ \\
@@ -668,53 +667,10 @@ La función \texttt{multStrassenPar} en Scala realiza la multiplicación de matr
 
 
 \subsection{Informe de desempeño de las funciones secuenciales y de las funciones paralelas}
-\subsubsection{Metodología de Generación de Matrices de Prueba}
-Para la metodologia de la Generación de las matrices de prueba usamos los siguientes algoritmos creados por nosotros:
-\begin{lstlisting}[caption= compareAlgo, label=lst:scala_code12]
-def compareAlgmMRPmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
-    compararAlgoritmos(multMatrizRecPar, multStrassenPar)(m1, m2)
-  }
-\end{lstlisting}
-Define una función \texttt{compareAlgmMRPmSP}, la cual compara dos algoritmos de multiplicación de matrices paralelos: \texttt{multMatrizRecPar} y \texttt{multStrassenPar}. La función toma dos matrices, \texttt{m1} y \texttt{m2}, como argumentos y devuelve una tupla de tres elementos \texttt{(Double, Double, Double)} que representa las métricas de comparación de estos algoritmos.
-\\
-\textbf{Para hacer la comparativa utilizamos lo siguiente:}\\
-
-\begin{lstlisting}[caption= autoBench, label=lst:scala_code13]
-def automaticBenchmark(a:(Matriz, Matriz)=>(Double,Double, Double), b: Vector[Vector[Vector[Int]]]): List[(Double,Double,Double)] ={
-    (for {i <- 0 until b.length by 2} yield {
-      a(b(i), b(i+1))
-    }).toList
-  }
-\end{lstlisting}
-La función \texttt{automaticBenchmark} en Scala está diseñada para realizar evaluaciones automáticas de rendimiento sobre un algoritmo de multiplicación de matrices. La función toma como argumentos una función de multiplicación de matrices \texttt{a}, que devuelve una tupla con tres valores \texttt{Double}, y un vector de vectores de vectores de enteros \texttt{b}, que representa pares de matrices. La función itera sobre estos pares y aplica la función \texttt{a} a cada par, recolectando los resultados en una lista.
-\\ \\
-\textbf{Inicializacion de datos:}\\
-Puesto que queriamos que fueran las mismas matrices para todos y pensando en que una iteracion en un for podría cambiar eso usamos el siguiente vector: \\
-\begin{lstlisting}[caption= Vector, label=lst:scala_code14]
-    val values =Vector(
-        Vector(matrizAlAzar(pow(2, 0).toInt, 2)
-        ,matrizAlAzar(pow(2, 0).toInt, 2)
-        ,matrizAlAzar(pow(2, 1).toInt, 2)
-        ,matrizAlAzar(pow(2, 1).toInt, 2)
-        ,matrizAlAzar(pow(2, 2).toInt, 2)
-        ,matrizAlAzar(pow(2, 2).toInt, 2)
-        ,matrizAlAzar(pow(2, 3).toInt, 2)
-        ,matrizAlAzar(pow(2, 3).toInt, 2)
-        ,matrizAlAzar(pow(2, 4).toInt, 2)
-        ,matrizAlAzar(pow(2, 4).toInt, 2)
-        ,matrizAlAzar(pow(2, 5).toInt, 2)
-        ,matrizAlAzar(pow(2, 5).toInt, 2)
-        ,matrizAlAzar(pow(2, 6).toInt, 2)
-        ,matrizAlAzar(pow(2, 6).toInt, 2)
-        ,matrizAlAzar(pow(2, 7).toInt, 2)
-        ,matrizAlAzar(pow(2, 7).toInt, 2)
-        ,matrizAlAzar(pow(2, 8).toInt, 2)
-        ,matrizAlAzar(pow(2, 8).toInt, 2))
-\end{lstlisting}
-\subsubsection{Resultados de Multiplicación de Matrices y análisis de Resultados}
+\subsubsection{Resultados de Multiplicación de Matrices}
 Tabla comparativa y análisis de desempeño.
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -743,7 +699,7 @@ La tabla proporcionada muestra los tiempos de ejecución de dos implementaciones
   Para matrices de tamaño pequeño (hasta $2^6$), la versión secuencial (\texttt{mulMatriz}) muestra un mejor rendimiento. Sin embargo, a partir de matrices de tamaño $2^7$, la implementación paralela (\texttt{multMatrizPar}) empieza a ser más eficiente, superando ligeramente a la versión secuencial en tamaños de $2^{10}$.
 
   \item \textbf{¿De qué depende que la aceleración sea mejor?} \\
-  La aceleración se ve influenciada principalmente por el tamaño de la matriz. Para tamaños pequeños, el \textit{overhead} de la paralelización puede no compensar sus beneficios. A medida que el tamaño aumenta, los beneficios del paralelismo superan este \textit{overhead}, resultando en un mejor \textit{speedup}.
+  La aceleración se ve influenciada principalmente por el tamaño de la matriz. Para tamaños pequeños, el \textit{overhead}, en especial el \textit{switch context}, de la paralelización puede no compensar sus beneficios. A medida que el tamaño aumenta, los beneficios del paralelismo superan este \textit{overhead}, resultando en un mejor \textit{speedup}.
 
   \item \textbf{¿En qué casos es mejor usar la versión secuencial o paralela de cada algoritmo?} \\
   \begin{itemize}
@@ -752,7 +708,7 @@ La tabla proporcionada muestra los tiempos de ejecución de dos implementaciones
   \end{itemize}
 \end{enumerate}
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -773,32 +729,9 @@ La tabla proporcionada muestra los tiempos de ejecución de dos implementaciones
     \label{table:matrix_performance}
 \end{table}
 
-Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar matrices: \texttt{mulMatrizRecPar} (una versión paralela del algoritmo de multiplicación de matrices recursiva) y \texttt{multStrassen} (el algoritmo de Strassen):
-
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz pequeños ($n^0$, $n^1$), \texttt{multStrassen} es más rápido.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{mulMatrizRecPar} comienza a superar a \texttt{multStrassen}, especialmente en tamaños muy grandes ($n^5$, $n^6$, $n^7$, $n^8$).
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo, los recursos de hardware disponibles y la sobrecarga de la paralelización.
-        \item Para matrices más grandes, la paralelización en \texttt{mulMatrizRecPar} se vuelve más efectiva.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multStrassen}):} Preferible para matrices más pequeñas y sistemas con recursos limitados de procesamiento paralelo.
-        \item \textbf{Versión Paralela (\texttt{mulMatrizRecPar}):} Beneficiosa para matrices grandes y sistemas con múltiples núcleos de procesador.
-    \end{itemize}
-\end{enumerate}
-
-La elección entre \texttt{mulMatrizRecPar} y \texttt{multStrassen} depende del tamaño de la matriz y los recursos de hardware disponibles. Para matrices pequeñas, \texttt{multStrassen} es generalmente preferible, mientras que para matrices grandes, \texttt{mulMatrizRecPar} suele ofrecer un mejor rendimiento debido a su capacidad para paralelizar tareas.
 
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -816,33 +749,8 @@ La elección entre \texttt{mulMatrizRecPar} y \texttt{multStrassen} depende del 
     \caption{mulMatrizRec vs multStrassenPar}
     \label{table:matrix_performance}
 \end{table}   
-Analizando la eficiencia de dos implementaciones de algoritmos para multiplicar matrices: \texttt{mulMatrizRec} (versión secuencial) y \texttt{multStrassenPar} (versión paralela del algoritmo de Strassen):
 
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para matrices muy pequeñas ($n^0$), \texttt{multStrassenPar} es más rápido.
-        \item Para tamaños de matriz intermedios ($n^1$, $n^2$, $n^3$, $n^4$), \texttt{mulMatrizRec} es significativamente más rápido.
-        \item Para matrices grandes ($n^5$, $n^6$, $n^7$), los tiempos se vuelven más competitivos, con \texttt{multStrassenPar} siendo ligeramente más rápido en los tamaños más grandes.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo, los recursos de hardware y la eficiencia de la paralelización.
-        \item \texttt{mulMatrizRec} es más eficiente para tamaños de matriz pequeños a intermedios.
-        \item \texttt{multStrassenPar} muestra una mejora en matrices más grandes, donde la paralelización compensa la mayor complejidad del algoritmo de Strassen.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{mulMatrizRec}):} Preferible para tamaños de matriz pequeños a intermedios.
-        \item \textbf{Versión Paralela (\texttt{multStrassenPar}):} Más adecuada para matrices grandes.
-    \end{itemize}
-\end{enumerate}
-
-La elección entre \texttt{mulMatrizRec} y \texttt{multStrassenPar} depende del tamaño de la matriz. Para matrices más pequeñas, la versión secuencial es generalmente más rápida, mientras que para matrices más grandes, la versión paralela del algoritmo de Strassen puede ofrecer un mejor rendimiento.
-
-\begin{table}[H]
+\begin{table}[h]
 \centering
     \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -863,31 +771,9 @@ La elección entre \texttt{mulMatrizRec} y \texttt{multStrassenPar} depende del 
     \caption{multMatrizRec vs multStrassen}
     \label{table:matrix_comparison}
 \end{table} 
-Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar matrices: \texttt{multMatrizRec} y \texttt{multStrassen}, basándonos en la tabla de rendimiento proporcionada:
-
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz más pequeños ($n^0$, $n^1$), \texttt{multStrassen} es más rápido.
-        \item A medida que el tamaño de la matriz aumenta, la diferencia de velocidad se reduce y para tamaños muy grandes ($n^8$, $n^9$), ambos algoritmos muestran tiempos de ejecución comparables.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz y de la complejidad inherente de cada algoritmo.
-        \item \texttt{multMatrizRec} es más eficiente para tamaños de matriz grandes, mientras que \texttt{multStrassen} es más efectivo para matrices más pequeñas.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatrizRec}):} Preferible para matrices grandes, donde su rendimiento es relativamente mejor.
-        \item \textbf{Versión Paralela (\texttt{multStrassen}):} Más adecuada para matrices más pequeñas, donde ofrece un mejor rendimiento.
-    \end{itemize}
-\end{enumerate}
-La elección entre \texttt{multMatrizRec} y \texttt{multStrassen} debe basarse en el tamaño de la matriz, con \texttt{multStrassen} siendo preferible para matrices más pequeñas y \texttt{multMatrizRec} para matrices más grandes.
 
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{4cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -907,29 +793,9 @@ La elección entre \texttt{multMatrizRec} y \texttt{multStrassen} debe basarse e
     \caption{multMatrizRec vs multMatrizRecPar}
     \label{table:matrix_comparison}
 \end{table}
-Procedemos a analizar la eficiencia de dos implementaciones de algoritmos para multiplicar matrices: \texttt{multMatrizRec} (versión secuencial) y \texttt{multMatrizRecPar} (versión paralela):
 
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz más pequeños ($n^0$, $n^1$, $n^2$, $n^3$), \texttt{multMatrizRec} es más rápido o comparable.
-        \item A medida que el tamaño de la matriz aumenta ($n^4$ a $n^8$), \texttt{multMatrizRecPar} se vuelve significativamente más rápido.
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz y de la eficacia de la paralelización.
-        \item Para matrices más grandes, la paralelización en \texttt{multMatrizRecPar} ofrece una ventaja significativa.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatrizRec}):} Preferible para tamaños de matriz más pequeños, donde la sobrecarga de la paralelización no se justifica.
-        \item \textbf{Versión Paralela (\texttt{multMatrizRecPar}):} Más adecuada para matrices grandes, donde la paralelización mejora el rendimiento.
-    \end{itemize}
-\end{enumerate}
-
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -949,29 +815,8 @@ Procedemos a analizar la eficiencia de dos implementaciones de algoritmos para m
     \caption{multMatriz vs multMatrizPar}
     \label{table:matrix_performance}
 \end{table}
-Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar matrices: \texttt{multMatriz} y \texttt{multMatrizPar}, basándonos en la tabla de rendimiento proporcionada:
 
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz pequeños ($n^0$, $n^1$, $n^2$), \texttt{multMatriz} es más rápida.
-        \item A medida que el tamaño de la matriz aumenta ($n^3$ en adelante), \texttt{multMatrizPar} se vuelve significativamente más rápida.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la eficiencia de la paralelización y la complejidad computacional del algoritmo.
-        \item El speedup incrementa con el aumento del tamaño de la matriz, favoreciendo a \texttt{multMatrizPar} en matrices grandes.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatriz}):} Preferible para tamaños de matriz pequeños.
-        \item \textbf{Versión Paralela (\texttt{multMatrizPar}):} Más adecuada para matrices grandes, donde la paralelización mejora significativamente el rendimiento.
-    \end{itemize}
-\end{enumerate}
-
-\begin{table}[H]
+\begin{table}[h]
 \centering
     \begin{tabular}{ | m{4cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -991,28 +836,8 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multMatriz vs multMatrizRec}
     \label{table:matrix_comparison_rec}
 \end{table}
-Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar matrices: \texttt{multMatriz} y \texttt{multMatrizRec}, basándonos en la tabla de rendimiento proporcionada:
 
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz pequeños ($n^0$ y $n^1$), \texttt{multMatrizRec} es más rápida.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{multMatrizRec} sigue siendo más eficiente, con un speedup significativo en tamaños de matriz grandes ($n^5$ a $n^8$).
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la eficiencia de la implementación del algoritmo y las optimizaciones específicas de cada versión.
-        \item El speedup incrementa con el aumento del tamaño de la matriz, favoreciendo a \texttt{multMatrizRec}.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatriz}):} Podría ser preferible para tamaños de matriz extremadamente pequeños.
-        \item \textbf{Versión Paralela (\texttt{multMatrizRec}):} Claramente más adecuada para todos los tamaños de matriz, especialmente para matrices grandes.
-    \end{itemize}
-\end{enumerate}
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1033,27 +858,7 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \label{table:matrix_comparison_rec_par}
 \end{table}
 
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para el tamaño de matriz más pequeño ($n^0$), \texttt{multMatrizRecPar} es más rápida.
-        \item Para tamaños de matriz intermedios ($n^1$, $n^2$, $n^3$), \texttt{multMatriz} es más eficiente.
-        \item A medida que el tamaño de la matriz aumenta ($n^4$ en adelante), \texttt{multMatrizRecPar} se vuelve significativamente más rápida, con un aumento considerable en el speedup.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la eficiencia de la paralelización y la complejidad computacional del algoritmo.
-        \item Para matrices más grandes, la paralelización en \texttt{multMatrizRecPar} ofrece una ventaja significativa, como se refleja en el aumento del speedup.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatriz}):} Preferible para tamaños de matriz pequeños a intermedios, donde la sobrecarga de la paralelización no se justifica.
-        \item \textbf{Versión Paralela (\texttt{multMatrizRecPar}):} Más adecuada para matrices grandes, donde la paralelización mejora el rendimiento de manera significativa.
-    \end{itemize}
-\end{enumerate}
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1073,26 +878,8 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multMatriz vs multStrassenPar}
     \label{table:matrix_comparison_strassen_par}
 \end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para el tamaño de matriz más pequeño ($n^0$), \texttt{multStrassenPar} es más rápida.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{multMatriz} se vuelve menos eficiente en comparación con \texttt{multStrassenPar}, especialmente en tamaños de matriz grandes ($n^5$ en adelante), donde \texttt{multStrassenPar} muestra un speedup significativo.
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz y de la eficacia de la paralelización en \texttt{multStrassenPar}.
-        \item La optimización y la menor complejidad computacional del algoritmo de Strassen en su versión paralela contribuyen a un mejor speedup para matrices más grandes.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatriz}):} Puede ser más adecuada para tamaños de matriz extremadamente pequeños.
-        \item \textbf{Versión Paralela (\texttt{multStrassenPar}):} Claramente más adecuada para matrices más grandes, aprovechando la eficiencia del algoritmo de Strassen y la paralelización.
-    \end{itemize}
-\end{enumerate}
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1112,27 +899,9 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multStrassen vs multMatrizPar}
     \label{table:matrix_comparison_strassen_matrizpar}
 \end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz más pequeños ($n^0$, $n^1$), \texttt{multStrassen} es más rápida.
-        \item A medida que el tamaño de la matriz aumenta ($n^2$ en adelante) hasta $n^6$, \texttt{multMatrizPar} se vuelve más eficiente, mostrando un mejor speedup, ($n^6$ en adelante) el algoritmo $Strassen$ comienza a mostrar un mejor tiempo.
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo y la eficacia de la paralelización.
-        \item \texttt{multMatrizPar} muestra un mejor rendimiento en matrices "intermedias o pequeñas", pero al final "Strassen" presenta mejores resultados para las matrices grandes.
-    \end{itemize}
 
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Paralela (\texttt{multMatrizPar}):} Preferible para tamaños de matriz más pequeños, donde la paralelización puede ser aprovechada para mejorar el rendimiento.
-        \item \textbf{Versión Secuencial (\texttt{multStrassen}):} Más adecuada para matrices grandes, donde su eficiencia y menor complejidad computacional sobresalen.
-    \end{itemize}
-\end{enumerate}
-
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1152,27 +921,8 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multStrassen vs multStrassenPar}
     \label{table:strassen_comparison}
 \end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para el tamaño de matriz más pequeño ($n^0$), \texttt{multStrassenPar} es más rápida.
-        \item Para tamaños de matriz intermedios ($n^1$, $n^2$), \texttt{multStrassen} es más eficiente.
-        \item A medida que el tamaño de la matriz aumenta ($n^3$ en adelante), \texttt{multStrassenPar} muestra un mejor rendimiento, especialmente en tamaños de matriz grandes ($n^6$, $n^7$, $n^8$).
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo y la eficacia de la paralelización.
-        \item En tamaños de matriz más grandes, las ventajas de la paralelización en \texttt{multStrassenPar} se vuelven más evidentes, mejorando la eficiencia.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multStrassen}):} Más adecuada para tamaños de matriz pequeños y medianos, donde la paralelización no ofrece una ventaja significativa.
-        \item \textbf{Versión Paralela (\texttt{multStrassenPar}):} Mejor para matrices más grandes, donde el speedup debido a la paralelización supera a la versión secuencial.
-    \end{itemize}
-\end{enumerate}
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1192,27 +942,8 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multMatrizRec vs multMatrizPar}
     \label{table:matrix_comparison_rec_par}
 \end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz más pequeños ($n^0$, $n^1$), \texttt{multMatrizRec} es más rápida.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{multMatrizPar} muestra un mejor rendimiento en ciertos tamaños ($n^2$, $n^4$, $n^5$), pero no de forma consistente.
-        \item En tamaños de matriz muy grandes ($n^7$, $n^8$), \texttt{multMatrizPar} es menos eficiente que \texttt{multMatrizRec}.
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo y la eficacia de la paralelización.
-        \item El speedup es variable y parece depender de cómo cada algoritmo gestiona diferentes tamaños de matrices y de la sobrecarga asociada a la paralelización.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{Versión Secuencial (\texttt{multMatrizRec}):} Más adecuada para tamaños de matriz muy pequeños y muy grandes.
-        \item \textbf{Versión Paralela (\texttt{multMatrizPar}):} Puede ofrecer ventajas en tamaños de matriz intermedios, pero su eficacia varía.
-    \end{itemize}
-\end{enumerate}
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1232,26 +963,8 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multStrassenPar vs multMatrizPar}
     \label{table:strassen_par_matrix_par_comparison}
 \end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de matriz más pequeños ($n^0$, $n^1$), \texttt{multStrassenPar} y \texttt{multMatrizPar} muestran un rendimiento similar, con \texttt{multStrassenPar} siendo ligeramente más eficiente.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{multStrassenPar} muestra un mejor rendimiento, especialmente en tamaños de matriz grandes ($n^6$ en adelante).
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo y la eficacia de la paralelización.
-        \item \texttt{multStrassenPar} parece ser más eficiente en la gestión de recursos y paralelización para matrices de mayor tamaño.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{multStrassenPar:} Más adecuado para tamaños de matriz intermedios y grandes, donde su algoritmo optimizado ofrece un mejor rendimiento.
-        \item \textbf{multMatrizPar:} Puede ser más eficiente en tamaños de matriz pequeños a intermedios, pero su rendimiento disminuye en comparación con \texttt{multStrassenPar} en matrices más grandes.
-    \end{itemize}
-\end{enumerate}
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \begin{tabular}{ | m{2cm} | m{4cm} | m{4cm} | m{3cm} | }
     \hline
@@ -1271,188 +984,33 @@ Analizamos la eficiencia de dos implementaciones de algoritmos para multiplicar 
     \caption{multMatrizRecPar vs multMatrizPar}
     \label{table:rec_par_matrix_par_comparison}
 \end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para el tamaño de matriz más pequeño ($n^0$), \texttt{multMatrizRecPar} es más rápida.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{multMatrizPar} muestra un mejor rendimiento, especialmente en tamaños de matriz grandes ($n^5$ en adelante), donde el speedup es más notable.
-    \end{itemize}
 
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz, la complejidad del algoritmo y la eficacia de la paralelización.
-        \item En tamaños de matriz más grandes, las ventajas de la paralelización en \texttt{multMatrizPar} se vuelven más evidentes, mejorando la eficiencia.
-    \end{itemize}
+\subsubsection{Metodología de Generación de Matrices de Prueba}
+Descripción de cómo se generaron las matrices de prueba.
+\subsubsection{Análisis de Resultados}
+Análisis profundo de los resultados obtenidos.
 
-    \item \textbf{¿Cuándo Usar la Versión Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{multMatrizRecPar:} Más adecuado para tamaños de matriz pequeños y medianos, donde su algoritmo optimizado ofrece un mejor rendimiento.
-        \item \textbf{multMatrizPar:} Mejor para matrices más grandes, donde la paralelización puede ser aprovechada para mejorar el rendimiento.
-    \end{itemize}
-\end{enumerate}
-\subsubsection{Analisis comparativo paralelismo de tareas (secuencial vs secuencial $\land$ paralela vs paralela):}
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|l|l|l|l|}
-      \hline
-      Matrix size & multMatriz (ms) & multMatrizRec (ms) & multStrassen (ms) \\
-      \hline
+\subsubsection{Resultados de Producto Punto de Vectores}
+Tabla comparativa y análisis de desempeño para las implementaciones de producto punto.
+\subsubsection{Impacto de las Dimensiones de los Vectores}
+Discusión sobre cómo las dimensiones de los vectores afectan al desempeño.
+\subsubsection{Análisis de Resultados del Producto Punto}
+Análisis detallado de los resultados del producto punto.
 
-    $n^0$&0.208& 0.195 & 00.94566 \\
-      
-    $n^1$&0.54 & 0.584 & 01.64617 \\
-      
-    $n^2$&1.658 & 0.926 & 00.82203 \\
-      
-    $n^3$&6.989 & 6.009 & 05.51889 \\
-      
-    $n^4$&22.913 & 12.007 & 20.02918 \\
-      
-    $n^5$&28.232 & 58.948 & 111.21369 \\
-      
-    $n^6$&221.308 & 498.69 & 832.02037 \\
-      
-    $n^7$&1725.227 & 4152.096 &  5919.82072 \\
-      
-      $n^8$&13916.189 & 30999.929 & 42143.66236 \\
-      
-      $n^9$&116242.295 & 253796.906 & 252358.456   \\
-
-      \hline
-    \end{tabular}
-    \caption{resultados segun la multiplicación por metodología secuencial}
-  \end{table}
-  \begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para matrices pequeñas (hasta $n^3$), las implementaciones tienen un rendimiento similar, aunque \texttt{multStrassen} comienza a mostrar un rendimiento ligeramente inferior en $n^2$ y $n^3$.
-        \item En el rango de $n^4$ a $n^6$, \texttt{multMatrizRec} muestra una eficiencia notablemente mejor.
-        \item Para matrices más grandes ($n^7$, $n^8$ y $n^9$), \texttt{multMatriz} es significativamente más rápida. \texttt{multStrassen} es la más lenta en estos tamaños.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La eficiencia de cada algoritmo depende del tamaño de la matriz y de las optimizaciones específicas de cada uno.
-        \item \texttt{multStrassen} es teóricamente más eficiente para matrices grandes, pero su complejidad adicional puede no ser práctica para ciertos tamaños.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{\texttt{multMatriz}:} Mejor para matrices más grandes.
-        \item \textbf{\texttt{multMatrizRec}:} Eficaz para matrices de tamaño intermedio.
-        \item \textbf{\texttt{multStrassen}:} A pesar de su promesa teórica, menos eficiente en la práctica para los tamaños probados.
-    \end{itemize}
-\end{enumerate}
-  \begin{table}[H]
-    \centering
-  \begin{tabular}{|l|l|l|l|}
-    \hline
-     Matrix size & multMatrizPar (ms) & multMatrizRecPar (ms) &multStrassenPar (ms) \\
-
-    $n^0$ & 0.126& 0.882 & 00.183 \\
-            
-    $n^1$ & 0.899 & 2.109 & 00.68 \\
-
-    $n^2$ & 2.217 & 3.769 & 01.879\\
-
-   $n^3$ & 10.03 & 9.086 & 06.789 \\
-
-    $n^4$ & 47.724 & 8.598 & 23.105 \\
-
-    $n^5$ & 54.16 & 176.741 & 50.187 \\
-
-    $n^6$ & 361.349 & 512.801 & 352.597 \\
-
-    $n^7$ & 2491.038 & 3897.3 &  2547.461 \\
-
-    $n^8$ & 17476.07& 31144.097 & 17593.622 \\
-
-    \hline
-  \end{tabular}
-  \caption{resultados segun la multiplicación por metodología paralela}
-\end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para matrices pequeñas ($n^0$, $n^1$), \texttt{multStrassenPar} muestra el mejor rendimiento.
-        \item A medida que el tamaño de la matriz aumenta, \texttt{multStrassenPar} sigue siendo eficiente, especialmente en tamaños más grandes ($n^4$ en adelante).
-        \item \texttt{multMatrizRecPar} y \texttt{multMatrizPar} muestran un rendimiento competitivo en tamaños de matriz más grandes, aunque generalmente son superados por \texttt{multStrassenPar}.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño de la matriz y de la eficacia de la paralelización en cada implementación.
-        \item \texttt{multStrassenPar}, con su enfoque más complejo pero teóricamente más eficiente, parece beneficiarse más de la paralelización en tamaños de matriz grandes.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{multStrassenPar:} Recomendado para todos los tamaños de matriz, especialmente eficaz para matrices más grandes.
-        \item \textbf{multMatrizRecPar y multMatrizPar:} Pueden ser consideradas para tamaños de matriz pequeños a medianos, aunque su rendimiento puede ser menos predecible.
-    \end{itemize}
-\end{enumerate}
-\subsubsection{Paralelismo de datos:}
-\begin{table}[h]
-    \centering
-    \begin{tabular}{ | m{2cm} | m{3cm} | m{4cm} | m{3cm} | }
-    \hline
-    Vector size & prodPunto(ms) & prodPuntoParD(ms) & speedup \\ 
-    \hline
-    $2^0$ & 0.0437 & 0.2868 & 0.1524 \\
-    $2^1$ & 0.0129 & 0.3295 & 0.0392 \\
-    $2^2$ & 0.0152 & 0.5742 & 0.0265 \\
-    $2^3$ & 0.0127 & 0.3947 & 0.0322 \\
-    $2^4$ & 0.0302 & 0.6982 & 0.0433 \\
-    $2^5$ & 0.0292 & 0.8443 & 0.0346 \\
-    $2^6$ & 0.0309 & 0.6806 & 0.0454 \\
-    $2^7$ & 0.106 & 1.2756 & 0.0831 \\
-    $2^8$ & 0.0517 & 1.3694 & 0.0378 \\
-    $2^9$ & 0.0905 & 0.7633 & 0.1186 \\
-    $2^{10}$ & 0.4051 & 1.5263 & 0.2654 \\
-    \hline
-    \end{tabular}
-    \caption{Comparativa entre prodPunto y prodPuntoParD}
-    \label{table:matrix_performance}
-\end{table}
-\begin{enumerate}
-    \item \textbf{¿Cuál de las Implementaciones es Más Rápida?}
-    \begin{itemize}
-        \item Para tamaños de vector más pequeños (hasta $2^7$), \texttt{prodPunto} es más rápido que \texttt{prodPuntoParD}.
-        \item A medida que el tamaño del vector aumenta (desde $2^8$ en adelante), \texttt{prodPuntoParD} comienza a mostrar un mejor rendimiento en comparación con \texttt{prodPunto}, como lo indica el aumento en el valor de speedup.
-    \end{itemize}
-
-    \item \textbf{¿De Qué Depende que la Aceleración Sea Mejor?}
-    \begin{itemize}
-        \item La aceleración depende del tamaño del vector y de la eficacia de la paralelización.
-        \item Para vectores más grandes, la paralelización en \texttt{prodPuntoParD} parece ofrecer una ventaja significativa, como se refleja en el incremento del speedup.
-    \end{itemize}
-
-    \item \textbf{¿Cuándo Usar la Versión Secuencial o Paralela de Cada Algoritmo?}
-    \begin{itemize}
-        \item \textbf{\texttt{prodPunto}:} Mejor para vectores de tamaño pequeño a mediano, donde la sobrecarga de la paralelización no se justifica.
-        \item \textbf{\texttt{prodPuntoParD}:} Más adecuada para vectores de mayor tamaño, donde la paralelización mejora significativamente el rendimiento.
-    \end{itemize}
-\end{enumerate}  
-Sin embargo a pesar de los cambios en el speedup, podemos concluir que para, por lo menos estos datos, la paralelización no es eficiente para el paralelismo de datos, aunque como vimos anteriormente en el paralelismo de tareas si lo es.  
-
-
+\subsection{Análisis comparativo de las diferentes soluciones}
+\subsubsection{Análisis Basado en Resultados}
+Comparación entre las versiones secuenciales y paralelas de los algoritmos y su desempeño.
+\subsubsection{Eficiencia del Algoritmo de Strassen}
+Discusión específica sobre la eficiencia del algoritmo de Strassen en comparación con otros.
+\subsubsection{Reflexiones sobre el Paralelismo}
+Evaluación crítica del paralelismo de tareas y de datos y su efecto en la eficiencia general.
 
 \section{Conclusiones}
-Tras analizar las diferentes variantes de las funciones de multiplicación de matrices y sus resultados, llegamos a las siguientes conclusiones:
-
-\begin{enumerate}
-    \item \textbf{Eficiencia en Diferentes Tamaños de Matrices:}
-    Las funciones de multiplicación de matrices varían en eficiencia según el tamaño de las matrices. Implementaciones estándar, como \texttt{multMatriz}, son eficientes en matrices grandes, mientras que variantes como \texttt{multMatrizRec}, \texttt{multMatrizRecPar}, y \texttt{multStrassenPar} muestran un mejor rendimiento en tamaños específicos. \texttt{multStrassenPar} es especialmente eficiente en matrices grandes debido a su optimización algorítmica y paralelización.
-
-    \item \textbf{Importancia de la Paralelización:}
-    La paralelización es crucial para mejorar el rendimiento en matrices de tamaño considerable. Las versiones paralelas generalmente superan a las secuenciales en matrices grandes, aprovechando los recursos de hardware modernos.
-
-    \item \textbf{Trade-offs entre Complejidad y Rendimiento:}
-    Algoritmos como Strassen ofrecen una complejidad teórica reducida, pero la sobrecarga adicional puede no justificar su uso en todos los casos. Esto se refleja en el rendimiento variable de \texttt{multStrassen} y \texttt{multStrassenPar}.
-
-    \item \textbf{Elección del Algoritmo Apropiado:}
-    La elección adecuada del algoritmo depende del tamaño de la matriz y del entorno computacional. Mientras que las implementaciones secuenciales pueden ser adecuadas para matrices pequeñas, las versiones paralelas son preferibles para matrices más grandes en entornos que soportan paralelización eficiente.
-\end{enumerate}
-
+\subsection{Síntesis de Hallazgos}
+Resumen de los hallazgos más importantes del informe.
+\subsection{Implicaciones de los Resultados}
+Discusión sobre las implicaciones de los resultados para futuras investigaciones y aplicaciones prácticas.
+\subsection{Recomendaciones}
+Recomendaciones basadas en el análisis y desempeño de las funciones estudiadas.
 
 \end{document}

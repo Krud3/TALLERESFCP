@@ -1,0 +1,20 @@
+\contentsline {section}{\numberline {1}Introducción}{3}{}%
+\contentsline {subsection}{\numberline {1.1}Preliminares}{3}{}%
+\contentsline {subsection}{\numberline {1.2}Algoritmos de proporcionados de utilidad}{4}{}%
+\contentsline {section}{\numberline {2}Informe del taller - secciones}{5}{}%
+\contentsline {subsection}{\numberline {2.1}Informe de corrección}{5}{}%
+\contentsline {subsection}{\numberline {2.2}Informe de desempeño de las funciones secuenciales y de las funciones paralelas}{16}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Resultados de Multiplicación de Matrices}{16}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Metodología de Generación de Matrices de Prueba}{17}{}%
+\contentsline {subsubsection}{\numberline {2.2.3}Análisis de Resultados}{17}{}%
+\contentsline {subsubsection}{\numberline {2.2.4}Resultados de Producto Punto de Vectores}{17}{}%
+\contentsline {subsubsection}{\numberline {2.2.5}Impacto de las Dimensiones de los Vectores}{18}{}%
+\contentsline {subsubsection}{\numberline {2.2.6}Análisis de Resultados del Producto Punto}{18}{}%
+\contentsline {subsection}{\numberline {2.3}Análisis comparativo de las diferentes soluciones}{18}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}Análisis Basado en Resultados}{18}{}%
+\contentsline {subsubsection}{\numberline {2.3.2}Eficiencia del Algoritmo de Strassen}{18}{}%
+\contentsline {subsubsection}{\numberline {2.3.3}Reflexiones sobre el Paralelismo}{18}{}%
+\contentsline {section}{\numberline {3}Conclusiones}{19}{}%
+\contentsline {subsection}{\numberline {3.1}Síntesis de Hallazgos}{19}{}%
+\contentsline {subsection}{\numberline {3.2}Implicaciones de los Resultados}{19}{}%
+\contentsline {subsection}{\numberline {3.3}Recomendaciones}{19}{}%

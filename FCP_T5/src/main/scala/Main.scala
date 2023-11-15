@@ -8,11 +8,6 @@ object Main {
     println(msg)
     
     val values =Vector(
-    matrizAlAzar(pow(2, 9).toInt, 2),
-    matrizAlAzar(pow(2, 9).toInt, 2),
-    matrizAlAzar(pow(2, 10).toInt, 2),
-    matrizAlAzar(pow(2, 10).toInt, 2) )
-      /*
     Vector(matrizAlAzar(pow(2, 0).toInt, 2)
     ,matrizAlAzar(pow(2, 0).toInt, 2)
     ,matrizAlAzar(pow(2, 1).toInt, 2)
@@ -30,9 +25,9 @@ object Main {
     ,matrizAlAzar(pow(2, 7).toInt, 2)
     ,matrizAlAzar(pow(2, 7).toInt, 2)
     ,matrizAlAzar(pow(2, 8).toInt, 2)
-    ,matrizAlAzar(pow(2, 8).toInt, 2))*/
+    ,matrizAlAzar(pow(2, 8).toInt, 2)))
 
-    automaticBenchmark(compareAlgmMRPmSP,values).foreach(println)
+    //automaticBenchmark(compareAlgmMRPmSP,values).foreach(println)
 
     /*
     val m1 = matrizAlAzar(pow(2, 0).toInt, 10)

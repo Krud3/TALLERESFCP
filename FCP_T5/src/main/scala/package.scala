@@ -1,7 +1,8 @@
 import scala.util.Random
 import common._
 import scala.collection.parallel.immutable.ParVector
-
+import Benchmark._
+import scala.math.pow
 package object Matrices {
 
     def hello() = "Hello, world!"
@@ -315,5 +316,74 @@ package object Matrices {
 
         v
     }
+    def automaticBenchmark(a:(Matriz, Matriz)=>(Double,Double, Double), b: Vector[Vector[Vector[Int]]]): List[(Double,Double,Double)] ={
+    (for {i <- 0 until b.length by 2} yield {
+      a(b(i), b(i+1))
+    }).toList
+  }
+  def compareAlgmMmP(m1: Matriz, m2: Matriz): (Double,Double,Double) = { 
+      compararAlgoritmos(multMatriz, multMatrizPar)(m1, m2)
+    }
+
+    def compareAlgmMmR(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatriz, multMatrizRec)(m1, m2)
+    }
+
+    def compareAlgmMmRP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatriz, multMatrizRecPar)(m1, m2)
+    }
+
+    def compareAlgmMmS(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatriz, multStrassen)(m1, m2)
+    }
+
+    def compareAlgmMmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatriz, multStrassenPar)(m1, m2)
+    }
+
+    def compareAlgmMmMP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatriz, multStrassenPar)(m1, m2)
+    }
+
+    def compareAlgmMRmMRP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatrizRec, multMatrizRecPar)(m1, m2)
+    }
+
+    def compareAlgmMRmS(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatrizRec, multStrassen)(m1, m2)
+    }
+    
+    def compareAlgmMRmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatrizRec, multStrassenPar)(m1, m2)
+    }
+
+    def compareAlgmMRPmS(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatrizRecPar, multStrassen)(m1, m2)
+    }
+
+    //ya
+    def compareAlgmMRPmSP(m1: Matriz, m2: Matriz): (Double,Double,Double) ={
+      compararAlgoritmos(multMatrizRecPar, multStrassenPar)(m1, m2)
+    }
+    val values =Vector(
+        Vector(matrizAlAzar(pow(2, 0).toInt, 2)
+        ,matrizAlAzar(pow(2, 0).toInt, 2)
+        ,matrizAlAzar(pow(2, 1).toInt, 2)
+        ,matrizAlAzar(pow(2, 1).toInt, 2)
+        ,matrizAlAzar(pow(2, 2).toInt, 2)
+        ,matrizAlAzar(pow(2, 2).toInt, 2)
+        ,matrizAlAzar(pow(2, 3).toInt, 2)
+        ,matrizAlAzar(pow(2, 3).toInt, 2)
+        ,matrizAlAzar(pow(2, 4).toInt, 2)
+        ,matrizAlAzar(pow(2, 4).toInt, 2)
+        ,matrizAlAzar(pow(2, 5).toInt, 2)
+        ,matrizAlAzar(pow(2, 5).toInt, 2)
+        ,matrizAlAzar(pow(2, 6).toInt, 2)
+        ,matrizAlAzar(pow(2, 6).toInt, 2)
+        ,matrizAlAzar(pow(2, 7).toInt, 2)
+        ,matrizAlAzar(pow(2, 7).toInt, 2)
+        ,matrizAlAzar(pow(2, 8).toInt, 2)
+        ,matrizAlAzar(pow(2, 8).toInt, 2)))
+
 
 }

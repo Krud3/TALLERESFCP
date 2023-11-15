@@ -3,21 +3,9 @@
 \contentsline {subsection}{\numberline {1.2}Algoritmos de proporcionados de utilidad}{4}{}%
 \contentsline {section}{\numberline {2}Informe del taller - secciones}{5}{}%
 \contentsline {subsection}{\numberline {2.1}Informe de corrección}{5}{}%
-\contentsline {subsubsection}{\numberline {2.1.1}Argumentación de Corrección}{10}{}%
-\contentsline {subsubsection}{\numberline {2.1.2}Explicación Teórica y Método de Inducción}{10}{}%
-\contentsline {subsubsection}{\numberline {2.1.3}Conclusión de Corrección}{10}{}%
-\contentsline {subsection}{\numberline {2.2}Informe de desempeño de las funciones secuenciales y de las funciones paralelas}{10}{}%
-\contentsline {subsubsection}{\numberline {2.2.1}Resultados de Multiplicación de Matrices}{10}{}%
-\contentsline {subsubsection}{\numberline {2.2.2}Metodología de Generación de Matrices de Prueba}{12}{}%
-\contentsline {subsubsection}{\numberline {2.2.3}Análisis de Resultados}{12}{}%
-\contentsline {subsubsection}{\numberline {2.2.4}Resultados de Producto Punto de Vectores}{12}{}%
-\contentsline {subsubsection}{\numberline {2.2.5}Impacto de las Dimensiones de los Vectores}{12}{}%
-\contentsline {subsubsection}{\numberline {2.2.6}Análisis de Resultados del Producto Punto}{12}{}%
-\contentsline {subsection}{\numberline {2.3}Análisis comparativo de las diferentes soluciones}{12}{}%
-\contentsline {subsubsection}{\numberline {2.3.1}Análisis Basado en Resultados}{12}{}%
-\contentsline {subsubsection}{\numberline {2.3.2}Eficiencia del Algoritmo de Strassen}{13}{}%
-\contentsline {subsubsection}{\numberline {2.3.3}Reflexiones sobre el Paralelismo}{13}{}%
-\contentsline {section}{\numberline {3}Conclusiones}{13}{}%
-\contentsline {subsection}{\numberline {3.1}Síntesis de Hallazgos}{13}{}%
-\contentsline {subsection}{\numberline {3.2}Implicaciones de los Resultados}{13}{}%
-\contentsline {subsection}{\numberline {3.3}Recomendaciones}{13}{}%
+\contentsline {subsection}{\numberline {2.2}Informe de desempeño de las funciones secuenciales y de las funciones paralelas}{16}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Metodología de Generación de Matrices de Prueba}{16}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Resultados de Multiplicación de Matrices y análisis de Resultados}{17}{}%
+\contentsline {subsubsection}{\numberline {2.2.3}Analisis comparativo paralelismo de tareas (secuencial vs secuencial $\land $ paralela vs paralela):}{29}{}%
+\contentsline {subsubsection}{\numberline {2.2.4}Paralelismo de datos:}{31}{}%
+\contentsline {section}{\numberline {3}Conclusiones}{31}{}%
